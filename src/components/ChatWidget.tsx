@@ -1,141 +1,112 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Globe } from 'lucide-react';
+import { MessageCircle, X, Send } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { t, getCurrentLanguage, setLanguageCookie, languages, isRTL } from '@/lib/i18n';
 
 interface Message {
   id: string;
-  content: string;
-  isUser: boolean;
+  text: string;
+  isBot: boolean;
   timestamp: Date;
 }
 
-const languages = [
-  { code: 'en', name: 'English', native: 'English' },
-  { code: 'es', name: 'Spanish', native: 'Español' },
-  { code: 'fr', name: 'French', native: 'Français' },
-  { code: 'de', name: 'German', native: 'Deutsch' },
-  { code: 'el', name: 'Greek', native: 'Ελληνικά' },
-  { code: 'ar', name: 'Arabic', native: 'العربية' },
-];
-
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasShownLanguagePrompt, setHasShownLanguagePrompt] = useState(false);
+  const [isSelectingLanguage, setIsSelectingLanguage] = useState(false);
+  const [customLanguage, setCustomLanguage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [showLanguageSelection, setShowLanguageSelection] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [customLanguage, setCustomLanguage] = useState('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const currentLang = getCurrentLanguage();
+  const isRtl = isRTL();
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  // Initialize chat and check for language selection
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    // Check if user has visited before
-    const hasVisited = localStorage.getItem('scarmo-chat-visited');
-    const savedLanguage = localStorage.getItem('scarmo-language');
-    
-    if (savedLanguage) {
-      setSelectedLanguage(savedLanguage);
-    }
-
-    if (!hasVisited) {
-      // Show welcome message after a short delay
-      setTimeout(() => {
-        if (!isOpen) {
-          setIsOpen(true);
-          setShowLanguageSelection(true);
-          addBotMessage('Welcome to Scarmo! 👋 Please choose your preferred language to get started.');
+    const hasSeenLanguagePrompt = localStorage.getItem('scarmo_language_prompted');
+    if (!hasSeenLanguagePrompt) {
+      setIsSelectingLanguage(true);
+      setMessages([
+        {
+          id: 'greeting',
+          text: t('chat.greeting'),
+          isBot: true,
+          timestamp: new Date(),
         }
-      }, 3000);
-      localStorage.setItem('scarmo-chat-visited', 'true');
+      ]);
+    } else {
+      setMessages([
+        {
+          id: 'greeting',
+          text: t('chat.greeting'),
+          isBot: true,
+          timestamp: new Date(),
+        }
+      ]);
     }
-  }, [isOpen]);
+  }, []);
 
-  const addBotMessage = (content: string) => {
+  const addMessage = (text: string, isBot: boolean = false) => {
     const newMessage: Message = {
       id: Date.now().toString(),
-      content,
-      isUser: false,
+      text,
+      isBot,
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, newMessage]);
   };
 
-  const addUserMessage = (content: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      content,
-      isUser: true,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, newMessage]);
-  };
-
-  const handleLanguageSelect = (langCode: string, langName: string) => {
-    setSelectedLanguage(langCode);
-    localStorage.setItem('scarmo-language', langCode);
-    setShowLanguageSelection(false);
+  const handleLanguageSelect = (langCode: string) => {
+    setLanguageCookie(langCode);
+    localStorage.setItem('scarmo_language_prompted', 'true');
+    setIsSelectingLanguage(false);
     
-    addUserMessage(`Selected language: ${langName}`);
-    addBotMessage(`Perfect! I'll assist you in ${langName}. How can I help you find the perfect Scarmo piece today? I can help you with product recommendations, sizing, or answer any questions about our collection.`);
-    
-    // Simulate page reload with language parameter (in a real app, this would actually reload)
+    // Reload page with language parameter
     const url = new URL(window.location.href);
     url.searchParams.set('lang', langCode);
-    window.history.pushState({}, '', url.toString());
+    window.location.href = url.toString();
   };
 
   const handleCustomLanguage = () => {
     if (customLanguage.trim()) {
-      handleLanguageSelect('custom', customLanguage);
-      setCustomLanguage('');
+      setLanguageCookie('custom');
+      localStorage.setItem('scarmo_language_prompted', 'true');
+      localStorage.setItem('scarmo_custom_language', customLanguage);
+      setIsSelectingLanguage(false);
+      addMessage(`Language set to: ${customLanguage}`, true);
     }
   };
 
   const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isSelectingLanguage) return;
 
-    const userMessage = inputValue.trim();
-    addUserMessage(userMessage);
+    addMessage(inputValue, false);
+    const userMessage = inputValue.toLowerCase();
     setInputValue('');
 
     // Simulate AI responses
     setTimeout(() => {
-      if (userMessage.toLowerCase().includes('add to cart') || userMessage.toLowerCase().includes('buy')) {
-        addBotMessage('I\'d be happy to help you add items to your cart! Could you tell me which specific product caught your eye? I can provide more details about sizing, colors, and help you complete your purchase.');
-      } else if (userMessage.toLowerCase().includes('size') || userMessage.toLowerCase().includes('sizing')) {
-        addBotMessage('For sizing guidance, our pieces generally run true to size. We offer sizes from S to XXL. Would you like me to recommend a size based on your measurements, or do you have a specific product in mind?');
-      } else if (userMessage.toLowerCase().includes('shirt') || userMessage.toLowerCase().includes('polo') || userMessage.toLowerCase().includes('sweater') || userMessage.toLowerCase().includes('tshirt')) {
-        addBotMessage('Excellent choice! Our premium collection features the finest materials and craftsmanship. Based on your interest, I recommend checking out our featured pieces in that category. Would you like me to suggest some specific items?');
-      } else if (userMessage.toLowerCase().includes('price') || userMessage.toLowerCase().includes('cost')) {
-        addBotMessage('Our pieces range from $89 for premium t-shirts to $299 for luxury sweaters. We believe in transparent pricing that reflects the quality of materials and craftsmanship. Is there a specific budget range you\'re working with?');
+      if (userMessage.includes('cart') || userMessage.includes('buy')) {
+        addMessage("I'd be happy to help you with your cart! You can click the cart icon in the navigation to view your items. What would you like to add?", true);
+      } else if (userMessage.includes('size')) {
+        addMessage("Our pieces are true to size. We offer S, M, L, XL, and XXL. Would you like specific measurements for any item?", true);
+      } else if (userMessage.includes('shipping')) {
+        addMessage("We offer free shipping on orders over $150. Standard delivery takes 3-5 business days, express delivery 1-2 days.", true);
       } else {
-        addBotMessage('Thank you for your message! I\'m here to help you discover the perfect Scarmo pieces. Feel free to ask about our products, sizing, materials, or anything else you\'d like to know about our luxury menswear collection.');
+        addMessage("Thank you for your message! I'm here to help you with our luxury menswear collection. Feel free to ask about products, sizing, shipping, or anything else!", true);
       }
     }, 1000);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-40">
       {/* Chat Toggle Button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
             onClick={() => setIsOpen(true)}
-            className="w-14 h-14 bg-gradient-to-r from-accent to-accent/90 text-accent-foreground rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all duration-300 focus-luxury"
+            className="w-14 h-14 bg-gradient-to-r from-accent to-accent/90 text-accent-foreground rounded-full shadow-luxury flex items-center justify-center hover:shadow-xl transition-all duration-300 focus-luxury"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             exit={{ scale: 0, rotate: 180 }}
@@ -152,121 +123,109 @@ const ChatWidget = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="w-80 sm:w-96 h-96 bg-background border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className={`absolute bottom-16 right-0 w-80 h-96 bg-background border border-border rounded-2xl shadow-luxury overflow-hidden ${
+              isRtl ? 'rtl' : 'ltr'
+            }`}
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
+            dir={isRtl ? 'rtl' : 'ltr'}
           >
-            {/* Chat Header */}
-            <div className="bg-gradient-to-r from-accent to-accent/90 text-accent-foreground p-4 flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-accent-foreground/20 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold">S</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold">Scarmo Assistant</h3>
-                  <p className="text-xs opacity-90">Online • Typically replies instantly</p>
-                </div>
-              </div>
-              <button
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-accent to-accent/80 text-accent-foreground">
+              <h3 className="font-semibold">SCARMO Assistant</h3>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-accent-foreground/20 rounded-lg transition-colors duration-200 focus-luxury"
-                aria-label="Close chat"
+                className="h-6 w-6 p-0 hover:bg-white/20"
               >
-                <X className="w-5 h-5" />
-              </button>
+                <X className="h-4 w-4" />
+              </Button>
             </div>
 
-            {/* Chat Messages */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-4">
+            {/* Messages */}
+            <div className="flex-1 p-4 space-y-3 h-64 overflow-y-auto">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
-                  className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <div
-                    className={`max-w-xs px-4 py-2 rounded-2xl ${
-                      message.isUser
-                        ? 'bg-accent text-accent-foreground'
-                        : 'bg-muted text-muted-foreground'
+                    className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                      message.isBot
+                        ? 'bg-muted text-foreground'
+                        : 'bg-gradient-to-r from-accent to-accent/80 text-accent-foreground'
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    {message.text}
                   </div>
                 </motion.div>
               ))}
-
+              
               {/* Language Selection */}
-              {showLanguageSelection && (
+              {isSelectingLanguage && (
                 <motion.div
-                  className="bg-muted/50 rounded-lg p-4 border border-border"
+                  className="bg-muted p-4 rounded-2xl space-y-3"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <Globe className="w-4 h-4 text-accent" />
-                    <span className="text-sm font-medium">Select Language</span>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-2 mb-3">
+                  <p className="text-sm font-medium">{t('chat.languagePrompt')}</p>
+                  <div className="grid grid-cols-2 gap-2">
                     {languages.map((lang) => (
-                      <button
+                      <Button
                         key={lang.code}
-                        onClick={() => handleLanguageSelect(lang.code, lang.native)}
-                        className="text-left p-2 text-sm rounded-lg hover:bg-accent/10 transition-colors duration-200 focus-luxury"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleLanguageSelect(lang.code)}
+                        className="text-xs h-8"
                       >
-                        {lang.native}
-                      </button>
+                        {lang.nativeName}
+                      </Button>
                     ))}
                   </div>
-
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
+                  <div className="flex space-x-2">
+                    <Input
                       value={customLanguage}
                       onChange={(e) => setCustomLanguage(e.target.value)}
-                      placeholder="Other language..."
-                      className="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-background focus-luxury"
-                      onKeyPress={(e) => e.key === 'Enter' && handleCustomLanguage()}
+                      placeholder={t('chat.languageOther')}
+                      className="flex-1 h-8 text-xs"
                     />
-                    <button
+                    <Button
                       onClick={handleCustomLanguage}
-                      className="px-3 py-2 bg-accent text-accent-foreground text-sm rounded-lg hover:bg-accent/90 transition-colors duration-200 focus-luxury"
+                      size="sm"
+                      className="h-8 text-xs"
                     >
-                      OK
-                    </button>
+                      Set
+                    </Button>
                   </div>
                 </motion.div>
               )}
-
-              <div ref={messagesEndRef} />
             </div>
 
-            {/* Chat Input */}
+            {/* Input */}
             <div className="p-4 border-t border-border">
               <div className="flex space-x-2">
-                <input
-                  type="text"
+                <Input
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  className="flex-1 px-4 py-2 border border-border rounded-lg bg-background focus-luxury"
-                  disabled={showLanguageSelection}
+                  placeholder={t('chat.placeholder')}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  className="flex-1"
+                  disabled={isSelectingLanguage}
                 />
-                <button
+                <Button
                   onClick={handleSendMessage}
-                  disabled={!inputValue.trim() || showLanguageSelection}
-                  className="p-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus-luxury"
-                  aria-label="Send message"
+                  size="sm"
+                  className="bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70"
+                  disabled={isSelectingLanguage}
                 >
-                  <Send className="w-5 h-5" />
-                </button>
+                  <Send className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           </motion.div>

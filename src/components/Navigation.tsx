@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, ShoppingBag } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
+import { t, getCurrentLanguage, isRTL } from '@/lib/i18n';
 
 interface NavigationProps {
   currentSection: string;
@@ -9,15 +11,18 @@ interface NavigationProps {
 const Navigation = ({ currentSection }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { state, dispatch } = useCart();
+  const currentLang = getCurrentLanguage();
+  const isRtl = isRTL();
 
   const navItems = [
-    { id: 'hero', label: 'Home' },
-    { id: 'tshirts', label: 'T-Shirts' },
-    { id: 'polos', label: 'Polos' },
-    { id: 'sweaters', label: 'Sweaters' },
-    { id: 'shirts', label: 'Shirts' },
-    { id: 'about', label: 'About' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'hero', label: t('nav.home') },
+    { id: 'tshirts', label: t('nav.tshirts') },
+    { id: 'polos', label: t('nav.polos') },
+    { id: 'sweaters', label: t('nav.sweaters') },
+    { id: 'shirts', label: t('nav.shirts') },
+    { id: 'about', label: t('nav.about') },
+    { id: 'contact', label: t('nav.contact') },
   ];
 
   useEffect(() => {
@@ -43,10 +48,11 @@ const Navigation = ({ currentSection }: NavigationProps) => {
         isScrolled
           ? 'bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg'
           : 'bg-transparent'
-      }`}
+      } ${isRtl ? 'rtl' : 'ltr'}`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
+      dir={isRtl ? 'rtl' : 'ltr'}
     >
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -98,16 +104,27 @@ const Navigation = ({ currentSection }: NavigationProps) => {
           {/* Shopping Bag & Mobile Menu */}
           <div className="flex items-center space-x-4">
             <motion.button
-              className={`p-2 rounded-lg transition-colors duration-300 focus-luxury ${
+              className={`relative p-2 rounded-lg transition-colors duration-300 focus-luxury ${
                 isScrolled
                   ? 'text-foreground hover:bg-muted'
                   : 'text-white hover:bg-white/10'
               }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => dispatch({ type: 'TOGGLE_CART' })}
               aria-label="Shopping bag"
             >
               <ShoppingBag className="w-5 h-5" />
+              {state.items.length > 0 && (
+                <motion.span
+                  className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                >
+                  {state.items.reduce((total, item) => total + item.quantity, 0)}
+                </motion.span>
+              )}
             </motion.button>
 
             {/* Mobile Menu Button */}

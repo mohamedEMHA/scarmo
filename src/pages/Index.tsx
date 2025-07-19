@@ -7,9 +7,20 @@ import AboutSection from '@/components/AboutSection';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
+import CartDrawer from '@/components/CartDrawer';
+import { CartProvider } from '@/contexts/CartContext';
+import { isRTL, getCurrentLanguage } from '@/lib/i18n';
 
 const Index = () => {
   const [currentSection, setCurrentSection] = useState('hero');
+  const currentLang = getCurrentLanguage();
+  const isRtl = isRTL();
+
+  // Apply RTL class to document
+  useEffect(() => {
+    document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = currentLang;
+  }, [isRtl, currentLang]);
 
   // Section observers for navigation highlighting
   const [heroRef, heroInView] = useInView({ threshold: 0.3 });
@@ -31,41 +42,46 @@ const Index = () => {
   }, [heroInView, tshirtsInView, polosInView, sweatersInView, shirtsInView, aboutInView, contactInView]);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <Navigation currentSection={currentSection} />
+    <CartProvider>
+      <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
+        {/* Navigation */}
+        <Navigation currentSection={currentSection} />
 
-      {/* Hero Section */}
-      <div ref={heroRef}>
-        <HeroSection />
+        {/* Hero Section */}
+        <div ref={heroRef}>
+          <HeroSection />
+        </div>
+
+        {/* Product Sections */}
+        <div id="tshirts" ref={tshirtsRef}>
+          <ProductGallery />
+        </div>
+
+        {/* Additional product sections would be implemented here */}
+        <div id="polos" ref={polosRef} className="h-20" />
+        <div id="sweaters" ref={sweatersRef} className="h-20" />
+        <div id="shirts" ref={shirtsRef} className="h-20" />
+
+        {/* About Section */}
+        <div ref={aboutRef}>
+          <AboutSection />
+        </div>
+
+        {/* Testimonials */}
+        <TestimonialCarousel />
+
+        {/* Footer */}
+        <div ref={contactRef}>
+          <Footer />
+        </div>
+
+        {/* Chat Widget */}
+        <ChatWidget />
+
+        {/* Cart Drawer */}
+        <CartDrawer />
       </div>
-
-      {/* Product Sections */}
-      <div id="tshirts" ref={tshirtsRef}>
-        <ProductGallery />
-      </div>
-
-      {/* Additional product sections would be implemented here */}
-      <div id="polos" ref={polosRef} className="h-20" />
-      <div id="sweaters" ref={sweatersRef} className="h-20" />
-      <div id="shirts" ref={shirtsRef} className="h-20" />
-
-      {/* About Section */}
-      <div ref={aboutRef}>
-        <AboutSection />
-      </div>
-
-      {/* Testimonials */}
-      <TestimonialCarousel />
-
-      {/* Footer */}
-      <div ref={contactRef}>
-        <Footer />
-      </div>
-
-      {/* Chat Widget */}
-      <ChatWidget />
-    </div>
+    </CartProvider>
   );
 };
 

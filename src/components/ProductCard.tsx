@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
+import { t } from '@/lib/i18n';
 
 interface Product {
   id: string;
@@ -24,6 +26,19 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isFavorited, setIsFavorited] = useState(false);
+  const { dispatch } = useCart();
+
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      },
+    });
+  };
 
   return (
     <motion.div
@@ -96,9 +111,12 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
           transition={{ duration: 0.3 }}
         >
-          <button className="w-full btn-luxury flex items-center justify-center gap-2 focus-luxury">
+          <button 
+            onClick={handleAddToCart}
+            className="w-full btn-luxury flex items-center justify-center gap-2 focus-luxury"
+          >
             <ShoppingCart className="w-4 h-4" />
-            Add to Cart
+            {t('products.addToCart')}
           </button>
         </motion.div>
       </div>
