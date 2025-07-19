@@ -8,35 +8,57 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Luxury Scarmo Color Palette */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 90% 60%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 90% 60%;
+    --accent-foreground: 0 0% 9%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 45 90% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Luxury Design Tokens */
+    --luxury-gold: 45 90% 60%;
+    --luxury-gold-light: 45 90% 70%;
+    --luxury-charcoal: 0 0% 15%;
+    --luxury-pearl: 0 0% 96%;
+    --luxury-shadow: 0 0% 0%;
+
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(var(--luxury-gold)), hsl(var(--luxury-gold-light)));
+    --gradient-hero: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+    --gradient-overlay: linear-gradient(180deg, transparent, rgba(0,0,0,0.3));
+
+    /* Shadows */
+    --shadow-luxury: 0 10px 40px -10px hsl(var(--luxury-shadow) / 0.1);
+    --shadow-card: 0 4px 20px -4px hsl(var(--luxury-shadow) / 0.1);
+    --shadow-gold: 0 0 30px hsl(var(--luxury-gold) / 0.3);
+
+    /* Animations */
+    --transition-luxury: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +122,66 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Luxury Button Variants */
+  .btn-luxury {
+    @apply bg-gradient-to-r from-accent to-accent/90 text-accent-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline-luxury {
+    @apply border-2 border-accent text-accent bg-transparent px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-accent hover:text-accent-foreground hover:shadow-lg;
+  }
+
+  /* Luxury Card */
+  .card-luxury {
+    @apply bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  /* Hero Overlay */
+  .hero-overlay {
+    background: var(--gradient-hero);
+  }
+
+  /* Parallax Effect */
+  .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* Smooth Transitions */
+  .transition-luxury {
+    transition: var(--transition-luxury);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  /* Focus States for Accessibility */
+  .focus-luxury {
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2;
+  }
+
+  /* Chat Widget Styles */
+  .chat-bubble {
+    @apply rounded-2xl px-4 py-2 max-w-xs;
+  }
+
+  .chat-bubble-user {
+    @apply bg-accent text-accent-foreground ml-auto;
+  }
+
+  .chat-bubble-bot {
+    @apply bg-muted text-muted-foreground mr-auto;
   }
 }
