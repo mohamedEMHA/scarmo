@@ -62,7 +62,7 @@ const ChatWidget = () => {
     localStorage.setItem('scarmo_language_prompted', 'true');
     setIsSelectingLanguage(false);
     
-    // Reload page with language parameter
+    // Reload page with language parameter and set document attributes
     const url = new URL(window.location.href);
     url.searchParams.set('lang', langCode);
     window.location.href = url.toString();

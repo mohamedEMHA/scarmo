@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { t, getCurrentLanguage, isRTL } from '@/lib/i18n';
+import AuthModal from './AuthModal';
 
 interface NavigationProps {
   currentSection: string;
@@ -11,18 +13,29 @@ interface NavigationProps {
 const Navigation = ({ currentSection }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [authModal, setAuthModal] = useState<{ isOpen: boolean; tab: 'login' | 'signup' }>({
+    isOpen: false,
+    tab: 'login'
+  });
+  
   const { state, dispatch } = useCart();
+  const { user, isAuthenticated, logout } = useAuth();
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
   const navItems = [
     { id: 'hero', label: t('nav.home') },
+    { id: 'about', label: t('nav.about') },
+    { id: 'contact', label: t('nav.contact') },
+  ];
+
+  const collectionItems = [
     { id: 'tshirts', label: t('nav.tshirts') },
     { id: 'polos', label: t('nav.polos') },
     { id: 'sweaters', label: t('nav.sweaters') },
     { id: 'shirts', label: t('nav.shirts') },
-    { id: 'about', label: t('nav.about') },
-    { id: 'contact', label: t('nav.contact') },
   ];
 
   useEffect(() => {
@@ -99,10 +112,131 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 )}
               </button>
             ))}
+
+            {/* Collection Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsCollectionOpen(true)}
+              onMouseLeave={() => setIsCollectionOpen(false)}
+            >
+              <button
+                className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury flex items-center space-x-1 ${
+                  collectionItems.some(item => currentSection === item.id)
+                    ? isScrolled
+                      ? 'text-accent'
+                      : 'text-accent'
+                    : isScrolled
+                    ? 'text-foreground hover:text-accent'
+                    : 'text-white/90 hover:text-white'
+                }`}
+                aria-haspopup="true"
+                aria-expanded={isCollectionOpen}
+              >
+                <span>{t('nav.collection')}</span>
+                <motion.div
+                  animate={{ rotate: isCollectionOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown className="w-4 h-4" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence>
+                {isCollectionOpen && (
+                  <motion.div
+                    className="absolute top-full left-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-luxury overflow-hidden z-50"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <nav aria-label="Collection submenu">
+                      {collectionItems.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => scrollToSection(item.id)}
+                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury ${
+                            currentSection === item.id
+                              ? 'bg-accent text-accent-foreground'
+                              : 'text-foreground hover:bg-muted'
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </nav>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          {/* Shopping Bag & Mobile Menu */}
+          {/* Auth, Shopping Bag & Mobile Menu */}
           <div className="flex items-center space-x-4">
+            {/* Auth Section */}
+            {isAuthenticated ? (
+              <div className="relative hidden lg:block">
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'text-foreground hover:bg-muted'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                  aria-haspopup="true"
+                  aria-expanded={isProfileOpen}
+                >
+                  <User className="w-4 h-4" />
+                  <span className="text-sm font-medium">Welcome, {user?.name}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                <AnimatePresence>
+                  {isProfileOpen && (
+                    <motion.div
+                      className="absolute top-full right-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-luxury overflow-hidden z-50"
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsProfileOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-3 text-foreground hover:bg-muted transition-colors duration-200 focus-luxury"
+                      >
+                        {t('auth.logout')}
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <div className="hidden lg:flex items-center space-x-3">
+                <button
+                  onClick={() => setAuthModal({ isOpen: true, tab: 'login' })}
+                  className={`px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'text-foreground hover:text-accent'
+                      : 'text-white/90 hover:text-white'
+                  }`}
+                >
+                  {t('auth.login')}
+                </button>
+                <button
+                  onClick={() => setAuthModal({ isOpen: true, tab: 'signup' })}
+                  className={`px-4 py-2 font-medium rounded-lg transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'bg-accent text-accent-foreground hover:bg-accent/90'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  {t('auth.signup')}
+                </button>
+              </div>
+            )}
             <motion.button
               className={`relative p-2 rounded-lg transition-colors duration-300 focus-luxury ${
                 isScrolled
@@ -175,8 +309,87 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 {item.label}
               </button>
             ))}
+            
+            {/* Collection Items in Mobile */}
+            <div className="border-t border-border/20 pt-2 mt-2">
+              <p className="px-4 py-2 text-sm font-medium text-muted-foreground">{t('nav.collection')}</p>
+              {collectionItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-left px-6 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    currentSection === item.id
+                      ? 'bg-accent text-accent-foreground'
+                      : isScrolled
+                      ? 'text-foreground hover:bg-muted'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                  aria-label={`Navigate to ${item.label} section`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Auth in Mobile */}
+            {!isAuthenticated && (
+              <div className="border-t border-border/20 pt-2 mt-2 space-y-2">
+                <button
+                  onClick={() => setAuthModal({ isOpen: true, tab: 'login' })}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'text-foreground hover:bg-muted'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  {t('auth.login')}
+                </button>
+                <button
+                  onClick={() => setAuthModal({ isOpen: true, tab: 'signup' })}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'bg-accent text-accent-foreground hover:bg-accent/90'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                >
+                  {t('auth.signup')}
+                </button>
+              </div>
+            )}
+
+            {isAuthenticated && (
+              <div className="border-t border-border/20 pt-2 mt-2">
+                <p className="px-4 py-2 text-sm font-medium text-muted-foreground">
+                  Welcome, {user?.name}
+                </p>
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    isScrolled
+                      ? 'text-foreground hover:bg-muted'
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  {t('auth.logout')}
+                </button>
+              </div>
+            )}
           </div>
         </motion.div>
+
+        {/* Auth Modal */}
+        <AnimatePresence>
+          {authModal.isOpen && (
+            <AuthModal
+              isOpen={authModal.isOpen}
+              onClose={() => setAuthModal({ isOpen: false, tab: 'login' })}
+              initialTab={authModal.tab}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </motion.nav>
   );

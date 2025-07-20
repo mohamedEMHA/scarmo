@@ -6,12 +6,22 @@ export const translations: Record<string, Translations> = {
   en: {
     // Navigation
     'nav.home': 'Home',
+    'nav.collection': 'Collection',
     'nav.tshirts': 'T-Shirts',
     'nav.polos': 'Polos',
     'nav.sweaters': 'Sweaters',
     'nav.shirts': 'Shirts',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+
+    // Authentication
+    'auth.login': 'Login',
+    'auth.signup': 'Sign Up',
+    'auth.logout': 'Logout',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.confirmPassword': 'Confirm Password',
+    'auth.name': 'Full Name',
     
     // Hero
     'hero.title': 'SCARMO',
@@ -58,12 +68,22 @@ export const translations: Record<string, Translations> = {
   es: {
     // Navigation
     'nav.home': 'Inicio',
+    'nav.collection': 'Colección',
     'nav.tshirts': 'Camisetas',
     'nav.polos': 'Polos',
     'nav.sweaters': 'Suéteres',
     'nav.shirts': 'Camisas',
     'nav.about': 'Acerca de',
     'nav.contact': 'Contacto',
+
+    // Authentication
+    'auth.login': 'Iniciar Sesión',
+    'auth.signup': 'Registrarse',
+    'auth.logout': 'Cerrar Sesión',
+    'auth.email': 'Correo Electrónico',
+    'auth.password': 'Contraseña',
+    'auth.confirmPassword': 'Confirmar Contraseña',
+    'auth.name': 'Nombre Completo',
     
     // Hero
     'hero.title': 'SCARMO',
@@ -110,12 +130,22 @@ export const translations: Record<string, Translations> = {
   fr: {
     // Navigation
     'nav.home': 'Accueil',
+    'nav.collection': 'Collection',
     'nav.tshirts': 'T-Shirts',
     'nav.polos': 'Polos',
     'nav.sweaters': 'Pulls',
     'nav.shirts': 'Chemises',
     'nav.about': 'À Propos',
     'nav.contact': 'Contact',
+
+    // Authentication
+    'auth.login': 'Connexion',
+    'auth.signup': 'S\'inscrire',
+    'auth.logout': 'Déconnexion',
+    'auth.email': 'Email',
+    'auth.password': 'Mot de Passe',
+    'auth.confirmPassword': 'Confirmer le Mot de Passe',
+    'auth.name': 'Nom Complet',
     
     // Hero
     'hero.title': 'SCARMO',
@@ -162,12 +192,22 @@ export const translations: Record<string, Translations> = {
   de: {
     // Navigation
     'nav.home': 'Startseite',
+    'nav.collection': 'Kollektion',
     'nav.tshirts': 'T-Shirts',
     'nav.polos': 'Polos',
     'nav.sweaters': 'Pullover',
     'nav.shirts': 'Hemden',
     'nav.about': 'Über Uns',
     'nav.contact': 'Kontakt',
+
+    // Authentication
+    'auth.login': 'Anmelden',
+    'auth.signup': 'Registrieren',
+    'auth.logout': 'Abmelden',
+    'auth.email': 'E-Mail',
+    'auth.password': 'Passwort',
+    'auth.confirmPassword': 'Passwort Bestätigen',
+    'auth.name': 'Vollständiger Name',
     
     // Hero
     'hero.title': 'SCARMO',
@@ -214,12 +254,22 @@ export const translations: Record<string, Translations> = {
   el: {
     // Navigation
     'nav.home': 'Αρχική',
+    'nav.collection': 'Συλλογή',
     'nav.tshirts': 'T-Shirts',
     'nav.polos': 'Πόλο',
     'nav.sweaters': 'Πουλόβερ',
     'nav.shirts': 'Πουκάμισα',
     'nav.about': 'Σχετικά',
     'nav.contact': 'Επικοινωνία',
+
+    // Authentication
+    'auth.login': 'Σύνδεση',
+    'auth.signup': 'Εγγραφή',
+    'auth.logout': 'Αποσύνδεση',
+    'auth.email': 'Email',
+    'auth.password': 'Κωδικός',
+    'auth.confirmPassword': 'Επιβεβαίωση Κωδικού',
+    'auth.name': 'Πλήρες Όνομα',
     
     // Hero
     'hero.title': 'SCARMO',
@@ -266,12 +316,22 @@ export const translations: Record<string, Translations> = {
   ar: {
     // Navigation
     'nav.home': 'الرئيسية',
+    'nav.collection': 'المجموعة',
     'nav.tshirts': 'تي شيرت',
     'nav.polos': 'بولو',
     'nav.sweaters': 'سترات',
     'nav.shirts': 'قمصان',
     'nav.about': 'عن الشركة',
     'nav.contact': 'اتصل بنا',
+
+    // Authentication
+    'auth.login': 'تسجيل الدخول',
+    'auth.signup': 'إنشاء حساب',
+    'auth.logout': 'تسجيل الخروج',
+    'auth.email': 'البريد الإلكتروني',
+    'auth.password': 'كلمة المرور',
+    'auth.confirmPassword': 'تأكيد كلمة المرور',
+    'auth.name': 'الاسم الكامل',
     
     // Hero
     'hero.title': 'سكارمو',
@@ -317,12 +377,12 @@ export const translations: Record<string, Translations> = {
 };
 
 export const languages = [
-  { code: 'en', name: 'English', nativeName: 'English' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español' },
-  { code: 'fr', name: 'French', nativeName: 'Français' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch' },
-  { code: 'el', name: 'Greek', nativeName: 'Ελληνικά' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
+  { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', dir: 'ltr' },
+  { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr' },
+  { code: 'el', name: 'Greek', nativeName: 'Ελληνικά', dir: 'ltr' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', dir: 'rtl' },
 ];
 
 export const rtlLanguages = ['ar'];
@@ -363,4 +423,12 @@ export const t = (key: string, lang?: string): string => {
 export const isRTL = (lang?: string): boolean => {
   const currentLang = lang || getCurrentLanguage();
   return rtlLanguages.includes(currentLang);
+};
+
+export const setDocumentLanguage = (lang: string) => {
+  const selectedLang = languages.find(l => l.code === lang);
+  if (selectedLang) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = selectedLang.dir;
+  }
 };

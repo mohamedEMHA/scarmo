@@ -9,10 +9,17 @@ import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
 import CartDrawer from '@/components/CartDrawer';
 import { CartProvider } from '@/contexts/CartContext';
-import { isRTL, getCurrentLanguage } from '@/lib/i18n';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { isRTL, getCurrentLanguage, setDocumentLanguage } from '@/lib/i18n';
 
 const Index = () => {
   const [currentSection, setCurrentSection] = useState('hero');
+
+  // Set document language and direction on mount
+  useEffect(() => {
+    const lang = getCurrentLanguage();
+    setDocumentLanguage(lang);
+  }, []);
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
@@ -42,8 +49,9 @@ const Index = () => {
   }, [heroInView, tshirtsInView, polosInView, sweatersInView, shirtsInView, aboutInView, contactInView]);
 
   return (
-    <CartProvider>
-      <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
+    <AuthProvider>
+      <CartProvider>
+        <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
         {/* Navigation */}
         <Navigation currentSection={currentSection} />
 
@@ -81,7 +89,8 @@ const Index = () => {
         {/* Cart Drawer */}
         <CartDrawer />
       </div>
-    </CartProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 };
 
