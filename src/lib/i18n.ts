@@ -8,9 +8,14 @@ export const translations: Record<string, Translations> = {
     'nav.home': 'Home',
     'nav.collection': 'Collection',
     'nav.tshirts': 'T-Shirts',
-    'nav.polos': 'Polos',
     'nav.sweaters': 'Sweaters',
-    'nav.shirts': 'Shirts',
+    'nav.belts': 'Belts',
+    'nav.neckties': 'Neckties',
+    'nav.longSleeves': 'Long-Sleeves',
+    'nav.shoes': 'Shoes',
+    'nav.backpacks': 'Backpacks',
+    'nav.underwear': 'Underwear',
+    'nav.viewAll': 'View All',
     'nav.about': 'About',
     'nav.contact': 'Contact',
 
@@ -22,17 +27,38 @@ export const translations: Record<string, Translations> = {
     'auth.password': 'Password',
     'auth.confirmPassword': 'Confirm Password',
     'auth.name': 'Full Name',
+    'auth.dateOfBirth': 'Date of Birth',
     
     // Hero
     'hero.title': 'SCARMO',
     'hero.subtitle': 'Luxury Men\'s Fashion',
     'hero.cta': 'Shop Collection',
+    'hero.premiumTshirts': 'Premium T-Shirts',
+    'hero.elegantPolos': 'Elegant Polos',
+    'hero.luxurySweaters': 'Luxury Sweaters',
+    'hero.dressShirts': 'Dress Shirts',
+    'hero.finestCotton': 'Crafted from the finest cotton',
+    'hero.sophisticatedStyle': 'Sophisticated style for every occasion',
+    'hero.warmthStyle': 'Warmth meets uncompromising style',
+    'hero.impeccableTailoring': 'Impeccable tailoring for the modern gentleman',
+    'hero.shopTshirts': 'Shop T-Shirts',
+    'hero.shopPolos': 'Shop Polos',
+    'hero.shopSweaters': 'Shop Sweaters',
+    'hero.shopShirts': 'Shop Shirts',
+    'hero.ourStory': 'Our Story',
     
     // Products
     'products.title': 'Our Collection',
+    'products.subtitle': 'Discover our carefully curated selection of premium menswear, crafted with attention to detail and uncompromising quality.',
     'products.all': 'All',
     'products.addToCart': 'Add to Cart',
     'products.viewDetails': 'View Details',
+    'products.viewAllProducts': 'View All Products',
+    'products.filters': 'Filters',
+    'products.priceRange': 'Price Range',
+    'products.closeFilters': 'Close filters',
+    'products.clearFilters': 'Clear Filters',
+    'products.noProducts': 'No products found matching your criteria.',
     
     // Cart
     'cart.title': 'Shopping Cart',
@@ -45,7 +71,14 @@ export const translations: Record<string, Translations> = {
     
     // About
     'about.title': 'About SCARMO',
-    'about.description': 'Crafting exceptional menswear since 1995. Our commitment to quality, style, and innovation has made us a leader in luxury fashion.',
+    'about.heading': 'Crafting Excellence Since 2019',
+    'about.description': 'At SCARMO, we believe that true luxury lies in the details. Every piece in our collection is meticulously crafted using the finest materials and time-honored techniques passed down through generations of master tailors.',
+    'about.heritage': 'Our Heritage',
+    'about.heritageText': 'Founded by a team of fashion enthusiasts who shared a vision of creating timeless, sophisticated menswear that transcends trends.',
+    'about.quality': 'Uncompromising Quality',
+    'about.qualityText': 'From premium fabrics sourced from the world\'s finest mills to hand-finished details, every SCARMO piece represents our commitment to excellence.',
+    'about.sustainability': 'Sustainable Fashion',
+    'about.sustainabilityText': 'We believe in responsible fashion. Our sustainable practices ensure that luxury and environmental consciousness go hand in hand.',
     
     // Testimonials
     'testimonials.title': 'What Our Customers Say',
@@ -313,6 +346,101 @@ export const translations: Record<string, Translations> = {
     'chat.send': 'Αποστολή',
   },
   
+  it: {
+    // Navigation
+    'nav.home': 'Home',
+    'nav.collection': 'Collezione',
+    'nav.tshirts': 'T-Shirt',
+    'nav.sweaters': 'Maglioni',
+    'nav.belts': 'Cinture',
+    'nav.neckties': 'Cravatte',
+    'nav.longSleeves': 'Manica Lunga',
+    'nav.shoes': 'Scarpe',
+    'nav.backpacks': 'Zaini',
+    'nav.underwear': 'Intimo',
+    'nav.viewAll': 'Vedi Tutto',
+    'nav.about': 'Chi Siamo',
+    'nav.contact': 'Contatti',
+
+    // Authentication
+    'auth.login': 'Accedi',
+    'auth.signup': 'Registrati',
+    'auth.logout': 'Esci',
+    'auth.email': 'Email',
+    'auth.password': 'Password',
+    'auth.confirmPassword': 'Conferma Password',
+    'auth.name': 'Nome Completo',
+    'auth.dateOfBirth': 'Data di Nascita',
+    
+    // Hero
+    'hero.title': 'SCARMO',
+    'hero.subtitle': 'Moda Maschile di Lusso',
+    'hero.cta': 'Vedi Collezione',
+    'hero.premiumTshirts': 'T-Shirt Premium',
+    'hero.elegantPolos': 'Polo Eleganti',
+    'hero.luxurySweaters': 'Maglioni di Lusso',
+    'hero.dressShirts': 'Camicie Eleganti',
+    'hero.finestCotton': 'Realizzato con il cotone più pregiato',
+    'hero.sophisticatedStyle': 'Stile sofisticato per ogni occasione',
+    'hero.warmthStyle': 'Il calore incontra lo stile senza compromessi',
+    'hero.impeccableTailoring': 'Sartoria impeccabile per il gentleman moderno',
+    'hero.shopTshirts': 'Acquista T-Shirt',
+    'hero.shopPolos': 'Acquista Polo',
+    'hero.shopSweaters': 'Acquista Maglioni',
+    'hero.shopShirts': 'Acquista Camicie',
+    'hero.ourStory': 'La Nostra Storia',
+    
+    // Products
+    'products.title': 'La Nostra Collezione',
+    'products.subtitle': 'Scopri la nostra selezione accuratamente curata di abbigliamento maschile premium, realizzato con attenzione ai dettagli e qualità senza compromessi.',
+    'products.all': 'Tutti',
+    'products.addToCart': 'Aggiungi al Carrello',
+    'products.viewDetails': 'Vedi Dettagli',
+    'products.viewAllProducts': 'Vedi Tutti i Prodotti',
+    'products.filters': 'Filtri',
+    'products.priceRange': 'Fascia di Prezzo',
+    'products.closeFilters': 'Chiudi filtri',
+    'products.clearFilters': 'Cancella Filtri',
+    'products.noProducts': 'Nessun prodotto trovato che corrisponda ai tuoi criteri.',
+    
+    // Cart
+    'cart.title': 'Carrello',
+    'cart.empty': 'Il tuo carrello è vuoto',
+    'cart.emptyDesc': 'Inizia a fare shopping per aggiungere articoli al tuo carrello',
+    'cart.total': 'Totale:',
+    'cart.checkout': 'Procedi al Checkout',
+    'cart.remove': 'Rimuovi',
+    'cart.quantity': 'Quantità',
+    
+    // About
+    'about.title': 'Chi è SCARMO',
+    'about.heading': 'Creando Eccellenza dal 2019',
+    'about.description': 'In SCARMO, crediamo che il vero lusso risieda nei dettagli. Ogni pezzo della nostra collezione è meticolosamente realizzato utilizzando i migliori materiali e tecniche tradizionali tramandate attraverso generazioni di maestri sarti.',
+    'about.heritage': 'Il Nostro Patrimonio',
+    'about.heritageText': 'Fondato da un team di appassionati di moda che condividevano una visione di creare abbigliamento maschile senza tempo e sofisticato che trascende le tendenze.',
+    'about.quality': 'Qualità Senza Compromessi',
+    'about.qualityText': 'Dai tessuti premium provenienti dalle migliori manifatture del mondo ai dettagli rifiniti a mano, ogni pezzo SCARMO rappresenta il nostro impegno per l\'eccellenza.',
+    'about.sustainability': 'Moda Sostenibile',
+    'about.sustainabilityText': 'Crediamo nella moda responsabile. Le nostre pratiche sostenibili assicurano che lusso e coscienza ambientale vadano di pari passo.',
+    
+    // Testimonials
+    'testimonials.title': 'Cosa Dicono i Nostri Clienti',
+    
+    // Footer
+    'footer.newsletter': 'Iscriviti alla nostra newsletter',
+    'footer.email': 'Inserisci la tua email',
+    'footer.subscribe': 'Iscriviti',
+    'footer.social': 'Seguici',
+    'footer.copyright': '© 2024 SCARMO. Tutti i diritti riservati.',
+    
+    // Chat
+    'chat.greeting': 'Benvenuto in SCARMO! Come posso aiutarti oggi?',
+    'chat.languagePrompt': 'Per favore seleziona la tua lingua preferita:',
+    'chat.languageOther': 'Altro (scrivi la tua lingua)',
+    'chat.placeholder': 'Scrivi il tuo messaggio...',
+    'chat.send': 'Invia',
+  },
+  
   ar: {
     // Navigation
     'nav.home': 'الرئيسية',
@@ -377,11 +505,11 @@ export const translations: Record<string, Translations> = {
 };
 
 export const languages = [
+  { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr' },
+  { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
   { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr' },
   { code: 'es', name: 'Spanish', nativeName: 'Español', dir: 'ltr' },
-  { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr' },
-  { code: 'el', name: 'Greek', nativeName: 'Ελληνικά', dir: 'ltr' },
+  { code: 'it', name: 'Italian', nativeName: 'Italiano', dir: 'ltr' },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', dir: 'rtl' },
 ];
 

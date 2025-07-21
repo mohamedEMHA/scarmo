@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Filter, X } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { t } from '@/lib/i18n';
 
 // Mock product data
 const mockProducts = [
@@ -81,7 +82,7 @@ const ProductGallery = () => {
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const categories = ['All', 'T-Shirts', 'Polos', 'Sweaters', 'Shirts'];
+  const categories = [t('nav.tshirts'), t('nav.sweaters'), t('nav.belts'), t('nav.neckties'), t('nav.longSleeves'), t('nav.shoes'), t('nav.backpacks'), t('nav.underwear')];
   const sortOptions = [
     { value: 'featured', label: 'Featured' },
     { value: 'price-low', label: 'Price: Low to High' },
@@ -133,11 +134,10 @@ const ProductGallery = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Our Collection
+            {t('products.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our carefully curated selection of premium menswear,
-            crafted with attention to detail and uncompromising quality.
+            {t('products.subtitle')}
           </p>
         </motion.div>
 
@@ -278,7 +278,7 @@ const ProductGallery = () => {
             transition={{ duration: 0.6 }}
           >
             <button className="btn-outline-luxury focus-luxury">
-              Load More Products
+              {t('products.viewAllProducts')}
             </button>
           </motion.div>
         )}

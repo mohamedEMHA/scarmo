@@ -33,9 +33,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
   const collectionItems = [
     { id: 'tshirts', label: t('nav.tshirts') },
-    { id: 'polos', label: t('nav.polos') },
     { id: 'sweaters', label: t('nav.sweaters') },
-    { id: 'shirts', label: t('nav.shirts') },
+    { id: 'belts', label: t('nav.belts') },
+    { id: 'neckties', label: t('nav.neckties') },
+    { id: 'longSleeves', label: t('nav.longSleeves') },
+    { id: 'shoes', label: t('nav.shoes') },
+    { id: 'backpacks', label: t('nav.backpacks') },
+    { id: 'underwear', label: t('nav.underwear') },
+    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   useEffect(() => {
@@ -87,31 +92,29 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
-                  currentSection === item.id
-                    ? isScrolled
-                      ? 'text-accent'
-                      : 'text-accent'
-                    : isScrolled
-                    ? 'text-foreground hover:text-accent'
-                    : 'text-white/90 hover:text-white'
-                }`}
-                aria-label={`Navigate to ${item.label} section`}
-              >
-                {item.label}
-                {currentSection === item.id && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
-                    layoutId="activeTab"
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </button>
-            ))}
+            {/* Home Button */}
+            <button
+              onClick={() => scrollToSection('hero')}
+              className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'hero'
+                  ? isScrolled
+                    ? 'text-accent'
+                    : 'text-accent'
+                  : isScrolled
+                  ? 'text-foreground hover:text-accent'
+                  : 'text-white/90 hover:text-white'
+              }`}
+              aria-label={`Navigate to ${t('nav.home')} section`}
+            >
+              {t('nav.home')}
+              {currentSection === 'hero' && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                  layoutId="activeTab"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </button>
 
             {/* Collection Dropdown */}
             <div 
@@ -154,11 +157,18 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                       {collectionItems.map((item) => (
                         <button
                           key={item.id}
-                          onClick={() => scrollToSection(item.id)}
-                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury ${
+                          onClick={() => {
+                            if (item.id === 'viewAll') {
+                              scrollToSection('tshirts');
+                            } else {
+                              scrollToSection(item.id);
+                            }
+                            setIsCollectionOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-muted ${
                             currentSection === item.id
                               ? 'bg-accent text-accent-foreground'
-                              : 'text-foreground hover:bg-muted'
+                              : 'text-foreground'
                           }`}
                         >
                           {item.label}
@@ -169,6 +179,30 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 )}
               </AnimatePresence>
             </div>
+
+            {/* About and Contact */}
+            <button
+              onClick={() => scrollToSection('about')}
+              className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'about'
+                  ? isScrolled
+                    ? 'text-accent'
+                    : 'text-accent'
+                  : isScrolled
+                  ? 'text-foreground hover:text-accent'
+                  : 'text-white/90 hover:text-white'
+              }`}
+              aria-label={`Navigate to ${t('nav.about')} section`}
+            >
+              {t('nav.about')}
+              {currentSection === 'about' && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                  layoutId="activeTab"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </button>
           </div>
 
           {/* Auth, Shopping Bag & Mobile Menu */}
@@ -292,23 +326,45 @@ const Navigation = ({ currentSection }: NavigationProps) => {
           }}
           transition={{ duration: 0.3 }}
         >
-          <div className="flex flex-col space-y-2 pt-4 border-t border-border/20">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
-                  currentSection === item.id
-                    ? 'bg-accent text-accent-foreground'
-                    : isScrolled
-                    ? 'text-foreground hover:bg-muted'
-                    : 'text-white hover:bg-white/10'
-                }`}
-                aria-label={`Navigate to ${item.label} section`}
-              >
-                {item.label}
-              </button>
-            ))}
+          <div 
+            className="flex flex-col space-y-2 pt-4 border-t border-border/20"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {/* Home */}
+            <button
+              onClick={() => {
+                scrollToSection('hero');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'hero'
+                  ? 'bg-accent text-accent-foreground'
+                  : isScrolled
+                  ? 'text-foreground hover:bg-muted'
+                  : 'text-white hover:bg-white/10'
+              }`}
+              aria-label={`Navigate to ${t('nav.home')} section`}
+            >
+              {t('nav.home')}
+            </button>
+
+            {/* About */}
+            <button
+              onClick={() => {
+                scrollToSection('about');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'about'
+                  ? 'bg-accent text-accent-foreground'
+                  : isScrolled
+                  ? 'text-foreground hover:bg-muted'
+                  : 'text-white hover:bg-white/10'
+              }`}
+              aria-label={`Navigate to ${t('nav.about')} section`}
+            >
+              {t('nav.about')}
+            </button>
             
             {/* Collection Items in Mobile */}
             <div className="border-t border-border/20 pt-2 mt-2">
@@ -316,7 +372,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               {collectionItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => {
+                    if (item.id === 'viewAll') {
+                      scrollToSection('tshirts');
+                    } else {
+                      scrollToSection(item.id);
+                    }
+                    setIsMobileMenuOpen(false);
+                  }}
                   className={`text-left px-6 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     currentSection === item.id
                       ? 'bg-accent text-accent-foreground'
@@ -335,7 +398,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
             {!isAuthenticated && (
               <div className="border-t border-border/20 pt-2 mt-2 space-y-2">
                 <button
-                  onClick={() => setAuthModal({ isOpen: true, tab: 'login' })}
+                  onClick={() => {
+                    setAuthModal({ isOpen: true, tab: 'login' });
+                    setIsMobileMenuOpen(false);
+                  }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     isScrolled
                       ? 'text-foreground hover:bg-muted'
@@ -345,7 +411,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   {t('auth.login')}
                 </button>
                 <button
-                  onClick={() => setAuthModal({ isOpen: true, tab: 'signup' })}
+                  onClick={() => {
+                    setAuthModal({ isOpen: true, tab: 'signup' });
+                    setIsMobileMenuOpen(false);
+                  }}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     isScrolled
                       ? 'bg-accent text-accent-foreground hover:bg-accent/90'
