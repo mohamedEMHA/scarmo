@@ -21,9 +21,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   });
   
   const { state, dispatch } = useCart();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, isLoading } = useAuth();
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
+
+  // Don't render auth-dependent UI until auth is loaded
+  if (isLoading) {
+    return null;
+  }
 
   const navItems = [
     { id: 'hero', label: t('nav.home') },
