@@ -5,7 +5,6 @@ import HeroSection from '@/components/HeroSection';
 import ProductGallery from '@/components/ProductGallery';
 import AboutSection from '@/components/AboutSection';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
-import FormsSection from '@/components/FormsSection';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
 import CartDrawer from '@/components/CartDrawer';
@@ -78,9 +77,6 @@ const Index = () => {
 
         {/* Testimonials */}
         <TestimonialCarousel />
-
-        {/* Forms Section */}
-        <FormsSection />
 
         {/* Footer */}
         <div ref={contactRef}>
