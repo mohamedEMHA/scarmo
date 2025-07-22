@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Mail, Lock } from 'lucide-react';
+import { X, User, Mail, Lock, CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import FocusTrap from 'focus-trap-react';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -18,6 +23,7 @@ interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  dateOfBirth?: string;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'login' }) => {
@@ -33,15 +39,26 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
     password: '', 
     confirmPassword: '' 
   });
+  const [dateOfBirth, setDateOfBirth] = useState<Date>();
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (isOpen) {
       setLoginForm({ email: '', password: '' });
       setSignupForm({ name: '', email: '', password: '', confirmPassword: '' });
+      setDateOfBirth(undefined);
       setErrors({});
       setActiveTab(initialTab);
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Unlock body scroll
+      document.body.style.overflow = 'unset';
     }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen, initialTab]);
 
   // Focus trap - basic implementation
@@ -78,6 +95,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
       if (signupForm.password !== signupForm.confirmPassword) {
         newErrors.confirmPassword = 'Passwords must match';
       }
+      if (!dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
+      else {
+        const age = new Date().getFullYear() - dateOfBirth.getFullYear();
+        if (age < 18) newErrors.dateOfBirth = 'You must be at least 18 years old';
+      }
     }
 
     setErrors(newErrors);
@@ -109,7 +131,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
     setIsLoading(true);
     try {
-      const success = await signup(signupForm.name, signupForm.email, signupForm.password);
+      const success = await signup(signupForm.name, signupForm.email, signupForm.password, dateOfBirth);
       if (success) {
         onClose();
       } else {
@@ -125,15 +147,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
-      <motion.div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      />
+    <FocusTrap>
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        {/* Backdrop */}
+        <motion.div
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        />
 
       {/* Modal */}
       <motion.div
@@ -369,6 +392,45 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                   )}
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="signup-dob" className="text-sm font-medium">
+                    {t('auth.dateOfBirth')}
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal pl-10",
+                          !dateOfBirth && "text-muted-foreground"
+                        )}
+                        aria-invalid={!!errors.dateOfBirth}
+                        aria-describedby={errors.dateOfBirth ? "signup-dob-error" : undefined}
+                      >
+                        <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
+                        {dateOfBirth ? format(dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={dateOfBirth}
+                        onSelect={setDateOfBirth}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                        className="pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.dateOfBirth && (
+                    <span id="signup-dob-error" className="text-sm text-destructive">
+                      {errors.dateOfBirth}
+                    </span>
+                  )}
+                </div>
+
                 <Button
                   type="submit"
                   className="w-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 focus-luxury"
@@ -382,6 +444,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
         </div>
       </motion.div>
     </div>
+    </FocusTrap>
   );
 };
 

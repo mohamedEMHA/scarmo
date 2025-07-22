@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { t } from '@/lib/i18n';
 
 // Import hero images
 import heroTshirt from '@/assets/hero-tshirt.jpg';
@@ -106,7 +107,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <span className="block text-white">SCARMO</span>
+              <span className="block text-white">{t('hero.title')}</span>
               <span className="block text-accent text-3xl md:text-4xl lg:text-5xl font-light mt-2">
                 {heroSlides[currentSlide].title}
               </span>
@@ -139,7 +140,7 @@ const HeroSection = () => {
                 className="btn-outline-luxury focus-luxury"
                 aria-label="Learn about Scarmo"
               >
-                Our Story
+                {t('hero.ourStory')}
               </button>
             </motion.div>
           </motion.div>

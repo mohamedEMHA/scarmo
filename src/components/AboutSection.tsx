@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { t } from '@/lib/i18n';
 import aboutBg from '@/assets/about-bg.jpg';
 
 const AboutSection = () => {
@@ -34,7 +35,7 @@ const AboutSection = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-6">
-              Crafting Excellence Since 2019
+              {t('about.title')}
             </h2>
             
             <motion.p
@@ -43,8 +44,7 @@ const AboutSection = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              At Scarmo, we believe that exceptional menswear should be an expression 
-              of personal style and uncompromising quality.
+              {t('about.description')}
             </motion.p>
 
             <motion.div
@@ -54,20 +54,11 @@ const AboutSection = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <p className="text-lg leading-relaxed">
-                Founded by a team of passionate designers and craftsmen, our brand emerged 
-                from a simple belief: every man deserves clothing that not only looks 
-                exceptional but feels exceptional too. We source the finest materials from 
-                around the world, from premium Egyptian cotton to luxurious cashmere, 
-                ensuring each piece in our collection meets the highest standards of quality 
-                and comfort.
+                {t('about.heritage')}
               </p>
               
               <p className="text-lg leading-relaxed">
-                Our commitment to sustainable fashion means we work closely with ethical 
-                manufacturers who share our values of fair trade and environmental 
-                responsibility. When you choose Scarmo, you're not just choosing premium 
-                menswear – you're investing in a philosophy of excellence that extends 
-                beyond the fabric to the very foundation of how we do business.
+                {t('about.heritageText')}
               </p>
             </motion.div>
 

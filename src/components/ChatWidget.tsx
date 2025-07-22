@@ -22,10 +22,12 @@ const ChatWidget = () => {
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
-  // Initialize chat and check for language selection
+  // Initialize chat and check for language selection - show immediately on load
   useEffect(() => {
     const hasSeenLanguagePrompt = localStorage.getItem('scarmo_language_prompted');
     if (!hasSeenLanguagePrompt) {
+      // Show language selection immediately on page load
+      setIsOpen(true);
       setIsSelectingLanguage(true);
       setMessages([
         {
