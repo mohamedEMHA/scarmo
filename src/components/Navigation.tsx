@@ -418,7 +418,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             {/* Mobile Menu Panel */}
             <motion.div
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-[#FBBF24] shadow-lg rounded-l-3xl z-50 lg:hidden overflow-y-auto"
+              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-lg rounded-l-3xl z-50 lg:hidden overflow-y-auto"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
