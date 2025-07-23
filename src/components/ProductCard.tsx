@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
-import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { ShoppingCart, Heart, Eye, Star } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import { t } from '@/lib/i18n';
+import { Badge } from '@/components/ui/badge';
 
 interface Product {
   id: string;
@@ -10,11 +12,15 @@ interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[];
   category: string;
   colors: string[];
   sizes: string[];
   isNew?: boolean;
   isSale?: boolean;
+  description?: string;
+  rating?: number;
+  reviews?: number;
 }
 
 interface ProductCardProps {
@@ -23,12 +29,17 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index }: ProductCardProps) => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const { dispatch } = useCart();
 
-  const handleAddToCart = () => {
+  const productImages = product.images || [product.image];
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
     dispatch({
       type: 'ADD_ITEM',
       payload: {
@@ -40,36 +51,54 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
     });
   };
 
+  const handleProductClick = () => {
+    navigate(`/product/${product.id}`);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (productImages.length > 1) {
+      setCurrentImageIndex(1);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setCurrentImageIndex(0);
+  };
+
   return (
     <motion.div
-      className="card-luxury group"
+      className="card-luxury group cursor-pointer"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleProductClick}
+      whileHover={{ y: -5 }}
     >
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted rounded-t-lg">
         <motion.img
-          src={product.image}
+          src={productImages[currentImageIndex]}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500"
-          animate={{ scale: isHovered ? 1.1 : 1 }}
+          animate={{ scale: isHovered ? 1.05 : 1 }}
         />
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {product.isNew && (
-            <span className="bg-accent text-accent-foreground px-2 py-1 text-xs font-medium rounded">
+            <Badge variant="secondary" className="text-xs">
               NEW
-            </span>
+            </Badge>
           )}
           {product.isSale && (
-            <span className="bg-destructive text-destructive-foreground px-2 py-1 text-xs font-medium rounded">
+            <Badge variant="destructive" className="text-xs">
               SALE
-            </span>
+            </Badge>
           )}
         </div>
 
@@ -86,7 +115,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                 ? 'bg-accent text-accent-foreground'
                 : 'bg-white/20 text-white hover:bg-white/30'
             }`}
-            onClick={() => setIsFavorited(!isFavorited)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFavorited(!isFavorited);
+            }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
@@ -96,6 +128,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
           <motion.button
             className="p-2 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors duration-300 focus-luxury"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleProductClick();
+            }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Quick view product"

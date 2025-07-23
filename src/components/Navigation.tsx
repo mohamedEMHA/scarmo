@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
@@ -11,6 +12,8 @@ interface NavigationProps {
 }
 
 const Navigation = ({ currentSection }: NavigationProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
@@ -59,10 +62,26 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   ];
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleViewAllProducts = () => {
+    navigate('/products');
+    setIsCollectionOpen(false);
     setIsMobileMenuOpen(false);
   };
 
@@ -165,7 +184,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                           key={item.id}
                           onClick={() => {
                             if (item.id === 'viewAll') {
-                              scrollToSection('tshirts');
+                              handleViewAllProducts();
                             } else {
                               scrollToSection(item.id);
                             }
@@ -380,7 +399,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   key={item.id}
                   onClick={() => {
                     if (item.id === 'viewAll') {
-                      scrollToSection('tshirts');
+                      handleViewAllProducts();
                     } else {
                       scrollToSection(item.id);
                     }
