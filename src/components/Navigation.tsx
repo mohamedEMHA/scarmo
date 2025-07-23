@@ -25,6 +25,16 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
+  // All hooks must be called before any conditional returns
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
     return null;
@@ -47,15 +57,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
     { id: 'underwear', label: t('nav.underwear') },
     { id: 'viewAll', label: t('nav.viewAll') },
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
