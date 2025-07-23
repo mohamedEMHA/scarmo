@@ -25,6 +25,8 @@ const ChatWidget = () => {
   // Initialize chat and check for language selection - show immediately on load
   useEffect(() => {
     const hasSeenLanguagePrompt = localStorage.getItem('scarmo_language_prompted');
+    const greetingText = t('chat.greeting');
+    
     if (!hasSeenLanguagePrompt) {
       // Show language selection immediately on page load
       setIsOpen(true);
@@ -32,7 +34,7 @@ const ChatWidget = () => {
       setMessages([
         {
           id: 'greeting',
-          text: t('chat.greeting'),
+          text: greetingText,
           isBot: true,
           timestamp: new Date(),
         }
@@ -41,13 +43,13 @@ const ChatWidget = () => {
       setMessages([
         {
           id: 'greeting',
-          text: t('chat.greeting'),
+          text: greetingText,
           isBot: true,
           timestamp: new Date(),
         }
       ]);
     }
-  }, []);
+  }, [currentLang]); // Only re-run when language changes
 
   const addMessage = (text: string, isBot: boolean = false) => {
     const newMessage: Message = {
