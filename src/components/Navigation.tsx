@@ -228,6 +228,29 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 />
               )}
             </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'contact'
+                  ? isScrolled
+                    ? 'text-accent'
+                    : 'text-accent'
+                  : isScrolled
+                  ? 'text-foreground hover:text-accent'
+                  : 'text-white/90 hover:text-white'
+              }`}
+              aria-label={`Navigate to ${t('nav.contact')} section`}
+            >
+              {t('nav.contact')}
+              {currentSection === 'contact' && (
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                  layoutId="activeTab"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </button>
           </div>
 
           {/* Auth, Shopping Bag & Mobile Menu */}
@@ -389,6 +412,24 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               aria-label={`Navigate to ${t('nav.about')} section`}
             >
               {t('nav.about')}
+            </button>
+            
+            {/* Contact */}
+            <button
+              onClick={() => {
+                scrollToSection('contact');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                currentSection === 'contact'
+                  ? 'bg-accent text-accent-foreground'
+                  : isScrolled
+                  ? 'text-foreground hover:bg-muted'
+                  : 'text-white hover:bg-white/10'
+              }`}
+              aria-label={`Navigate to ${t('nav.contact')} section`}
+            >
+              {t('nav.contact')}
             </button>
             
             {/* Collection Items in Mobile */}
