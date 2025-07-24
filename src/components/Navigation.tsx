@@ -205,7 +205,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <nav aria-label="Collection submenu" className="flex space-x-6 p-4 animate-fade-down-forward" >
+                    <nav aria-label="Collection submenu" className="flex flex-nowrap space-x-6 p-4 animate-fade-down-forward" >
                       {collectionItems.map((item) => (
                         <button
                           key={item.id}
