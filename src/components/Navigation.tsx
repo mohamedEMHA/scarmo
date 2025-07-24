@@ -408,7 +408,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
           <>
             {/* Overlay */}
             <motion.div
-              className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              className="fixed inset-0 bg-black/50 z-50 lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -418,17 +418,26 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             {/* Mobile Menu Panel */}
             <motion.div
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-lg rounded-l-3xl z-50 lg:hidden overflow-y-auto"
+              className="fixed top-0 right-0 bottom-0 w-[80vw] bg-gray-100 shadow-lg z-50 lg:hidden flex flex-col"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 100 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
-              {/* Close Button */}
-              <div className="flex justify-end p-6">
+              {/* Header Strip */}
+              <div className="h-12 bg-gray-200 flex items-center justify-between px-6 flex-shrink-0">
+                {/* SCARMO Logo */}
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent/80 rounded-lg flex items-center justify-center">
+                    <span className="text-accent-foreground font-bold text-sm">S</span>
+                  </div>
+                  <span className="font-bold text-xl text-foreground">SCARMO</span>
+                </div>
+                
+                {/* Close Button */}
                 <button
                   onClick={closeMobileMenu}
-                  className="p-2 rounded-lg text-black hover:bg-black/10 transition-colors duration-300 focus-luxury"
+                  className="p-2 rounded-lg text-foreground hover:bg-black/10 transition-colors duration-300 focus-luxury"
                   aria-label="Close mobile menu"
                 >
                   <X className="w-6 h-6" />
@@ -436,14 +445,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               </div>
 
               {/* Menu Items */}
-              <div className="px-6 pb-6 space-y-2">
+              <div className="flex-1 overflow-y-auto px-6 py-6 space-y-2">
                 {/* Home */}
                 <button
                   onClick={() => scrollToSection('hero')}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     currentSection === 'hero'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-foreground hover:bg-black/10'
                   }`}
                   aria-label={`Navigate to ${t('nav.home')} section`}
                 >
@@ -454,7 +463,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 <div>
                   <button
                     onClick={() => setIsMobileCollectionOpen(!isMobileCollectionOpen)}
-                    className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10 flex items-center justify-between"
+                    className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-black/10 flex items-center justify-between"
                     aria-haspopup="true"
                     aria-expanded={isMobileCollectionOpen}
                   >
@@ -488,8 +497,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                             }}
                             className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                               currentSection === item.id
-                                ? 'bg-black/20 text-black'
-                                : 'text-black hover:bg-black/10'
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground hover:bg-black/10'
                             }`}
                             aria-label={`Navigate to ${item.label} section`}
                           >
@@ -506,8 +515,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   onClick={() => scrollToSection('about')}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     currentSection === 'about'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-foreground hover:bg-black/10'
                   }`}
                   aria-label={`Navigate to ${t('nav.about')} section`}
                 >
@@ -519,8 +528,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   onClick={() => scrollToSection('contact')}
                   className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
                     currentSection === 'contact'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-foreground hover:bg-black/10'
                   }`}
                   aria-label={`Navigate to ${t('nav.contact')} section`}
                 >
@@ -529,13 +538,13 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
                 {/* Auth Section */}
                 {!isAuthenticated ? (
-                  <div className="pt-4 border-t border-black/20 space-y-2">
+                  <div className="pt-4 border-t border-border space-y-2">
                     <button
                       onClick={() => {
                         setAuthModal({ isOpen: true, tab: 'login' });
                         closeMobileMenu();
                       }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-black/10"
                     >
                       {t('auth.login')}
                     </button>
@@ -544,14 +553,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                         setAuthModal({ isOpen: true, tab: 'signup' });
                         closeMobileMenu();
                       }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury bg-black/20 text-black hover:bg-black/30"
+                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
                     >
                       {t('auth.signup')}
                     </button>
                   </div>
                 ) : (
-                  <div className="pt-4 border-t border-black/20">
-                    <p className="px-4 py-2 text-sm font-medium text-black/70">
+                  <div className="pt-4 border-t border-border">
+                    <p className="px-4 py-2 text-sm font-medium text-muted-foreground">
                       Welcome, {user?.name}
                     </p>
                     <button
@@ -559,7 +568,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                         logout();
                         closeMobileMenu();
                       }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-black/10"
                     >
                       {t('auth.logout')}
                     </button>
