@@ -61,11 +61,6 @@ const Index = () => {
           <ProductGallery />
         </div>
 
-        {/* Additional product sections would be implemented here */}
-        <div id="polos" ref={polosRef} className="h-20" />
-        <div id="sweaters" ref={sweatersRef} className="h-20" />
-        <div id="shirts" ref={shirtsRef} className="h-20" />
-
         {/* About Section */}
         <div ref={aboutRef}>
           <AboutSection />
