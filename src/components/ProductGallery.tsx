@@ -144,7 +144,7 @@ const ProductGallery = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           {/* Category Pills */}
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-2 w-full">
             {categories.map((category) => (
               <button
                 key={category}
@@ -159,6 +159,7 @@ const ProductGallery = () => {
                 {category}
               </button>
             ))}
+              </div>
           </div>
          
         </motion.div>
