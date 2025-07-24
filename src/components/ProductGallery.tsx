@@ -83,6 +83,13 @@ const ProductGallery = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const categories = [t('nav.tshirts'), t('nav.sweaters'), t('nav.belts'), t('nav.neckties'), t('nav.longSleeves'), t('nav.shoes'), t('nav.backpacks'), t('nav.underwear')];
+  const sortOptions = [
+    { value: 'featured', label: 'Featured' },
+    { value: 'price-low', label: 'Price: Low to High' },
+    { value: 'price-high', label: 'Price: High to Low' },
+    { value: 'newest', label: 'Newest' },
+  ];
+  
 
   const filteredProducts = useMemo(() => {
     let filtered = [...mockProducts];
