@@ -145,6 +145,7 @@ const ProductGallery = () => {
         >
           {/* Category Pills */}
           <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
             {categories.map((category) => (
               <button
                 key={category}
@@ -159,6 +160,7 @@ const ProductGallery = () => {
                 {category}
               </button>
             ))}
+              </div>
           </div>
          
         </motion.div>
