@@ -135,9 +135,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
             <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent/80 rounded-lg flex items-center justify-center">
               <span className="text-accent-foreground font-bold text-sm">S</span>
             </div>
-            <span className={`font-bold text-xl lg:text-2xl transition-colors duration-300 ${
-              isScrolled ? 'text-foreground' : 'text-white'
-            }`}>
+            <span className="font-serif text-2xl italic tracking-wide text-gray-900 hover:text-yellow-600 transition-colors duration-200">
               SCARMO
             </span>
           </motion.div>
@@ -199,13 +197,13 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-4 mt-2 bg-white border border-border rounded-lg shadow-luxury overflow-hidden z-50"
+                    className="absolute top-full left-0 right-0 mt-2 bg-white border border-border rounded-lg shadow-luxury overflow-visible z-50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <nav aria-label="Collection submenu" className="flex justify-center flex-nowrap space-x-4 py-1 px-4" >
+                    <nav aria-label="Collection submenu" className="mx-auto ml-8 flex justify-center flex-nowrap space-x-6 py-1 px-4" >
                       {collectionItems.map((item) => (
                         <button
                           key={item.id}
