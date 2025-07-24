@@ -199,7 +199,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-1/2 mt-2 w-auto bg-background border-border rounded-lg shadow-luxury overflow-hidden z-50 transform -translate-x-1/2"
+                    className="absolute top-full left-0 right-0 mt-2 bg-background border-border rounded-lg shadow-luxury overflow-visible z-50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
