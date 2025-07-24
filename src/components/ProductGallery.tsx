@@ -117,7 +117,7 @@ const ProductGallery = () => {
   }, [selectedCategory, sortBy, priceRange]);
 
   return (
-    <section className="py-16 lg:py-24 bg-background">
+    <section className="py-16 lg:py-12 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <motion.div
