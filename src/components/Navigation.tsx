@@ -217,7 +217,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                             }
                             setIsCollectionOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-muted ${
+                          className={`inline-block text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-yellow-500 hover:text-white ${
                             currentSection === item.id
                               ? 'bg-accent text-accent-foreground'
                               : 'text-foreground'
