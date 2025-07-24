@@ -117,7 +117,7 @@ const ProductGallery = () => {
   }, [selectedCategory, sortBy, priceRange]);
 
   return (
-    <section className="pt-16 lg:pt-24 pb-2 lg:pb-4 bg-background">
+    <section className="pt-16 lg:pt-24 pb-8 lg:pb-12 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <motion.div
