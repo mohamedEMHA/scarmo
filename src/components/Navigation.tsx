@@ -135,7 +135,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
             <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent/80 rounded-lg flex items-center justify-center">
               <span className="text-accent-foreground font-bold text-sm">S</span>
             </div>
-            <span className="font-serif text-2xl italic tracking-wide text-white-900 hover:text-yellow-600 transition-colors duration-200">
+            <span className="font-serif text-2xl italic tracking-wide text-white hover:text-yellow-600 transition-colors duration-200">
               SCARMO
             </span>
           </motion.div>
