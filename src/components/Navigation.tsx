@@ -199,13 +199,13 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-0 mt-2 bg-background border-border rounded-lg shadow-luxury overflow-hidden z-50 w-auto max-w-lg"
+                    className="absolute top-full left-0 mt-2 w-auto bg-background border-border rounded-lg shadow-luxury overflow-hidden z-50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <nav aria-label="Collection submenu" className="flex flex-nowrap space-x-6 p-4 relative" >
+                    <nav aria-label="Collection submenu" className="flex flex-nowrap space-x-6 py-2 px-4" >
                       {collectionItems.map((item) => (
                         <button
                           key={item.id}
