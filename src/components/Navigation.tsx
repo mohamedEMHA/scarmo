@@ -199,7 +199,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full inset-x-0 mt-2 bg-background border border-border rounded-lg shadow-luxury overflow-hidden z-50"
+                    className="absolute top-full left-0 mt-2 w-auto bg-background border-border rounded-lg shadow-luxury overflow-hidden z-50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -217,7 +217,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                             }
                             setIsCollectionOpen(false);
                           }}
-                          className={`inline-block text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-yellow-500 hover:text-white ${
+                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-muted ${
                             currentSection === item.id
                               ? 'bg-accent text-accent-foreground'
                               : 'text-foreground'
