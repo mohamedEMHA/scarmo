@@ -205,7 +205,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <nav aria-label="Collection submenu" className="flex flex-nowrap space-x-6 p-4" >
+                    <nav aria-label="Collection submenu" className="flex flex-nowrap space-x-6 p-4 relative" >
                       {collectionItems.map((item) => (
                         <button
                           key={item.id}
@@ -217,7 +217,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                             }
                             setIsCollectionOpen(false);
                           }}
-                          className={`inline-block text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-yellow-500 hover:text-white ${
+                          className={`w-full text-left px-4 py-3 transition-colors duration-200 focus-luxury hover:bg-muted ${
                             currentSection === item.id
                               ? 'bg-accent text-accent-foreground'
                               : 'text-foreground'
