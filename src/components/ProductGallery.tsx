@@ -83,13 +83,6 @@ const ProductGallery = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const categories = [t('nav.tshirts'), t('nav.sweaters'), t('nav.belts'), t('nav.neckties'), t('nav.longSleeves'), t('nav.shoes'), t('nav.backpacks'), t('nav.underwear')];
-  const sortOptions = [
-    { value: 'featured', label: 'Featured' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'newest', label: 'Newest' },
-  ];
-  
 
   const filteredProducts = useMemo(() => {
     let filtered = [...mockProducts];
@@ -167,31 +160,7 @@ const ProductGallery = () => {
               </button>
             ))}
           </div>
-
-          {/* Sort & Filter Controls */}
-          <div className="flex items-center gap-4">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 border border-border rounded-lg bg-background text-foreground focus-luxury"
-              aria-label="Sort products"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-lg bg-background text-foreground hover:bg-muted transition-colors duration-300 focus-luxury"
-              aria-label="Toggle filters"
-            >
-              <Filter className="w-4 h-4" />
-              Filters
-            </button>
-          </div>
+         
         </motion.div>
 
         {/* Mobile Filters Panel */}
