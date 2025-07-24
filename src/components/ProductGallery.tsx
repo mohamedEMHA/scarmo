@@ -159,7 +159,6 @@ const ProductGallery = () => {
                 {category}
               </button>
             ))}
-              </div>
           </div>
          
         </motion.div>
