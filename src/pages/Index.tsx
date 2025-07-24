@@ -8,8 +8,6 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
 import CartDrawer from '@/components/CartDrawer';
-import { CartProvider } from '@/contexts/CartContext';
-import { AuthProvider } from '@/contexts/AuthContext';
 import { isRTL, getCurrentLanguage, setDocumentLanguage } from '@/lib/i18n';
 
 const Index = () => {
@@ -49,9 +47,7 @@ const Index = () => {
   }, [heroInView, tshirtsInView, polosInView, sweatersInView, shirtsInView, aboutInView, contactInView]);
 
   return (
-    <AuthProvider>
-      <CartProvider>
-        <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
         {/* Navigation */}
         <Navigation currentSection={currentSection} />
 
@@ -88,9 +84,7 @@ const Index = () => {
 
         {/* Cart Drawer */}
         <CartDrawer />
-      </div>
-      </CartProvider>
-    </AuthProvider>
+    </div>
   );
 };
 
