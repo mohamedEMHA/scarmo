@@ -132,9 +132,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="w-8 h-8 bg-gradient-to-r from-accent to-accent/80 rounded-lg flex items-center justify-center">
-              <span className="text-accent-foreground font-bold text-sm">S</span>
-            </div>
             <span className={`font-serif text-2xl italic lg:text-2xl transition-colors duration-300 ${
               isScrolled ? 'text-foreground' : 'text-white'
             }`}>
