@@ -1,3 +1,34 @@
+center-long-sleeves
+import { motion } from 'framer-motion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Navigation from '@/components/Navigation';
+import ChatWidget from '@/components/ChatWidget';
+
+const faqItems = [
+  {
+    question: 'What materials are your clothes made from?',
+    answer: 'Our clothes are made from high-quality, sustainable materials, including organic cotton, linen, and recycled fabrics. We believe in creating fashion that is both stylish and environmentally conscious.',
+  },
+  {
+    question: 'How do I care for my garments?',
+    answer: 'To ensure the longevity of your clothes, we recommend washing them in cold water and hanging them to dry. For specific care instructions, please refer to the label on each garment.',
+  },
+  {
+    question: 'What is your return policy?',
+    answer: 'We accept returns within 30 days of purchase. The item must be in its original condition with tags attached. Please visit our returns page for more information.',
+  },
+  {
+    question: 'How do I track my order?',
+    answer: 'Once your order has shipped, you will receive an email with a tracking number. You can use this number to track your order on our website.',
+  },
+  {
+    question: 'Do you ship internationally?',
+    answer: 'Yes, we ship to most countries. Shipping costs and delivery times vary depending on the destination. Please check our shipping page for more details.',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer: 'We accept all major credit cards, PayPal, and Apple Pay.',
+=======
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, HelpCircle } from 'lucide-react';
@@ -54,10 +85,41 @@ const faqData = [
     question: 'What payment methods do you accept?',
     answer:
       'We accept all major credit cards, as well as PayPal, Apple Pay, and Google Pay.',
+main
   },
 ];
 
 const FAQ = () => {
+ center-long-sleeves
+  return (
+    <div className="bg-background text-foreground">
+      <Navigation currentSection="" />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 lg:px-8 py-24 lg:py-32"
+      >
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl lg:text-5xl font-bold text-center mb-12">
+            Frequently Asked Questions
+          </h1>
+          <Accordion type="single" collapsible className="w-full">
+            {faqItems.map((item, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger className="text-lg font-medium">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-base text-muted-foreground">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </motion.div>
+      <ChatWidget />
+
   const [openIndices, setOpenIndices] = useState<number[]>([]);
 
   const toggleFAQ = (index: number) => {
@@ -120,6 +182,7 @@ const FAQ = () => {
         </div>
       </motion.div>
       <Footer />
+    main
     </div>
   );
 };

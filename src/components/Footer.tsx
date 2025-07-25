@@ -61,7 +61,7 @@ const Footer = () => {
       { name: 'Size Guide', href: '#size-guide' },
       { name: 'Shipping Info', href: '#shipping' },
       { name: 'Returns', href: '#returns' },
-      { name: 'FAQ', href: '#faq' },
+      { name: 'FAQ', href: '/faq' },
       { name: 'Contact Us', href: '#contact' },
       { name: 'Track Order', href: '#track' },
     ],
