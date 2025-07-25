@@ -373,7 +373,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden p-2 rounded-lg transition-colors duration-100 focus-luxury ${
+              className={`lg:hidden p-2 rounded-lg transition-colors duration-300 focus-luxury ${
                 isScrolled
                   ? 'text-foreground hover:bg-muted'
                   : 'text-white hover:bg-white/10'
@@ -442,7 +442,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y-2 overflow-y-auto">
+                <div className="p-4 space-y overflow-y-auto">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
