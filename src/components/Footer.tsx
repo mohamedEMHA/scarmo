@@ -67,8 +67,8 @@ const Footer = () => {
     ],
     'Company': [
       { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press', href: '#' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'Press', href: '/press' },
       { name: 'Sustainability', href: '#' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms-of-service' },
