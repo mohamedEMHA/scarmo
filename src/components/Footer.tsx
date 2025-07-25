@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Instagram, Facebook, Linkedin, MapPin, Phone, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -183,12 +184,21 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
-                    >
-                      {link.name}
-                    </a>
+                    {link.name === 'FAQ' ? (
+                      <Link
+                        to="/faq"
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
