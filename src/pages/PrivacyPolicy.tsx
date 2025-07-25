@@ -1,3 +1,11 @@
+
+import React from 'react';
+
+const PrivacyPolicy = () => {
+  return (
+    <div>
+      <h1>Privacy Policy</h1>
+
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -57,6 +65,7 @@ const PrivacyPolicy = () => {
       </main>
       <Footer />
       <ChatWidget />
+
     </div>
   );
 };
