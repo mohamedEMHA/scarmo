@@ -35,6 +35,26 @@ const faqData = [
     answer:
       'Currently, we are an online-only brand, which allows us to offer premium quality at a more accessible price point. We host pop-up shops occasionally, so subscribe to our newsletter for updates!',
   },
+  {
+    question: 'Is your packaging eco-friendly?',
+    answer:
+      'Yes, we are committed to sustainability. All of our packaging is made from recycled materials and is 100% recyclable. We are always looking for ways to reduce our environmental impact.',
+  },
+  {
+    question: 'How can I track my order?',
+    answer:
+      'Once your order has shipped, you will receive an email with a tracking number. You can use this number to track your order on the carrier\'s website.',
+  },
+  {
+    question: 'Do you offer gift cards?',
+    answer:
+      'Yes, we offer digital gift cards in various denominations. They are delivered by email and contain instructions to redeem them at checkout.',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer:
+      'We accept all major credit cards, as well as PayPal, Apple Pay, and Google Pay.',
+  },
 ];
 
 const FAQ = () => {
@@ -46,7 +66,7 @@ const FAQ = () => {
 
   return (
     <div className="bg-[#F3F4F6] min-h-screen">
-      <Navigation currentSection="faq" />
+      <Navigation currentSection="faq" solidBackground={true} />
       <motion.div
         className="container mx-auto px-4 lg:px-8 py-16 lg:py-24"
         initial={{ opacity: 0, y: 20 }}

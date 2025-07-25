@@ -12,9 +12,10 @@ import AuthModal from './AuthModal';
 
 interface NavigationProps {
   currentSection: string;
+  solidBackground?: boolean;
 }
 
-const Navigation = ({ currentSection }: NavigationProps) => {
+const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -120,7 +121,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   return (
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        isScrolled || solidBackground
           ? 'bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg'
           : 'bg-transparent'
       } ${isRtl ? 'rtl' : 'ltr'}`}
