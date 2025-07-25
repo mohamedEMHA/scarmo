@@ -61,7 +61,7 @@ const Footer = () => {
       { name: 'Size Guide', href: '#size-guide' },
       { name: 'Shipping Info', href: '#shipping' },
       { name: 'Returns', href: '#returns' },
-      { name: 'FAQ', href: '#faq' },
+      { name: 'FAQ', href: '/faq' },
       { name: 'Contact Us', href: '#contact' },
       { name: 'Track Order', href: '#track' },
     ],
@@ -184,9 +184,14 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
+
                     {link.href.startsWith('/') ? (
                       <Link
                         to={link.href}
+                    {link.href === '#faq' ? (
+                      <Link
+                        to="/faq"
+
                         className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
                       >
                         {link.name}
@@ -199,6 +204,13 @@ const Footer = () => {
                         {link.name}
                       </a>
                     )}
+
+                    <a
+                      href={link.href}
+                      className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                    >
+                      {link.name}
+                    </a>
                   </li>
                 ))}
               </ul>
