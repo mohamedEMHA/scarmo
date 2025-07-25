@@ -4,7 +4,6 @@ const helmet = require('helmet');
 const axios = require('axios');
 const stripe = require('stripe');
 require('dotenv').config();
-console.log('Printful API Token:', process.env.PRINTFUL_API_TOKEN);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
