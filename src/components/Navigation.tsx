@@ -429,7 +429,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 aria-label="Main menu"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between h-16 px-6 bg-transparent flex-shrink-0">
+                <div className="flex items-center justify-between h-16 px-2 bg-transparent flex-shrink-0">
                   <span className="font-semibold text-lg">MENU</span>
                   <button
                     onClick={closeMobileMenu}
@@ -446,7 +446,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
-                    className={`w-full text-left px-6 py-1 text-lg font-medium transition-colors duration-300 focus-luxury ${
+                    className={`w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury ${
                       currentSection === 'hero'
                         ? 'bg-accent text-accent-foreground'
                         : 'text-foreground hover:bg-muted/50'
