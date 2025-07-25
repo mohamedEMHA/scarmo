@@ -184,7 +184,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
-                    {link.name === 'FAQ' ? (
+                    {link.href === '#faq' ? (
                       <Link
                         to="/faq"
                         className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
