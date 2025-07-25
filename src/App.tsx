@@ -16,6 +16,7 @@ import FAQ from "./pages/FAQ";
 import About from "./pages/About";
 import TermsOfService from "./pages/TermsOfService";
 import ViewAll from "./pages/ViewAll";
+import Careers from "./pages/Careers";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
                   <Route path="/about" element={<About />} />
                   <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/collection/view-all" element={<ViewAll />} />
+                <Route path="/careers" element={<Careers />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
