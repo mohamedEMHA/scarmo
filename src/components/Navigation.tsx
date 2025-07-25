@@ -230,39 +230,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                     transition={{ duration: 0.2 }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
-                      {collectionItems.filter(item => ['tshirts', 'sweaters', 'belts', 'neckties'].includes(item.id)).map((item) => (
-                        <li key={item.id} className="flex-shrink-0">
-                          <button
-                            onClick={() => {
-                              scrollToSection(item.id);
-                              setIsCollectionOpen(false);
-                            }}
-                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                              currentSection === item.id
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-foreground'
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        </li>
-                      ))}
-                      <li key="longSleeves" className="flex-shrink-0 font-bold">
-                        <button
-                          onClick={() => {
-                            scrollToSection('longSleeves');
-                            setIsCollectionOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                            currentSection === 'longSleeves'
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-foreground'
-                          }`}
-                        >
-                          {t('nav.longSleeves')}
-                        </button>
-                      </li>
-                      {collectionItems.filter(item => ['shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
+                      {collectionItems.filter(item => ['tshirts', 'sweaters', 'belts', 'neckties', 'longSleeves', 'shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
                             onClick={() => {
