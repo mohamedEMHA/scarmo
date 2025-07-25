@@ -15,6 +15,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FAQ from "./pages/FAQ";
 import About from "./pages/About";
 import TermsOfService from "./pages/TermsOfService";
+import ViewAll from "./pages/ViewAll";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/collection/view-all" element={<ViewAll />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
