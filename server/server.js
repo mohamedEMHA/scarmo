@@ -14,7 +14,7 @@ const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 
@@ -313,4 +313,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Scarmo server running on port ${PORT}`);
   console.log(`📦 Ιntegration: ${process.env.PRINTFUL_API_TOKEN ? 'Connected' : 'Not configured'}`);
   console.log(`💳 Stripe integration: ${process.env.STRIPE_SECRET_KEY ? 'Connected' : 'Not configured'}`);
+  console.log('Server started successfully!');
 });
