@@ -47,7 +47,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   // All hooks must be called before any conditional returns
@@ -217,8 +216,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 {isCollectionOpen && (
                   <motion.div
                     ref={dropdownRef}
-                    className="absolute top-full left-0"
-                    style={{ marginLeft: `${logoWidth + 32}px` }}
+                    className="absolute top-full left-1/2 transform -translate-x-1/2"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -257,15 +255,11 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                           {t('nav.longSleeves')}
                         </button>
                       </li>
-                      {collectionItems.filter(item => ['shoes', 'backpacks', 'underwear', 'viewAll'].includes(item.id)).map((item) => (
+                      {collectionItems.filter(item => ['shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
                             onClick={() => {
-                              if (item.id === 'viewAll') {
-                                handleViewAllProducts();
-                              } else {
-                                scrollToSection(item.id);
-                              }
+                              scrollToSection(item.id);
                               setIsCollectionOpen(false);
                             }}
                             className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
