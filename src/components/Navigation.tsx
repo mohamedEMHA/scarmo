@@ -95,7 +95,20 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
     { id: 'viewAll', label: t('nav.viewAll') },
-  ];
+  ].sort((a, b) => {
+    const order = [
+      'tshirts',
+      'sweaters',
+      'belts',
+      'neckties',
+      'longSleeves',
+      'shoes',
+      'backpacks',
+      'underwear',
+      'viewAll',
+    ];
+    return order.indexOf(a.id) - order.indexOf(b.id);
+  });
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
@@ -212,12 +225,19 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full"
+                    className="absolute top-full left-1/2"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{ left: `${logoWidth}px` }}
+                    style={{
+                      transform: 'translateX(-50%)',
+                      marginLeft: `-${
+                        collectionItems.findIndex(
+                          (i) => i.id === 'longSleeves'
+                        ) * 100
+                      }px`,
+                    }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
                       {collectionItems.map((item) => (
