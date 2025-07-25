@@ -200,34 +200,37 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-0 right-0 mt-2 bg-white border border-border rounded-lg shadow-luxury overflow-visible z-50"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <nav aria-label="Collection submenu" className="mx-auto ml-8 flex justify-center flex-nowrap space-x-6 py-1 px-4" >
-                      {collectionItems.map((item) => (
-                        <button
-                          key={item.id}
-                          onClick={() => {
-                            if (item.id === 'viewAll') {
-                              handleViewAllProducts();
-                            } else {
-                              scrollToSection(item.id);
-                            }
-                            setIsCollectionOpen(false);
-                          }}
-                          className={`inline-flex items-center justify-center text-center px-3 py-1 transition-colors duration-200 focus-luxury hover:bg-muted ${
-                            currentSection === item.id
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-foreground'
-                          }`}
-                        >
-                          {item.label}
-                        </button>
-                      ))}
-                    </nav>
+                    <div className="bg-white rounded-lg shadow-lg p-2 z-50">
+                      <ul className="flex flex-col space-y-1">
+                        {collectionItems.map((item) => (
+                          <li key={item.id}>
+                            <button
+                              onClick={() => {
+                                if (item.id === 'viewAll') {
+                                  handleViewAllProducts();
+                                } else {
+                                  scrollToSection(item.id);
+                                }
+                                setIsCollectionOpen(false);
+                              }}
+                              className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                                currentSection === item.id
+                                  ? 'bg-accent text-accent-foreground'
+                                  : 'text-foreground'
+                              }`}
+                            >
+                              {item.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
