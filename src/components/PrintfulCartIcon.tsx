@@ -8,7 +8,7 @@ const PrintfulCartIcon: React.FC = () => {
 
   return (
     <motion.button
-      className="relative p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent bg-black border border-white text-white hover:bg-white hover:text-black hover:border-black"
+      className="relative p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent text-black bg-transparent hover:bg-white hover:border-black border border-transparent"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => dispatch({ type: 'TOGGLE_CART' })}
@@ -17,7 +17,7 @@ const PrintfulCartIcon: React.FC = () => {
       <ShoppingBag className="w-5 h-5" />
       {state.itemCount > 0 && (
         <motion.span
-          className="absolute -top-1 -right-1 bg-white text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+          className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 500, damping: 25 }}
