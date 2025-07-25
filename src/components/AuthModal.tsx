@@ -285,104 +285,108 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="space-y-2">
-                  <Label htmlFor="signup-name" className="text-sm font-medium">
-                    {t('auth.name')}
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="signup-name"
-                      type="text"
-                      value={signupForm.name}
-                      onChange={(e) => setSignupForm(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="Enter your full name"
-                      className="pl-10 focus-luxury"
-                      aria-invalid={!!errors.name}
-                      aria-describedby={errors.name ? "signup-name-error" : undefined}
-                      required
-                    />
+                <div className="flex space-x-4">
+                  <div className="space-y-2 w-1/2">
+                    <Label htmlFor="signup-name" className="text-sm font-medium">
+                      {t('auth.name')}
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="signup-name"
+                        type="text"
+                        value={signupForm.name}
+                        onChange={(e) => setSignupForm(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="Enter your full name"
+                        className="pl-10 focus-luxury"
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? "signup-name-error" : undefined}
+                        required
+                      />
+                    </div>
+                    {errors.name && (
+                      <span id="signup-name-error" className="text-sm text-destructive">
+                        {errors.name}
+                      </span>
+                    )}
                   </div>
-                  {errors.name && (
-                    <span id="signup-name-error" className="text-sm text-destructive">
-                      {errors.name}
-                    </span>
-                  )}
+
+                  <div className="space-y-2 w-1/2">
+                    <Label htmlFor="signup-email" className="text-sm font-medium">
+                      {t('auth.email')}
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="signup-email"
+                        type="email"
+                        value={signupForm.email}
+                        onChange={(e) => setSignupForm(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="Enter your email"
+                        className="pl-10 focus-luxury"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "signup-email-error" : undefined}
+                        required
+                      />
+                    </div>
+                    {errors.email && (
+                      <span id="signup-email-error" className="text-sm text-destructive">
+                        {errors.email}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email" className="text-sm font-medium">
-                    {t('auth.email')}
-                  </Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="signup-email"
-                      type="email"
-                      value={signupForm.email}
-                      onChange={(e) => setSignupForm(prev => ({ ...prev, email: e.target.value }))}
-                      placeholder="Enter your email"
-                      className="pl-10 focus-luxury"
-                      aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? "signup-email-error" : undefined}
-                      required
-                    />
+                <div className="flex space-x-4">
+                  <div className="space-y-2 w-1/2">
+                    <Label htmlFor="signup-password" className="text-sm font-medium">
+                      {t('auth.password')}
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="signup-password"
+                        type="password"
+                        value={signupForm.password}
+                        onChange={(e) => setSignupForm(prev => ({ ...prev, password: e.target.value }))}
+                        placeholder="Create a password"
+                        className="pl-10 focus-luxury"
+                        aria-invalid={!!errors.password}
+                        aria-describedby={errors.password ? "signup-password-error" : undefined}
+                        required
+                      />
+                    </div>
+                    {errors.password && (
+                      <span id="signup-password-error" className="text-sm text-destructive">
+                        {errors.password}
+                      </span>
+                    )}
                   </div>
-                  {errors.email && (
-                    <span id="signup-email-error" className="text-sm text-destructive">
-                      {errors.email}
-                    </span>
-                  )}
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-sm font-medium">
-                    {t('auth.password')}
-                  </Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="signup-password"
-                      type="password"
-                      value={signupForm.password}
-                      onChange={(e) => setSignupForm(prev => ({ ...prev, password: e.target.value }))}
-                      placeholder="Create a password"
-                      className="pl-10 focus-luxury"
-                      aria-invalid={!!errors.password}
-                      aria-describedby={errors.password ? "signup-password-error" : undefined}
-                      required
-                    />
+                  <div className="space-y-2 w-1/2">
+                    <Label htmlFor="signup-confirm-password" className="text-sm font-medium">
+                      {t('auth.confirmPassword')}
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="signup-confirm-password"
+                        type="password"
+                        value={signupForm.confirmPassword}
+                        onChange={(e) => setSignupForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        placeholder="Confirm your password"
+                        className="pl-10 focus-luxury"
+                        aria-invalid={!!errors.confirmPassword}
+                        aria-describedby={errors.confirmPassword ? "signup-confirm-password-error" : undefined}
+                        required
+                      />
+                    </div>
+                    {errors.confirmPassword && (
+                      <span id="signup-confirm-password-error" className="text-sm text-destructive">
+                        {errors.confirmPassword}
+                      </span>
+                    )}
                   </div>
-                  {errors.password && (
-                    <span id="signup-password-error" className="text-sm text-destructive">
-                      {errors.password}
-                    </span>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="signup-confirm-password" className="text-sm font-medium">
-                    {t('auth.confirmPassword')}
-                  </Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="signup-confirm-password"
-                      type="password"
-                      value={signupForm.confirmPassword}
-                      onChange={(e) => setSignupForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                      placeholder="Confirm your password"
-                      className="pl-10 focus-luxury"
-                      aria-invalid={!!errors.confirmPassword}
-                      aria-describedby={errors.confirmPassword ? "signup-confirm-password-error" : undefined}
-                      required
-                    />
-                  </div>
-                  {errors.confirmPassword && (
-                    <span id="signup-confirm-password-error" className="text-sm text-destructive">
-                      {errors.confirmPassword}
-                    </span>
-                  )}
                 </div>
 
                 <div className="space-y-2">
