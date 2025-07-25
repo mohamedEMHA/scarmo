@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
+import FocusTrap from 'focus-trap-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePrintfulCart } from '@/contexts/PrintfulCartContext';
@@ -398,157 +399,164 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               onClick={closeMobileMenu}
             />
 
-            {/* Mobile Menu Panel */}
-            <motion.div
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-lg rounded-l-3xl z-50 lg:hidden overflow-y-auto"
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-            >
-              {/* Close Button */}
-              <div className="flex justify-end p-6">
-                <button
-                  onClick={closeMobileMenu}
-                  className="p-2 rounded-lg text-black hover:bg-black/10 transition-colors duration-300 focus-luxury"
-                  aria-label="Close mobile menu"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Menu Items */}
-              <div className="px-6 pb-6 space-y-2">
-                {/* Home */}
-                <button
-                  onClick={() => scrollToSection('hero')}
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
-                    currentSection === 'hero'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
-                  }`}
-                  aria-label={`Navigate to ${t('nav.home')} section`}
-                >
-                  {t('nav.home')}
-                </button>
-
-                {/* Collection */}
-                <div>
+            <FocusTrap active={isMobileMenuOpen}>
+              <motion.div
+                className="fixed top-0 right-0 bottom-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col"
+                initial={{ opacity: 0, x: '100%' }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: '100%' }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                style={{ zIndex: 50 }}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Main menu"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between h-12 px-4 bg-[#E5E7EB] flex-shrink-0">
+                  <span className="font-semibold text-sm">MENU</span>
                   <button
-                    onClick={() => setIsMobileCollectionOpen(!isMobileCollectionOpen)}
-                    className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10 flex items-center justify-between"
-                    aria-haspopup="true"
-                    aria-expanded={isMobileCollectionOpen}
+                    onClick={closeMobileMenu}
+                    className="p-2 rounded-md hover:bg-black/10 transition-colors"
+                    aria-label="Close mobile menu"
+                    tabIndex={0}
                   >
-                    <span>{t('nav.collection')}</span>
-                    <motion.div
-                      animate={{ rotate: isMobileCollectionOpen ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-4 h-4" />
-                    </motion.div>
+                    <X className="w-5 h-5" />
                   </button>
-
-                  <AnimatePresence>
-                    {isMobileCollectionOpen && (
-                      <motion.div
-                        className="ml-4 mt-2 space-y-1"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {collectionItems.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              if (item.id === 'viewAll') {
-                                handleViewAllProducts();
-                              } else {
-                                scrollToSection(item.id);
-                              }
-                            }}
-                            className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
-                              currentSection === item.id
-                                ? 'bg-black/20 text-black'
-                                : 'text-black hover:bg-black/10'
-                            }`}
-                            aria-label={`Navigate to ${item.label} section`}
-                          >
-                            {item.label}
-                          </button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
 
-                {/* About */}
-                <button
-                  onClick={() => scrollToSection('about')}
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
-                    currentSection === 'about'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
-                  }`}
-                  aria-label={`Navigate to ${t('nav.about')} section`}
-                >
-                  {t('nav.about')}
-                </button>
+                {/* Menu Items */}
+                <div className="p-4 space-y-2 overflow-y-auto">
+                  {/* Home */}
+                  <button
+                    onClick={() => scrollToSection('hero')}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                      currentSection === 'hero'
+                        ? 'bg-black/20 text-black'
+                        : 'text-black hover:bg-black/10'
+                    }`}
+                    aria-label={`Navigate to ${t('nav.home')} section`}
+                  >
+                    {t('nav.home')}
+                  </button>
 
-                {/* Contact */}
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
-                    currentSection === 'contact'
-                      ? 'bg-black/20 text-black'
-                      : 'text-black hover:bg-black/10'
-                  }`}
-                  aria-label={`Navigate to ${t('nav.contact')} section`}
-                >
-                  {t('nav.contact')}
-                </button>
+                  {/* Collection */}
+                  <div>
+                    <button
+                      onClick={() => setIsMobileCollectionOpen(!isMobileCollectionOpen)}
+                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10 flex items-center justify-between"
+                      aria-haspopup="true"
+                      aria-expanded={isMobileCollectionOpen}
+                    >
+                      <span>{t('nav.collection')}</span>
+                      <motion.div
+                        animate={{ rotate: isMobileCollectionOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.div>
+                    </button>
 
-                {/* Auth Section */}
-                {!isAuthenticated ? (
-                  <div className="pt-4 border-t border-black/20 space-y-2">
-                    <button
-                      onClick={() => {
-                        setAuthModal({ isOpen: true, tab: 'login' });
-                        closeMobileMenu();
-                      }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
-                    >
-                      {t('auth.login')}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setAuthModal({ isOpen: true, tab: 'signup' });
-                        closeMobileMenu();
-                      }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury bg-black/20 text-black hover:bg-black/30"
-                    >
-                      {t('auth.signup')}
-                    </button>
+                    <AnimatePresence>
+                      {isMobileCollectionOpen && (
+                        <motion.div
+                          className="ml-4 mt-2 space-y-1"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          {collectionItems.map((item) => (
+                            <button
+                              key={item.id}
+                              onClick={() => {
+                                if (item.id === 'viewAll') {
+                                  handleViewAllProducts();
+                                } else {
+                                  scrollToSection(item.id);
+                                }
+                              }}
+                              className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                                currentSection === item.id
+                                  ? 'bg-black/20 text-black'
+                                  : 'text-black hover:bg-black/10'
+                              }`}
+                              aria-label={`Navigate to ${item.label} section`}
+                            >
+                              {item.label}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
-                ) : (
-                  <div className="pt-4 border-t border-black/20">
-                    <p className="px-4 py-2 text-sm font-medium text-black/70">
-                      Welcome, {user?.name}
-                    </p>
-                    <button
-                      onClick={() => {
-                        logout();
-                        closeMobileMenu();
-                      }}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
-                    >
-                      {t('auth.logout')}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </motion.div>
+
+                  {/* About */}
+                  <button
+                    onClick={() => scrollToSection('about')}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                      currentSection === 'about'
+                        ? 'bg-black/20 text-black'
+                        : 'text-black hover:bg-black/10'
+                    }`}
+                    aria-label={`Navigate to ${t('nav.about')} section`}
+                  >
+                    {t('nav.about')}
+                  </button>
+
+                  {/* Contact */}
+                  <button
+                    onClick={() => scrollToSection('contact')}
+                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                      currentSection === 'contact'
+                        ? 'bg-black/20 text-black'
+                        : 'text-black hover:bg-black/10'
+                    }`}
+                    aria-label={`Navigate to ${t('nav.contact')} section`}
+                  >
+                    {t('nav.contact')}
+                  </button>
+
+                  {/* Auth Section */}
+                  {!isAuthenticated ? (
+                    <div className="pt-4 border-t border-black/20 space-y-2">
+                      <button
+                        onClick={() => {
+                          setAuthModal({ isOpen: true, tab: 'login' });
+                          closeMobileMenu();
+                        }}
+                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                      >
+                        {t('auth.login')}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAuthModal({ isOpen: true, tab: 'signup' });
+                          closeMobileMenu();
+                        }}
+                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury bg-black/20 text-black hover:bg-black/30"
+                      >
+                        {t('auth.signup')}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="pt-4 border-t border-black/20">
+                      <p className="px-4 py-2 text-sm font-medium text-black/70">
+                        Welcome, {user?.name}
+                      </p>
+                      <button
+                        onClick={() => {
+                          logout();
+                          closeMobileMenu();
+                        }}
+                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                      >
+                        {t('auth.logout')}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </FocusTrap>
           </>
         )}
       </AnimatePresence>
