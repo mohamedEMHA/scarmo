@@ -29,6 +29,8 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
   });
   const logoRef = useRef<HTMLDivElement>(null);
   const [logoWidth, setLogoWidth] = useState(0);
+  const collectionLinkRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
@@ -73,6 +75,14 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
       setLogoWidth(logoRef.current.offsetWidth);
     }
   }, [logoRef]);
+
+  useEffect(() => {
+    if (isCollectionOpen && collectionLinkRef.current && dropdownRef.current) {
+      const { left, width } = collectionLinkRef.current.getBoundingClientRect();
+      dropdownRef.current.style.left = `${left + width / 2}px`;
+      dropdownRef.current.style.transform = 'translateX(-50%)';
+    }
+  }, [isCollectionOpen]);
 
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
@@ -201,6 +211,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               onMouseLeave={() => setIsCollectionOpen(false)}
             >
               <button
+                ref={(el) => (collectionLinkRef.current = el)}
                 className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury flex items-center space-x-1 ${
                   collectionItems.some(item => currentSection === item.id)
                     ? isScrolled
@@ -225,8 +236,8 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
+                    ref={dropdownRef}
                     className="absolute top-full"
-                    style={{ left: '50%', transform: 'translateX(-50%)' }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
