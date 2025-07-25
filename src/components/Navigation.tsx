@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
@@ -12,9 +12,10 @@ import AuthModal from './AuthModal';
 
 interface NavigationProps {
   currentSection: string;
+  solidBackground?: boolean;
 }
 
-const Navigation = ({ currentSection }: NavigationProps) => {
+const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,17 +27,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
     isOpen: false,
     tab: 'login'
   });
-  const logoRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [dropdownLeft, setDropdownLeft] = useState(0);
-
-  useEffect(() => {
-    if (logoRef.current && dropdownRef.current) {
-      const logoRect = logoRef.current.getBoundingClientRect();
-      const dropdownRect = dropdownRef.current.getBoundingClientRect();
-      setDropdownLeft(logoRect.right - dropdownRect.left);
-    }
-  }, [isCollectionOpen]);
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
@@ -130,7 +120,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   return (
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        isScrolled || solidBackground
           ? 'bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg'
           : 'bg-transparent'
       } ${isRtl ? 'rtl' : 'ltr'}`}
@@ -143,7 +133,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <motion.div
-            ref={logoRef}
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
@@ -162,10 +151,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               onClick={() => scrollToSection('hero')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'hero'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}
@@ -183,7 +170,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             {/* Collection Dropdown */}
             <div 
-              ref={dropdownRef}
               className="relative group"
               onMouseEnter={() => setIsCollectionOpen(true)}
               onMouseLeave={() => setIsCollectionOpen(false)}
@@ -191,10 +177,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <button
                 className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury flex items-center space-x-1 ${
                   collectionItems.some(item => currentSection === item.id)
-                    ? isScrolled
-                      ? 'text-accent'
-                      : 'text-accent'
-                    : isScrolled
+                    ? 'text-accent'
+                    : isScrolled || solidBackground
                     ? 'text-foreground hover:text-accent'
                     : 'text-white/90 hover:text-white'
                 }`}
@@ -213,12 +197,12 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full mt-2 w-max"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{ left: dropdownLeft }}
+                    style={{ top: '100%', left: '50%', transform: 'translateX(-50%)' }}
                   >
                     <div className="bg-white rounded-lg shadow-lg p-2 z-50">
                       <ul className="flex justify-center space-x-4">
@@ -255,10 +239,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               onClick={() => scrollToSection('about')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'about'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}
@@ -278,10 +260,8 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               onClick={() => scrollToSection('contact')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'contact'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}
@@ -418,7 +398,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 w-[60vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col h-auto max-h-screen overflow-y-auto"
+                className="fixed top-0 right-0 bottom-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -442,7 +422,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y-2 pb-0">
+                <div className="p-4 space-y-2 overflow-y-auto">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
@@ -535,7 +515,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
                   {/* Auth Section */}
                   {!isAuthenticated ? (
-                    <div className="border-t border-black/20 space-y-2">
+                    <div className="pt-4 border-t border-black/20 space-y-2">
                       <button
                         onClick={() => {
                           setAuthModal({ isOpen: true, tab: 'login' });

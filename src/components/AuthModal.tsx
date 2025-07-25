@@ -159,7 +159,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
       {/* Modal */}
       <motion.div
-        className="relative w-full max-w-md mx-4 bg-background border border-border rounded-2xl shadow-luxury overflow-hidden"
+        className="relative w-full max-w-sm mx-4 bg-background border border-border rounded-2xl shadow-luxury overflow-hidden"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -400,7 +400,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal pl-10",
+                          "w-full justify-start text-left font-normal pl-10 relative",
                           !signupForm.dateOfBirth && "text-muted-foreground"
                         )}
                         aria-invalid={!!errors.dateOfBirth}
