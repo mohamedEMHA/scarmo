@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
@@ -27,6 +27,8 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     isOpen: false,
     tab: 'login'
   });
+  const logoRef = useRef<HTMLDivElement>(null);
+  const [dropdownLeft, setDropdownLeft] = useState(0);
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
@@ -65,6 +67,14 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
       document.body.style.overflow = 'unset';
     }
   }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (logoRef.current) {
+      const logoRightEdge = logoRef.current.getBoundingClientRect().right;
+      setDropdownLeft(logoRightEdge);
+    }
+  }, [isCollectionOpen]);
+
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
     return null;
@@ -134,6 +144,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <motion.div
+            ref={logoRef}
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
@@ -202,12 +213,12 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max"
+                    className="absolute top-full mt-2 w-max"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{ top: '100%', left: '50%', transform: 'translateX(-50%)' }}
+                    style={{ left: dropdownLeft }}
                   >
                     <div className="bg-white rounded-lg shadow-lg p-2 z-50">
                       <ul className="flex justify-center space-x-4">
