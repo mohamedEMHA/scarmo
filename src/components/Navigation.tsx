@@ -405,7 +405,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 bottom-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
+                className="fixed top-0 right-0 h-auto w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
