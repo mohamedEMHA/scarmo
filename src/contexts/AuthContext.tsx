@@ -36,18 +36,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   useEffect(() => {
-    // Check for stored user data on mount
-    const storedUser = localStorage.getItem('scarmo_user');
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser);
-        setState({
-          user,
-          isAuthenticated: true,
-          isLoading: false,
-        });
-      } catch {
-        localStorage.removeItem('scarmo_user');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      // Check for stored user data on mount
+      const storedUser = localStorage.getItem('scarmo_user');
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser);
+          setState({
+            user,
+            isAuthenticated: true,
+            isLoading: false,
+          });
+        } catch {
+          localStorage.removeItem('scarmo_user');
+          setState(prev => ({ ...prev, isLoading: false }));
+        }
+      } else {
         setState(prev => ({ ...prev, isLoading: false }));
       }
     } else {
@@ -67,7 +71,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
       };
       
-      localStorage.setItem('scarmo_user', JSON.stringify(user));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('scarmo_user', JSON.stringify(user));
+      }
       setState({
         user,
         isAuthenticated: true,
@@ -90,7 +96,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
       };
       
-      localStorage.setItem('scarmo_user', JSON.stringify(user));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('scarmo_user', JSON.stringify(user));
+      }
       setState({
         user,
         isAuthenticated: true,
@@ -102,7 +110,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    localStorage.removeItem('scarmo_user');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('scarmo_user');
+    }
     setState({
       user: null,
       isAuthenticated: false,
