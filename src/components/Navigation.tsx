@@ -534,7 +534,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
                   {/* Auth Section */}
                   {!isAuthenticated ? (
-                    <div className="pt-4 border-t border-black/20 space-y-2">
+                    <div className="border-t border-black/20 space-y-2">
                       <button
                         onClick={() => {
                           setAuthModal({ isOpen: true, tab: 'login' });
