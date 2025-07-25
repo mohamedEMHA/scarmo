@@ -6,7 +6,7 @@ import ChatWidget from '@/components/ChatWidget';
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Navigation currentSection="privacy" />
+      <Navigation currentSection="privacy" forceSolidBg={true} />
       <main className="py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
