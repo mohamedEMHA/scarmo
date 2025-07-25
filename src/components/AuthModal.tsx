@@ -40,6 +40,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
     confirmPassword: '' 
   });
   const [dateOfBirth, setDateOfBirth] = useState<Date>();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // Reset form when modal opens/closes
   useEffect(() => {
@@ -148,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
   return (
     <FocusTrap>
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50">
         {/* Backdrop */}
         <motion.div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -160,7 +161,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
       {/* Modal */}
       <motion.div
-        className="relative w-full max-w-md mx-4 bg-background border border-border rounded-2xl shadow-luxury overflow-hidden"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] mx-4 bg-background border border-border rounded-2xl shadow-luxury max-h-[80vh] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -396,34 +397,39 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                   <Label htmlFor="signup-dob" className="text-sm font-medium">
                     {t('auth.dateOfBirth')}
                   </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal pl-10",
-                          !dateOfBirth && "text-muted-foreground"
-                        )}
-                        aria-invalid={!!errors.dateOfBirth}
-                        aria-describedby={errors.dateOfBirth ? "signup-dob-error" : undefined}
-                      >
-                        <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-                        {dateOfBirth ? format(dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={dateOfBirth}
-                        onSelect={setDateOfBirth}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
-                        initialFocus
-                        className="pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <div className="relative">
+                    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal pl-10",
+                            !dateOfBirth && "text-muted-foreground"
+                          )}
+                          aria-invalid={!!errors.dateOfBirth}
+                          aria-describedby={errors.dateOfBirth ? "signup-dob-error" : undefined}
+                        >
+                          <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          {dateOfBirth ? format(dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={dateOfBirth}
+                          onSelect={(date) => {
+                            setDateOfBirth(date);
+                            setIsPopoverOpen(false);
+                          }}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                          className="pointer-events-auto"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                   {errors.dateOfBirth && (
                     <span id="signup-dob-error" className="text-sm text-destructive">
                       {errors.dateOfBirth}
