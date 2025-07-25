@@ -225,13 +225,14 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-1/2 transform -translate-x-1/2"
+                    className="absolute top-full"
+                    style={{ left: '50%', transform: 'translateX(-50%)' }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ul className="list-none bg-white rounded-xl shadow-lg p-2 z-50 flex justify-center space-x-4 px-6 w-auto">
+                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
                       {collectionItems.map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
