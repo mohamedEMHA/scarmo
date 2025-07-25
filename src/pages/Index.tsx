@@ -48,6 +48,10 @@ const Index = () => {
     else if (tshirtsInView) setCurrentSection('tshirts');
   }, [heroInView, tshirtsInView, polosInView, sweatersInView, shirtsInView, aboutInView, contactInView]);
 
+  if (!currentSection) {
+    return null;
+  }
+
   return (
     <div className={`min-h-screen bg-background ${isRtl ? 'rtl' : 'ltr'}`}>
         {/* Navigation */}

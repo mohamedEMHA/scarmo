@@ -84,7 +84,6 @@ const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   const scrollToSection = (sectionId: string) => {
