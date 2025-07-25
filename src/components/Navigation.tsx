@@ -349,7 +349,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
             )}
             
             {/* Printful Cart Icon */}
-            <div className={isScrolled ? 'text-foreground' : 'text-white'}>
+            <div className={isScrolled ? 'text-black' : 'text-white'}>
               <PrintfulCartIcon />
             </div>
 
