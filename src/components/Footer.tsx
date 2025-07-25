@@ -51,7 +51,7 @@ const Footer = () => {
   const footerLinks = {
     'Shop': [
       { name: 'T-Shirts', href: '#tshirts' },
-      { name: 'Polos', href: '#polos' },
+      { name: 'View All', href: '/collection/view-all' },
       { name: 'Sweaters', href: '#sweaters' },
       { name: 'Shirts', href: '#shirts' },
       { name: 'New Arrivals', href: '#new' },
@@ -66,12 +66,12 @@ const Footer = () => {
       { name: 'Track Order', href: '#track' },
     ],
     'Company': [
-      { name: 'About Us', href: '#about' },
+      { name: 'About Us', href: '/about' },
       { name: 'Careers', href: '#' },
       { name: 'Press', href: '#' },
       { name: 'Sustainability', href: '#' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
-      { name: 'Terms of Service', href: '#' },
+      { name of Service', href: '/terms-of-service' },
     ],
   };
 
