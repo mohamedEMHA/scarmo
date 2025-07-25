@@ -149,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
   return (
     <FocusTrap>
-      <div className="fixed inset-0 z-50">
+      <div className="fixed inset-0 flex items-center justify-center z-50">
         {/* Backdrop */}
         <motion.div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -161,7 +161,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
       {/* Modal */}
       <motion.div
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] mx-4 bg-background border border-border rounded-2xl shadow-luxury max-h-[80vh] overflow-y-auto"
+        className="w-full max-w-md mx-4 bg-background border border-border rounded-2xl shadow-luxury max-h-[80vh] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
