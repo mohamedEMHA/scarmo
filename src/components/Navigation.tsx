@@ -38,6 +38,54 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
+  const collectionItems = [
+    { id: 'tshirts', label: t('nav.tshirts') },
+    { id: 'sweaters', label: t('nav.sweaters') },
+    { id: 'belts', label: t('nav.belts') },
+    { id: 'neckties', label: t('nav.neckties') },
+    { id: 'longSleeves', label: t('nav.longSleeves') },
+    { id: 'shoes', label: t('nav.shoes') },
+    { id: 'backpacks', label: t('nav.backpacks') },
+    { id: 'underwear', label: t('nav.underwear') },
+    { id: 'viewAll', label: t('nav.viewAll') },
+  ].sort((a, b) => {
+    const order = [
+      'tshirts',
+      'sweaters',
+      'belts',
+      'neckties',
+      'longSleeves',
+      'shoes',
+      'backpacks',
+      'underwear',
+      'viewAll',
+    ];
+    const centeredItem = 'longSleeves';
+    const aIsCentered = a.id === centeredItem;
+    const bIsCentered = b.id === centeredItem;
+
+    if (aIsCentered) return -1;
+    if (bIsCentered) return 1;
+
+    const aIndex = order.indexOf(a.id);
+    const bIndex = order.indexOf(b.id);
+    const centeredIndex = order.indexOf(centeredItem);
+
+    if (aIndex < centeredIndex && bIndex < centeredIndex) {
+      return aIndex - bIndex;
+    }
+    if (aIndex > centeredIndex && bIndex > centeredIndex) {
+      return aIndex - bIndex;
+    }
+    if (aIndex < centeredIndex && bIndex > centeredIndex) {
+      return -1;
+    }
+    if (aIndex > centeredIndex && bIndex < centeredIndex) {
+      return 1;
+    }
+    return 0;
+  });
+
   // All hooks must be called before any conditional returns
   useEffect(() => {
     if (forceSolidBg) return;
@@ -105,54 +153,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'about', label: t('nav.about') },
     { id: 'contact', label: t('nav.contact') },
   ];
-
-  const collectionItems = [
-    { id: 'tshirts', label: t('nav.tshirts') },
-    { id: 'sweaters', label: t('nav.sweaters') },
-    { id: 'belts', label: t('nav.belts') },
-    { id: 'neckties', label: t('nav.neckties') },
-    { id: 'longSleeves', label: t('nav.longSleeves') },
-    { id: 'shoes', label: t('nav.shoes') },
-    { id: 'backpacks', label: t('nav.backpacks') },
-    { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
-  ].sort((a, b) => {
-    const order = [
-      'tshirts',
-      'sweaters',
-      'belts',
-      'neckties',
-      'longSleeves',
-      'shoes',
-      'backpacks',
-      'underwear',
-      'viewAll',
-    ];
-    const centeredItem = 'longSleeves';
-    const aIsCentered = a.id === centeredItem;
-    const bIsCentered = b.id === centeredItem;
-
-    if (aIsCentered) return -1;
-    if (bIsCentered) return 1;
-
-    const aIndex = order.indexOf(a.id);
-    const bIndex = order.indexOf(b.id);
-    const centeredIndex = order.indexOf(centeredItem);
-
-    if (aIndex < centeredIndex && bIndex < centeredIndex) {
-      return aIndex - bIndex;
-    }
-    if (aIndex > centeredIndex && bIndex > centeredIndex) {
-      return aIndex - bIndex;
-    }
-    if (aIndex < centeredIndex && bIndex > centeredIndex) {
-      return -1;
-    }
-    if (aIndex > centeredIndex && bIndex < centeredIndex) {
-      return 1;
-    }
-    return 0;
-  });
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
