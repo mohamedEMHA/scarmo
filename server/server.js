@@ -45,8 +45,8 @@ const printfulAPI = async (endpoint, method = 'GET', data = null) => {
     const response = await axios(config);
     return response.data;
   } catch (error) {
-    console.error('Printful API Error:', error.response?.data || error.message);
-    throw new Error(`Printful API Error: ${error.response?.status || 'Unknown'}`);
+    console.error('API Error:', error.response?.data || error.message);
+    throw new Error(`API Error: ${error.response?.status || 'Unknown'}`);
   }
 };
 
@@ -76,7 +76,7 @@ app.get('/api/products', async (req, res) => {
     console.error('Error fetching products:', error);
     res.status(500).json({ 
       success: false, 
-      error: 'Failed to fetch products from Printful' 
+      error: 'Failed to fetch products' 
     });
   }
 });
@@ -281,7 +281,7 @@ app.post('/webhook', async (req, res) => {
       // Submit order to Printful
       const orderResponse = await printfulAPI('/orders', 'POST', printfulOrder);
       
-      console.log('Printful order created successfully:', orderResponse.result.id);
+      console.log('Οrder created successfully:', orderResponse.result.id);
       
       // You could store order details in your database here
       // await saveOrderToDatabase(session, orderResponse.result);
@@ -311,6 +311,6 @@ app.use((error, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Scarmo server running on port ${PORT}`);
-  console.log(`📦 Printful integration: ${process.env.PRINTFUL_API_TOKEN ? 'Connected' : 'Not configured'}`);
+  console.log(`📦 Ιntegration: ${process.env.PRINTFUL_API_TOKEN ? 'Connected' : 'Not configured'}`);
   console.log(`💳 Stripe integration: ${process.env.STRIPE_SECRET_KEY ? 'Connected' : 'Not configured'}`);
 });
