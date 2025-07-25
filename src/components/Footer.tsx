@@ -182,12 +182,30 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
+
+                    {link.href.startsWith('/') ? (
+                      <Link
+                        to={link.href}
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </a>
+                    )}
+
                     <a
                       href={link.href}
                       className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
                     >
                       {link.name}
                     </a>
+
                   </li>
                 ))}
               </ul>

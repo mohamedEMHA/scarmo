@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
@@ -12,12 +12,13 @@ import AuthModal from './AuthModal';
 
 interface NavigationProps {
   currentSection: string;
+  forceSolidBg?: boolean;
 }
 
-const Navigation = ({ currentSection }: NavigationProps) => {
+const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(forceSolidBg);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
   const [isMobileCollectionOpen, setIsMobileCollectionOpen] = useState(false);
@@ -26,17 +27,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
     isOpen: false,
     tab: 'login'
   });
-  const logoRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [dropdownLeft, setDropdownLeft] = useState(0);
-
-  useEffect(() => {
-    if (logoRef.current && dropdownRef.current) {
-      const logoRect = logoRef.current.getBoundingClientRect();
-      const dropdownRect = dropdownRef.current.getBoundingClientRect();
-      setDropdownLeft(logoRect.right - dropdownRect.left);
-    }
-  }, [isCollectionOpen]);
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
@@ -46,13 +36,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
+    if (forceSolidBg) return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [forceSolidBg]);
 
   // Close mobile menu when clicking outside or pressing escape
   useEffect(() => {
@@ -142,7 +133,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <motion.div
-            ref={logoRef}
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
@@ -182,7 +172,6 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             {/* Collection Dropdown */}
             <div 
-              ref={dropdownRef}
               className="relative group"
               onMouseEnter={() => setIsCollectionOpen(true)}
               onMouseLeave={() => setIsCollectionOpen(false)}
@@ -212,12 +201,12 @@ const Navigation = ({ currentSection }: NavigationProps) => {
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full mt-2 w-max"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{ left: dropdownLeft }}
+                    style={{ top: '100%', left: '50%', transform: 'translateX(-50%)' }}
                   >
                     <div className="bg-white rounded-lg shadow-lg p-2 z-50">
                       <ul className="flex justify-center space-x-4">
@@ -417,7 +406,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 w-[60vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col h-auto max-h-screen overflow-y-auto"
+                className="fixed top-0 right-0 h-auto w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -428,27 +417,27 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 aria-label="Main menu"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between h-12 px-4 bg-[#E5E7EB] flex-shrink-0">
-                  <span className="font-semibold text-sm">MENU</span>
+                <div className="flex items-center justify-between h-16 px-6 bg-transparent flex-shrink-0">
+                  <span className="font-semibold text-lg">MENU</span>
                   <button
                     onClick={closeMobileMenu}
                     className="p-2 rounded-md hover:bg-black/10 transition-colors"
                     aria-label="Close mobile menu"
                     tabIndex={0}
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-6 h-6" />
                   </button>
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y-2 pb-0">
+                <div className="p-4 space-y-2 overflow-y-auto">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
-                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    className={`w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury ${
                       currentSection === 'hero'
-                        ? 'bg-black/20 text-black'
-                        : 'text-black hover:bg-black/10'
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-foreground hover:bg-muted/50'
                     }`}
                     aria-label={`Navigate to ${t('nav.home')} section`}
                   >
@@ -459,7 +448,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   <div>
                     <button
                       onClick={() => setIsMobileCollectionOpen(!isMobileCollectionOpen)}
-                      className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10 flex items-center justify-between"
+                      className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50 flex items-center justify-between"
                       aria-haspopup="true"
                       aria-expanded={isMobileCollectionOpen}
                     >
@@ -468,18 +457,18 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                         animate={{ rotate: isMobileCollectionOpen ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <ChevronDown className="w-4 h-4" />
+                        <ChevronDown className="w-5 h-5" />
                       </motion.div>
                     </button>
 
                     <AnimatePresence>
                       {isMobileCollectionOpen && (
                         <motion.div
-                          className="ml-4 mt-2 space-y-1"
+                          className="ml-6 mt-2 space-y-1"
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
+                          transition={{ duration: 0.3, ease: 'easeInOut' }}
                         >
                           {collectionItems.map((item) => (
                             <button
@@ -491,10 +480,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                                   scrollToSection(item.id);
                                 }
                               }}
-                              className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                              className={`w-full text-left px-6 py-3 rounded-lg text-base font-medium transition-colors duration-300 focus-luxury ${
                                 currentSection === item.id
-                                  ? 'bg-black/20 text-black'
-                                  : 'text-black hover:bg-black/10'
+                                  ? 'bg-accent/80 text-accent-foreground'
+                                  : 'text-foreground/80 hover:bg-muted/50'
                               }`}
                               aria-label={`Navigate to ${item.label} section`}
                             >
@@ -509,10 +498,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   {/* About */}
                   <button
                     onClick={() => scrollToSection('about')}
-                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    className={`w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury ${
                       currentSection === 'about'
-                        ? 'bg-black/20 text-black'
-                        : 'text-black hover:bg-black/10'
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-foreground hover:bg-muted/50'
                     }`}
                     aria-label={`Navigate to ${t('nav.about')} section`}
                   >
@@ -522,10 +511,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                   {/* Contact */}
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury ${
+                    className={`w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury ${
                       currentSection === 'contact'
-                        ? 'bg-black/20 text-black'
-                        : 'text-black hover:bg-black/10'
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-foreground hover:bg-muted/50'
                     }`}
                     aria-label={`Navigate to ${t('nav.contact')} section`}
                   >
@@ -534,13 +523,13 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
                   {/* Auth Section */}
                   {!isAuthenticated ? (
-                    <div className="border-t border-black/20 space-y-2">
+                    <div className="pt-4 border-t border-border/80 space-y-2">
                       <button
                         onClick={() => {
                           setAuthModal({ isOpen: true, tab: 'login' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
                       >
                         {t('auth.login')}
                       </button>
@@ -549,14 +538,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                           setAuthModal({ isOpen: true, tab: 'signup' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury bg-black/20 text-black hover:bg-black/30"
+                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
                       >
                         {t('auth.signup')}
                       </button>
                     </div>
                   ) : (
-                    <div className="pt-4 border-t border-black/20">
-                      <p className="px-4 py-2 text-sm font-medium text-black/70">
+                    <div className="pt-4 border-t border-border/80">
+                      <p className="px-6 py-3 text-base font-medium text-foreground/70">
                         Welcome, {user?.name}
                       </p>
                       <button
@@ -564,7 +553,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                           logout();
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 focus-luxury text-black hover:bg-black/10"
+                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
                       >
                         {t('auth.logout')}
                       </button>

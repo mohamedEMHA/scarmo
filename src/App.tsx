@@ -10,6 +10,11 @@ import Index from "./pages/Index";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Success from "./pages/Success";
+
+import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import FAQ from "./pages/FAQ";
+
 import FAQ from "./pages/FAQ";
 import TShirts from "./pages/TShirts";
 import Polos from "./pages/Polos";
@@ -29,6 +34,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -45,6 +51,10 @@ const App = () => (
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/success" element={<Success />} />
+
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/faq" element={<FAQ />} />
+
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/shop/t-shirts" element={<TShirts />} />
                 <Route path="/shop/polos" element={<Polos />} />

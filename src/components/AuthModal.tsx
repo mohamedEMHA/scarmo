@@ -39,6 +39,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   });
   const [dateOfBirth, setDateOfBirth] = useState<Date>();
 
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+
+
   // Reset form when modal opens/closes
   useEffect(() => {
     if (isOpen) {
@@ -138,9 +142,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
+
+    <FocusTrap>
+      <div className="fixed inset-0 z-50">
+        {/* Backdrop */}
+        <motion.div
+
     <div className="fixed inset-0 z-60 flex items-center justify-center">
       {/* Backdrop */}
       <motion.div
+
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -150,7 +161,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
       {/* Modal */}
       <motion.div
+
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] mx-4 bg-background border border-border rounded-2xl shadow-luxury max-h-[80vh] overflow-y-auto"
+
         className="relative w-full max-w-sm mx-4 bg-background border border-border rounded-2xl shadow-luxury overflow-hidden"
+
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -391,7 +406,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     {t('auth.dateOfBirth')}
                   </Label>
                   <div className="relative">
+
+                    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+
                     <Popover>
+
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -402,7 +421,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                           aria-invalid={!!errors.dateOfBirth}
                           aria-describedby={errors.dateOfBirth ? "signup-dob-error" : undefined}
                         >
+
+                          <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+
                           <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
+
                           {dateOfBirth ? format(dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
                         </Button>
                       </PopoverTrigger>
@@ -410,7 +433,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                         <Calendar
                           mode="single"
                           selected={dateOfBirth}
+
+                          onSelect={(date) => {
+                            setDateOfBirth(date);
+                            setIsPopoverOpen(false);
+                          }}
+
                           onSelect={setDateOfBirth}
+
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
                           }
