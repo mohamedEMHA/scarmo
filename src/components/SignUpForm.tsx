@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { t } from '@/lib/i18n';
-import { v4 as uuidv4 } from 'uuid/dist/esm-browser';
 
 const SignUpForm = () => {
   const [name, setName] = useState('');
@@ -40,9 +39,8 @@ const SignUpForm = () => {
         return;
       }
 
-      const id = uuidv4();
-      const signUpData = { id, name, email, password, dob };
-      const loginData = { id, email, password };
+      const signUpData = { name, email, password, dob };
+      const loginData = { email, password };
 
       const signUpResponse = await fetch(scriptUrl, {
         method: 'POST',
