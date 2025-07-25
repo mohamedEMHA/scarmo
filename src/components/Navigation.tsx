@@ -205,9 +205,10 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
+                    style={{ top: '100%' }}
                   >
                     <div className="bg-white rounded-lg shadow-lg p-2 z-50">
-                      <ul className="flex flex-col space-y-1">
+                      <ul className="flex justify-center space-x-4">
                         {collectionItems.map((item) => (
                           <li key={item.id}>
                             <button
