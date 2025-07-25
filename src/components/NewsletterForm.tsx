@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { t } from '@/lib/i18n';
-import { v4 as uuidv4 } from 'uuid/dist/esm-browser';
 
 const NewsletterForm = () => {
   const [email, setEmail] = useState('');
@@ -25,8 +24,7 @@ const NewsletterForm = () => {
     }
 
     const scriptUrl = 'https://script.google.com/macros/s/1zzdmjE-UwAK3alCOe4ImnDT15eDd9pko4StmxYx7vxk/exec';
-    const id = uuidv4();
-    const newsletterData = { id, email };
+    const newsletterData = { email };
 
     try {
       const response = await fetch(scriptUrl, {
