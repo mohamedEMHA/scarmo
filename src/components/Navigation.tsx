@@ -222,7 +222,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                   <motion.div
                     ref={dropdownRef}
                     className="absolute top-full"
-                    style={{ left: logoWidth + 32 }}
+                    style={{ left: logoWidth }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
