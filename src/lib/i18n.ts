@@ -527,13 +527,15 @@ export const getCurrentLanguage = (): string => {
     return urlLang;
   }
   
-  const cookieLang = document.cookie
-    .split('; ')
-    .find(row => row.startsWith('scarmo_lang='))
-    ?.split('=')[1];
-    
-  if (cookieLang && translations[cookieLang]) {
-    return cookieLang;
+  if (typeof document !== 'undefined' && document.cookie) {
+    const cookieLang = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('scarmo_lang='))
+      ?.split('=')[1];
+
+    if (cookieLang && translations[cookieLang]) {
+      return cookieLang;
+    }
   }
   
   return 'en';
