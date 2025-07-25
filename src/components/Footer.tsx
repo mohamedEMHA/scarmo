@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Instagram, Facebook, Linkedin, MapPin, Phone, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -66,11 +67,11 @@ const Footer = () => {
     ],
     'Company': [
       { name: 'About Us', href: '#about' },
-      { name: 'Careers', href: '#careers' },
-      { name: 'Press', href: '#press' },
-      { name: 'Sustainability', href: '#sustainability' },
-      { name: 'Privacy Policy', href: '#privacy' },
-      { name: 'Terms of Service', href: '#terms' },
+      { name: 'Careers', href: '#' },
+      { name: 'Press', href: '#' },
+      { name: 'Sustainability', href: '#' },
+      { name: 'Privacy Policy', href: '/privacy-policy' },
+      { name: 'Terms of Service', href: '#' },
     ],
   };
 
@@ -183,10 +184,14 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
- fix/cors-and-env-setup
+
+                    {link.href.startsWith('/') ? (
+                      <Link
+                        to={link.href}
                     {link.href === '#faq' ? (
                       <Link
                         to="/faq"
+
                         className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
                       >
                         {link.name}
@@ -206,7 +211,6 @@ const Footer = () => {
                     >
                       {link.name}
                     </a>
- main
                   </li>
                 ))}
               </ul>
