@@ -47,7 +47,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   // All hooks must be called before any conditional returns
@@ -230,7 +229,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                     transition={{ duration: 0.2 }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
-                      {collectionItems.filter(item => ['tshirts', 'sweaters', 'belts', 'neckties', 'longSleeves', 'shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
+                      {collectionItems.map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
                             onClick={() => {
