@@ -418,7 +418,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 h-auto w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
+                className="fixed top-0 right-0 h-auto w-[40vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -429,7 +429,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 aria-label="Main menu"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between h-16 px-2 bg-transparent flex-shrink-0">
+                <div className="flex items-center justify-between h-16 px-6 bg-transparent flex-shrink-0">
                   <span className="font-semibold text-lg">MENU</span>
                   <button
                     onClick={closeMobileMenu}
