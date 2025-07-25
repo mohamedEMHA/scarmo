@@ -28,7 +28,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     tab: 'login'
   });
   const logoRef = useRef<HTMLDivElement>(null);
-  const [dropdownLeft, setDropdownLeft] = useState(0);
+  const [logoWidth, setLogoWidth] = useState(0);
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
@@ -70,10 +70,9 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
 
   useEffect(() => {
     if (logoRef.current) {
-      const logoRightEdge = logoRef.current.getBoundingClientRect().right;
-      setDropdownLeft(logoRightEdge);
+      setLogoWidth(logoRef.current.offsetWidth);
     }
-  }, [isCollectionOpen]);
+  }, [logoRef]);
 
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
@@ -213,17 +212,19 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full mt-2 w-max"
+                    className="absolute top-full mt-2"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{ left: dropdownLeft }}
+                    style={{
+                      left: `calc(50% - ${logoWidth / 2}px)`,
+                      transform: `translateX(${logoWidth}px)`,
+                    }}
                   >
-                    <div className="bg-white rounded-lg shadow-lg p-2 z-50">
-                      <ul className="flex justify-center space-x-4">
+                    <div className="bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
                         {collectionItems.map((item) => (
-                          <li key={item.id}>
+                          <li key={item.id} className="flex-shrink-0">
                             <button
                               onClick={() => {
                                 if (item.id === 'viewAll') {
@@ -243,7 +244,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                             </button>
                           </li>
                         ))}
-                      </ul>
                     </div>
                   </motion.div>
                 )}
