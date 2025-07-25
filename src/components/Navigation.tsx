@@ -231,7 +231,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ul className="list-none bg-white rounded-xl shadow-lg p-2 z-50 flex justify-center space-x-4 px-4 max-w-full">
+                    <ul className="list-none bg-white rounded-xl shadow-lg p-2 z-50 flex justify-center space-x-4 px-6 w-auto">
                       {collectionItems.map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
