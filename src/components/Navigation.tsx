@@ -12,12 +12,13 @@ import AuthModal from './AuthModal';
 
 interface NavigationProps {
   currentSection: string;
+  forceSolidBg?: boolean;
 }
 
-const Navigation = ({ currentSection }: NavigationProps) => {
+const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(forceSolidBg);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
   const [isMobileCollectionOpen, setIsMobileCollectionOpen] = useState(false);
@@ -35,13 +36,14 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
+    if (forceSolidBg) return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [forceSolidBg]);
 
   // Close mobile menu when clicking outside or pressing escape
   useEffect(() => {
