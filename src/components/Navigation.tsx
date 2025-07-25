@@ -418,7 +418,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col h-auto max-h-screen overflow-y-auto"
+                className="fixed top-0 right-0 w-[60vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col h-auto max-h-screen overflow-y-auto"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -442,7 +442,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y-2">
+                <div className="p-4 space-y-2 pb-0">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
