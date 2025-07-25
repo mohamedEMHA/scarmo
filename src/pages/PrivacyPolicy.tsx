@@ -1,9 +1,14 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
 
 const PrivacyPolicy = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Navigation currentSection="privacy" forceSolidBg={true} />
