@@ -23,7 +23,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -49,7 +48,7 @@ const fetchProducts = async ({ pageParam = 0 }) => {
     type: ['T-Shirts', 'Sweaters', 'Belts', 'Neckties', 'Long-Sleeves', 'Shoes', 'Backpacks', 'Underwear'][i % 8],
     price: parseFloat((Math.random() * (200 - 20) + 20).toFixed(2)),
     originalPrice: parseFloat((Math.random() * (250 - 25) + 25).toFixed(2)),
-    colors: ['#ff0000', '#0000ff', '#008000', '#ffff00', '#ffa500'][i % 5],
+    colors: [{ name: 'Red', hex: '#ff0000' }, { name: 'Blue', hex: '#0000ff' }, { name: 'Green', hex: '#008000' }, { name: 'Yellow', hex: '#ffff00' }, { name: 'Orange', hex: '#ffa500' }][i % 5],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'].slice(i % 3, (i % 3) + 3),
     rating: parseFloat((Math.random() * (5 - 3) + 3).toFixed(1)),
     reviews: Math.floor(Math.random() * 200),
@@ -90,7 +89,7 @@ const ProductCard = ({ product }) => {
   return (
     <>
       <motion.div
-        className="relative group bg-gray-100 rounded-2xl shadow-lg overflow-hidden"
+        className="relative group bg-white rounded-2xl shadow-lg overflow-hidden"
         layout
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -102,11 +101,11 @@ const ProductCard = ({ product }) => {
             <Heart className="h-5 w-5 text-gray-600" />
           </Button>
         </div>
-        <div className="overflow-hidden">
+        <div className="overflow-hidden aspect-w-1 aspect-h-1">
           <motion.img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-64 object-cover"
+            className="w-full h-full object-cover"
             loading="lazy"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
@@ -177,15 +176,55 @@ const Filters = ({ setFilters, isSidebar = false }) => {
     setFilters(prev => ({ ...prev, price: newPrice }));
   }, 300);
 
+  const clearFilters = () => {
+    setFilters({
+      searchTerm: '',
+      category: 'All',
+      sort: 'Newest',
+      colors: [],
+      sizes: [],
+      price: [0, 250],
+    });
+    setPrice([0, 250]);
+  };
+
+  const FilterSection = ({ title, children }) => (
+    <div className="py-4 border-b border-gray-200">
+      <h4 className="font-semibold mb-3">{title}</h4>
+      {children}
+    </div>
+  );
+
   return (
-    <div className={`space-y-6 ${isSidebar ? '' : 'flex space-x-4 overflow-x-auto py-2'}`}>
-      {/* Category Pills */}
-      {/* Sort Dropdown */}
-      {/* Color Dots */}
-      {/* Size Pills */}
-      {/* Price Slider */}
-      <div className="p-4 border rounded-lg">
-        <h4 className="font-semibold mb-2">Price Range</h4>
+    <div className={`${isSidebar ? 'space-y-4' : 'flex items-center space-x-2 overflow-x-auto py-2'}`}>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-bold">Filters</h3>
+        <Button variant="ghost" onClick={clearFilters}>Clear All</Button>
+      </div>
+
+      <FilterSection title="Sort By">
+        <Select onValueChange={(value) => setFilters(prev => ({ ...prev, sort: value }))}>
+          <SelectTrigger>
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Newest">Newest</SelectItem>
+            <SelectItem value="Price Low→High">Price Low→High</SelectItem>
+            <SelectItem value="Price High→Low">Price High→Low</SelectItem>
+            <SelectItem value="Best Sellers">Best Sellers</SelectItem>
+          </SelectContent>
+        </Select>
+      </FilterSection>
+
+      <FilterSection title="Category">
+        <div className="flex flex-wrap gap-2">
+          {['All', ...categories].map(cat => (
+            <Button key={cat} variant="outline" onClick={() => setFilters(prev => ({ ...prev, category: cat }))}>{cat}</Button>
+          ))}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Price Range">
         <Slider
           defaultValue={[0, 250]}
           max={250}
@@ -196,8 +235,23 @@ const Filters = ({ setFilters, isSidebar = false }) => {
           <span>${price[0]}</span>
           <span>${price[1]}</span>
         </div>
-      </div>
-      {/* Clear All */}
+      </FilterSection>
+
+      <FilterSection title="Colors">
+        <div className="flex flex-wrap gap-2">
+          {colors.map(color => (
+            <button key={color.name} className="w-8 h-8 rounded-full border" style={{ backgroundColor: color.hex }} onClick={() => setFilters(prev => ({ ...prev, colors: [...prev.colors, color.name] }))} />
+          ))}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Sizes">
+        <div className="flex flex-wrap gap-2">
+          {sizes.map(size => (
+            <Button key={size} variant="outline" onClick={() => setFilters(prev => ({ ...prev, sizes: [...prev.sizes, size] }))}>{size}</Button>
+          ))}
+        </div>
+      </FilterSection>
     </div>
   );
 };
@@ -267,7 +321,7 @@ const ViewAll = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
             placeholder="Search all products..."
-            className="pl-12 py-6 rounded-full border-2 border-transparent focus:border-accent transition-all"
+            className="pl-12 py-6 rounded-full border-2 border-transparent focus:border-accent transition-all w-full"
             onChange={handleSearchChange}
           />
           {filters.searchTerm && (
@@ -285,9 +339,9 @@ const ViewAll = () => {
         <div className="lg:hidden mb-4">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full">
                 <SlidersHorizontal className="mr-2 h-4 w-4" />
-                Filters
+                Filters & Sort
               </Button>
             </SheetTrigger>
             <SheetContent>
@@ -297,7 +351,7 @@ const ViewAll = () => {
         </div>
 
         <div className="flex gap-8">
-          <aside className="hidden lg:block w-1/4">
+          <aside className="hidden lg:block w-1/4 bg-white p-6 rounded-2xl shadow-lg self-start">
             <Filters setFilters={setFilters} isSidebar={true} />
           </aside>
           <div className="w-full lg:w-3/4">
