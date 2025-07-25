@@ -88,6 +88,11 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     }
   }, [logoRef]);
 
+  // Close auth modal on route change
+  useEffect(() => {
+    setAuthModal({ isOpen: false, tab: 'login' });
+  }, [location]);
+
 
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
