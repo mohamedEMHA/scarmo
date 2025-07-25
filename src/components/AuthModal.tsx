@@ -40,6 +40,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
     confirmPassword: '' 
   });
   const [dateOfBirth, setDateOfBirth] = useState<Date>();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   // Reset form when modal opens/closes
   useEffect(() => {
@@ -397,7 +398,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                     {t('auth.dateOfBirth')}
                   </Label>
                   <div className="relative">
-                    <Popover>
+                    <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -416,7 +417,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                         <Calendar
                           mode="single"
                           selected={dateOfBirth}
-                          onSelect={setDateOfBirth}
+                          onSelect={(date) => {
+                            setDateOfBirth(date);
+                            setIsPopoverOpen(false);
+                          }}
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
                           }
