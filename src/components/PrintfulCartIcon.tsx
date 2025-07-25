@@ -8,7 +8,7 @@ const PrintfulCartIcon: React.FC = () => {
 
   return (
     <motion.button
-      className="relative p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent text-foreground hover:bg-muted"
+      className="relative p-2 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-accent text-black bg-transparent hover:bg-white hover:border-black border border-transparent"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => dispatch({ type: 'TOGGLE_CART' })}
