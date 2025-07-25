@@ -10,8 +10,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import FocusTrap from 'focus-trap-react';
-
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -140,10 +138,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
-    <FocusTrap>
-      <div className="fixed inset-0 z-60 flex items-center justify-center">
-        {/* Backdrop */}
-        <motion.div
+    <div className="fixed inset-0 z-60 flex items-center justify-center">
+      {/* Backdrop */}
+      <motion.div
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -443,7 +440,6 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
         </div>
       </motion.div>
     </div>
-    </FocusTrap>
   );
 };
 
