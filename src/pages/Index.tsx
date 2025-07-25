@@ -7,9 +7,6 @@ import AboutSection from '@/components/AboutSection';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import Footer from '@/components/Footer';
 import ChatWidget from '@/components/ChatWidget';
-import LoginForm from '@/components/LoginForm';
-import SignUpForm from '@/components/SignUpForm';
-import NewsletterForm from '@/components/NewsletterForm';
 import PrintfulProductGrid from '@/components/PrintfulProductGrid';
 import PrintfulCartDrawer from '@/components/PrintfulCartDrawer';
 import CartDrawer from '@/components/CartDrawer';
@@ -73,15 +70,6 @@ const Index = () => {
 
         {/* Testimonials */}
         <TestimonialCarousel />
-
-        {/* Login Form */}
-        <LoginForm />
-
-        {/* Sign-Up Form */}
-        <SignUpForm />
-
-        {/* Newsletter Form */}
-        <NewsletterForm />
 
         {/* Footer */}
         <div ref={contactRef}>
