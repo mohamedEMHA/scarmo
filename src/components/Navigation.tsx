@@ -442,11 +442,11 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y overflow-y-auto">
+                <div className="p-4 space-y-2 overflow-y-auto">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
-                    className={`w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury ${
+                    className={`w-full text-left px-6 py-1 text-lg font-medium transition-colors duration-300 focus-luxury ${
                       currentSection === 'hero'
                         ? 'bg-accent text-accent-foreground'
                         : 'text-foreground hover:bg-muted/50'
