@@ -564,13 +564,13 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
 
                   {/* Auth Section */}
                   {!isAuthenticated ? (
-                    <div className="pt-4 border-t border-border/80 space-y-8">
+                    <div className="pt-2 border-t-2 border-border/20 space-y-2">
                       <button
                         onClick={() => {
                           setAuthModal({ isOpen: true, tab: 'login' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
+                        className="w-full text-left px-6 py-3 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
                       >
                         {t('auth.login')}
                       </button>
@@ -579,7 +579,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                           setAuthModal({ isOpen: true, tab: 'signup' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
+                        className="w-full text-left px-6 py-3 text-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
                       >
                         {t('auth.signup')}
                       </button>
