@@ -85,7 +85,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -120,7 +119,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
   };
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? 'bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg'
           : 'bg-transparent'

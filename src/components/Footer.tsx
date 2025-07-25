@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Mail, Instagram, Facebook, Linkedin, MapPin, Phone, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -50,28 +49,27 @@ const Footer = () => {
 
   const footerLinks = {
     'Shop': [
-      { name: 'T-Shirts', href: '#tshirts' },
-      { name: 'Polos', href: '#polos' },
-      { name: 'Sweaters', href: '#sweaters' },
-      { name: 'Shirts', href: '#shirts' },
-      { name: 'New Arrivals', href: '#new' },
-      { name: 'Sale', href: '#sale' },
+      { name: 'T-Shirts', href: '/shop/t-shirts' },
+      { name: 'Polos', href: '/shop/polos' },
+      { name: 'Sweaters', href: '/shop/sweaters' },
+      { name: 'New Arrivals', href: '/shop/new-arrivals' },
+      { name: 'Sale', href: '/shop/sale' },
     ],
     'Customer Care': [
-      { name: 'Size Guide', href: '#size-guide' },
-      { name: 'Shipping Info', href: '#shipping' },
-      { name: 'Returns', href: '#returns' },
-      { name: 'FAQ', href: '/faq' },
-      { name: 'Contact Us', href: '#contact' },
-      { name: 'Track Order', href: '#track' },
+      { name: 'Size Guide', href: '/size-guide' },
+      { name: 'Shipping Info', href: '/shipping-info' },
+      { name: 'Returns', href: '/returns' },
+      { name: 'Contact Us', href: '/contact' },
+      { name: 'Track Order', href: '/track-order' },
     ],
     'Company': [
-      { name: 'About Us', href: '#about' },
-      { name: 'Careers', href: '#' },
-      { name: 'Press', href: '#' },
-      { name: 'Sustainability', href: '#' },
+      { name: 'About Us', href: '/about' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'Press', href: '/press' },
+      { name: 'Sustainability', href: '/sustainability' },
+      { name: 'FAQ', href: '/faq' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
-      { name: 'Terms of Service', href: '#' },
+      { name: 'Terms of Service', href: '/terms-of-service' },
     ],
   };
 
@@ -184,6 +182,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
+
                     {link.href.startsWith('/') ? (
                       <Link
                         to={link.href}
@@ -199,6 +198,14 @@ const Footer = () => {
                         {link.name}
                       </a>
                     )}
+
+                    <a
+                      href={link.href}
+                      className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                    >
+                      {link.name}
+                    </a>
+
                   </li>
                 ))}
               </ul>
