@@ -71,7 +71,7 @@ const Footer = () => {
       { name: 'Press', href: '#' },
       { name: 'Sustainability', href: '#' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
-      { name of Service', href: '/terms-of-service' },
+      { name: 'Terms of Service', href: '/terms-of-service' },
     ],
   };
 
