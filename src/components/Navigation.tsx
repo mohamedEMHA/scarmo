@@ -152,10 +152,8 @@ const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
               onClick={() => scrollToSection('hero')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'hero'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}
@@ -180,10 +178,8 @@ const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
               <button
                 className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury flex items-center space-x-1 ${
                   collectionItems.some(item => currentSection === item.id)
-                    ? isScrolled
-                      ? 'text-accent'
-                      : 'text-accent'
-                    : isScrolled
+                    ? 'text-accent'
+                    : isScrolled || solidBackground
                     ? 'text-foreground hover:text-accent'
                     : 'text-white/90 hover:text-white'
                 }`}
@@ -244,10 +240,8 @@ const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
               onClick={() => scrollToSection('about')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'about'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}
@@ -267,10 +261,8 @@ const Navigation = ({ currentSection, solidBackground }: NavigationProps) => {
               onClick={() => scrollToSection('contact')}
               className={`relative px-4 py-2 font-medium transition-colors duration-300 focus-luxury ${
                 currentSection === 'contact'
-                  ? isScrolled
-                    ? 'text-accent'
-                    : 'text-accent'
-                  : isScrolled
+                  ? 'text-accent'
+                  : isScrolled || solidBackground
                   ? 'text-foreground hover:text-accent'
                   : 'text-white/90 hover:text-white'
               }`}

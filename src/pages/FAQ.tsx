@@ -58,10 +58,12 @@ const faqData = [
 ];
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndices, setOpenIndices] = useState<number[]>([]);
 
   const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndices((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
   };
 
   return (
@@ -87,19 +89,19 @@ const FAQ = () => {
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex justify-between items-center text-left text-lg font-semibold text-gray-800 focus:outline-none"
-                  aria-expanded={openIndex === index}
+                  aria-expanded={openIndices.includes(index)}
                   aria-controls={`faq-answer-${index}`}
                 >
                   <span>{faq.question}</span>
                   <motion.div
-                    animate={{ rotate: openIndex === index ? 180 : 0 }}
+                    animate={{ rotate: openIndices.includes(index) ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
                   >
                     <ChevronDown className="w-5 h-5 text-gray-500" />
                   </motion.div>
                 </button>
                 <AnimatePresence>
-                  {openIndex === index && (
+                  {openIndices.includes(index) && (
                     <motion.div
                       id={`faq-answer-${index}`}
                       initial={{ opacity: 0, height: 0 }}
