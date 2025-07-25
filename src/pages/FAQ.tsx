@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import Navigation from '@/components/Navigation';
+import ChatWidget from '@/components/ChatWidget';
 
 const faqItems = [
   {
@@ -23,6 +25,7 @@ const faqItems = [
 const FAQ = () => {
   return (
     <div className="bg-background text-foreground">
+      <Navigation currentSection="" />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -47,6 +50,7 @@ const FAQ = () => {
           </Accordion>
         </div>
       </motion.div>
+      <ChatWidget />
     </div>
   );
 };
