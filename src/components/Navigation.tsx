@@ -212,39 +212,35 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full mt-2"
+                    className="absolute top-full left-0 ml-[120px]"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{
-                      left: `calc(50% - ${logoWidth / 2}px)`,
-                      transform: `translateX(${logoWidth}px)`,
-                    }}
                   >
-                    <div className="bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
-                        {collectionItems.map((item) => (
-                          <li key={item.id} className="flex-shrink-0">
-                            <button
-                              onClick={() => {
-                                if (item.id === 'viewAll') {
-                                  handleViewAllProducts();
-                                } else {
-                                  scrollToSection(item.id);
-                                }
-                                setIsCollectionOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                                currentSection === item.id
-                                  ? 'bg-accent text-accent-foreground'
-                                  : 'text-foreground'
-                              }`}
-                            >
-                              {item.label}
-                            </button>
-                          </li>
-                        ))}
-                    </div>
+                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
+                      {collectionItems.map((item) => (
+                        <li key={item.id} className="flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              if (item.id === 'viewAll') {
+                                handleViewAllProducts();
+                              } else {
+                                scrollToSection(item.id);
+                              }
+                              setIsCollectionOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                              currentSection === item.id
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground'
+                            }`}
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
                   </motion.div>
                 )}
               </AnimatePresence>
