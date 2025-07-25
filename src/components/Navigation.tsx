@@ -47,6 +47,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
+    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   // All hooks must be called before any conditional returns
