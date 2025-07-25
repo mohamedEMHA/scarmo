@@ -47,44 +47,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
-    { id: 'viewAll', label: t('nav.viewAll') },
-  ].sort((a, b) => {
-    const order = [
-      'tshirts',
-      'sweaters',
-      'belts',
-      'neckties',
-      'longSleeves',
-      'shoes',
-      'backpacks',
-      'underwear',
-      'viewAll',
-    ];
-    const centeredItem = 'longSleeves';
-    const aIsCentered = a.id === centeredItem;
-    const bIsCentered = b.id === centeredItem;
-
-    if (aIsCentered) return -1;
-    if (bIsCentered) return 1;
-
-    const aIndex = order.indexOf(a.id);
-    const bIndex = order.indexOf(b.id);
-    const centeredIndex = order.indexOf(centeredItem);
-
-    if (aIndex < centeredIndex && bIndex < centeredIndex) {
-      return aIndex - bIndex;
-    }
-    if (aIndex > centeredIndex && bIndex > centeredIndex) {
-      return aIndex - bIndex;
-    }
-    if (aIndex < centeredIndex && bIndex > centeredIndex) {
-      return -1;
-    }
-    if (aIndex > centeredIndex && bIndex < centeredIndex) {
-      return 1;
-    }
-    return 0;
-  });
+  ];
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
@@ -127,21 +90,10 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
   useEffect(() => {
     if (isCollectionOpen && collectionLinkRef.current && dropdownRef.current) {
       const { left, width } = collectionLinkRef.current.getBoundingClientRect();
-      const dropdown = dropdownRef.current;
-      const centeredItem = dropdown.querySelector<HTMLElement>('[data-centered="true"]');
-
-      if (centeredItem) {
-        const dropdownWidth = dropdown.offsetWidth;
-        const centeredItemWidth = centeredItem.offsetWidth;
-        const centeredItemOffset = centeredItem.offsetLeft;
-        const scrollOffset = centeredItemOffset - (dropdownWidth / 2) + (centeredItemWidth / 2);
-        dropdown.scrollLeft = scrollOffset;
-      }
-
-      dropdown.style.left = `${left + width / 2}px`;
-      dropdown.style.transform = 'translateX(-50%)';
+      dropdownRef.current.style.left = `${left + width / 2}px`;
+      dropdownRef.current.style.transform = 'translateX(-50%)';
     }
-  }, [isCollectionOpen, collectionItems]);
+  }, [isCollectionOpen]);
 
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
@@ -277,35 +229,56 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-between items-center space-x-4 w-[max-content] px-6 overflow-x-auto">
-                      {collectionItems.map((item, index) => {
-                        const isCentered = item.id === 'longSleeves';
-                        return (
-                          <li
-                            key={item.id}
-                            className={`flex-shrink-0 ${isCentered ? 'font-bold' : ''}`}
-                            data-centered={isCentered}
+                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
+                      {collectionItems.filter(item => ['tshirts', 'sweaters', 'belts', 'neckties'].includes(item.id)).map((item) => (
+                        <li key={item.id} className="flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              scrollToSection(item.id);
+                              setIsCollectionOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                              currentSection === item.id
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground'
+                            }`}
                           >
-                            <button
-                              onClick={() => {
-                                if (item.id === 'viewAll') {
-                                  handleViewAllProducts();
-                                } else {
-                                  scrollToSection(item.id);
-                                }
-                                setIsCollectionOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                                currentSection === item.id
-                                  ? 'bg-accent text-accent-foreground'
-                                  : 'text-foreground'
-                              }`}
-                            >
-                              {item.label}
-                            </button>
-                          </li>
-                        );
-                      })}
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                      <li key="longSleeves" className="flex-shrink-0 font-bold">
+                        <button
+                          onClick={() => {
+                            scrollToSection('longSleeves');
+                            setIsCollectionOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                            currentSection === 'longSleeves'
+                              ? 'bg-accent text-accent-foreground'
+                              : 'text-foreground'
+                          }`}
+                        >
+                          {t('nav.longSleeves')}
+                        </button>
+                      </li>
+                      {collectionItems.filter(item => ['shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
+                        <li key={item.id} className="flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              scrollToSection(item.id);
+                              setIsCollectionOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                              currentSection === item.id
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground'
+                            }`}
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   </motion.div>
                 )}
