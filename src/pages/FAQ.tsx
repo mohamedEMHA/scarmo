@@ -5,6 +5,14 @@ import ChatWidget from '@/components/ChatWidget';
 
 const faqItems = [
   {
+    question: 'What materials are your clothes made from?',
+    answer: 'Our clothes are made from high-quality, sustainable materials, including organic cotton, linen, and recycled fabrics. We believe in creating fashion that is both stylish and environmentally conscious.',
+  },
+  {
+    question: 'How do I care for my garments?',
+    answer: 'To ensure the longevity of your clothes, we recommend washing them in cold water and hanging them to dry. For specific care instructions, please refer to the label on each garment.',
+  },
+  {
     question: 'What is your return policy?',
     answer: 'We accept returns within 30 days of purchase. The item must be in its original condition with tags attached. Please visit our returns page for more information.',
   },
