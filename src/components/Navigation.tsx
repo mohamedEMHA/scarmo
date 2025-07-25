@@ -212,11 +212,12 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-0 ml-[120px]"
+                    className="absolute top-full"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
+                    style={{ left: `${logoWidth}px` }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
                       {collectionItems.map((item) => (
