@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingBag, ChevronDown, User } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePrintfulCart } from '@/contexts/PrintfulCartContext';
+import PrintfulCartIcon from '@/components/PrintfulCartIcon';
 import { t, getCurrentLanguage, isRTL } from '@/lib/i18n';
 import AuthModal from './AuthModal';
 
@@ -26,6 +28,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
   
   const { state, dispatch } = useCart();
   const { user, isAuthenticated, logout, isLoading } = useAuth();
+  const printfulCart = usePrintfulCart();
   const currentLang = getCurrentLanguage();
   const isRtl = isRTL();
 
@@ -343,29 +346,11 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 </button>
               </div>
             )}
-            <motion.button
-              className={`relative p-2 rounded-lg transition-colors duration-300 focus-luxury ${
-                isScrolled
-                  ? 'text-foreground hover:bg-muted'
-                  : 'text-white hover:bg-white/10'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => dispatch({ type: 'TOGGLE_CART' })}
-              aria-label="Shopping bag"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {state.items.length > 0 && (
-                <motion.span
-                  className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                >
-                  {state.items.reduce((total, item) => total + item.quantity, 0)}
-                </motion.span>
-              )}
-            </motion.button>
+            
+            {/* Printful Cart Icon */}
+            <div className={isScrolled ? 'text-foreground' : 'text-white'}>
+              <PrintfulCartIcon />
+            </div>
 
             {/* Mobile Menu Button */}
             <button

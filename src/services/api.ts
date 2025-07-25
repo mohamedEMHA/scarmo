@@ -1,0 +1,102 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+
+export interface PrintfulProduct {
+  id: number;
+  name: string;
+  thumbnail_url: string;
+  variants: PrintfulVariant[];
+}
+
+export interface PrintfulVariant {
+  id: number;
+  name: string;
+  price: string;
+  currency: string;
+  in_stock: boolean;
+  files?: any[];
+}
+
+export interface CartItem {
+  productId: number;
+  variantId: number;
+  name: string;
+  price: string;
+  quantity: number;
+  image?: string;
+}
+
+export interface ShippingRate {
+  id: string;
+  name: string;
+  rate: string;
+  currency: string;
+}
+
+export interface Customer {
+  email?: string;
+  phone?: string;
+  name?: string;
+}
+
+class ApiService {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const url = `${API_BASE_URL}${endpoint}`;
+    
+    const config: RequestInit = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`API Error (${endpoint}):`, error);
+      throw error;
+    }
+  }
+
+  // Get all products from Printful
+  async getProducts(): Promise<{ success: boolean; products: PrintfulProduct[] }> {
+    return this.request<{ success: boolean; products: PrintfulProduct[] }>('/api/products');
+  }
+
+  // Get specific product details
+  async getProduct(id: number): Promise<{ success: boolean; product: PrintfulProduct }> {
+    return this.request<{ success: boolean; product: PrintfulProduct }>(`/api/products/${id}`);
+  }
+
+  // Calculate shipping rates
+  async getShippingRates(
+    recipient: any,
+    items: CartItem[]
+  ): Promise<{ success: boolean; rates: ShippingRate[] }> {
+    return this.request<{ success: boolean; rates: ShippingRate[] }>('/api/shipping-rates', {
+      method: 'POST',
+      body: JSON.stringify({ recipient, items }),
+    });
+  }
+
+  // Create Stripe checkout session
+  async createCheckoutSession(
+    items: CartItem[],
+    customer?: Customer,
+    shipping?: ShippingRate
+  ): Promise<{ success: boolean; sessionId: string; url: string }> {
+    return this.request<{ success: boolean; sessionId: string; url: string }>('/api/create-checkout-session', {
+      method: 'POST',
+      body: JSON.stringify({ items, customer, shipping }),
+    });
+  }
+}
+
+export const apiService = new ApiService();
