@@ -83,6 +83,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
     { id: 'shoes', label: t('nav.shoes') },
     { id: 'backpacks', label: t('nav.backpacks') },
     { id: 'underwear', label: t('nav.underwear') },
+    { id: 'viewAll', label: t('nav.viewAll') },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -404,7 +405,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 bottom-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col"
+                className="fixed top-0 right-0 w-[80vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col h-auto max-h-screen overflow-y-auto"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -428,7 +429,7 @@ const Navigation = ({ currentSection }: NavigationProps) => {
                 </div>
 
                 {/* Menu Items */}
-                <div className="p-4 space-y-2 overflow-y-auto">
+                <div className="p-4 space-y-2">
                   {/* Home */}
                   <button
                     onClick={() => scrollToSection('hero')}
