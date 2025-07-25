@@ -225,21 +225,13 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
-                    className="absolute top-full left-1/2"
+                    className="absolute top-full left-1/2 transform -translate-x-1/2"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    style={{
-                      transform: 'translateX(-50%)',
-                      marginLeft: `-${
-                        collectionItems.findIndex(
-                          (i) => i.id === 'longSleeves'
-                        ) * 100
-                      }px`,
-                    }}
                   >
-                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4">
+                    <ul className="list-none bg-white rounded-xl shadow-lg p-2 z-50 flex justify-center space-x-4 px-4 max-w-full">
                       {collectionItems.map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
