@@ -28,7 +28,6 @@ import Sustainability from "./pages/Sustainability";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
@@ -46,9 +45,6 @@ const App = () => (
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/success" element={<Success />} />
-
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/shop/t-shirts" element={<TShirts />} />
                 <Route path="/shop/polos" element={<Polos />} />
