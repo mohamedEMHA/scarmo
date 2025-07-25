@@ -222,7 +222,8 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 {isCollectionOpen && (
                   <motion.div
                     ref={dropdownRef}
-                    className="absolute top-full left-1/2 transform -translate-x-1/2"
+                    className="absolute top-full"
+                    style={{ left: logoWidth + 32 }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
