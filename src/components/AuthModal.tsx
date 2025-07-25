@@ -148,24 +148,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
-
-
-    <div className="fixed inset-0 z-60 flex items-center justify-center w-full h-full">
-
-
-
     <FocusTrap>
       <div className="fixed inset-0 z-50">
         {/* Backdrop */}
         <motion.div
-
-
-    <div className="fixed inset-0 z-60 flex items-center justify-center">
-
-      {/* Backdrop */}
-      <motion.div
-
-
           className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
