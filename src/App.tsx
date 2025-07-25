@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import ScrollToTop from "@/components/ScrollToTop";
 import { PrintfulCartProvider } from "@/contexts/PrintfulCartContext";
 import Index from "./pages/Index";
 import Products from "./pages/Products";
@@ -25,7 +24,6 @@ const App = () => (
         <CartProvider>
           <PrintfulCartProvider>
             <BrowserRouter>
-              <ScrollToTop />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<Products />} />
