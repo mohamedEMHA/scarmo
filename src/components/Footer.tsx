@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Instagram, Facebook, Linkedin, MapPin, Phone, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -63,6 +64,7 @@ const Footer = () => {
       { name: 'Track Order', href: '/track-order' },
     ],
     'Company': [
+
       { name: 'About Us', href: '/about' },
       { name: 'Careers', href: '/careers' },
       { name: 'Press', href: '/press' },
@@ -70,6 +72,13 @@ const Footer = () => {
       { name: 'FAQ', href: '/faq' },
       { name: 'Privacy Policy', href: '/privacy-policy' },
       { name: 'Terms of Service', href: '/terms-of-service' },
+
+      { name: 'About Us', href: '#about' },
+      { name: 'Careers', href: '#' },
+      { name: 'Press', href: '#' },
+      { name: 'Sustainability', href: '#' },
+      { name: 'Privacy Policy', href: '/privacy-policy' },
+      { name: 'Terms of Service', href: '#' },
     ],
   };
 
@@ -182,6 +191,27 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.name}>
+
+                    {link.href.startsWith('/') ? (
+                      <Link
+                        to={link.href}
+                    {link.href === '#faq' ? (
+                      <Link
+                        to="/faq"
+
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"
+                      >
+                        {link.name}
+                      </a>
+                    )}
+
                     <a
                       href={link.href}
                       className="text-background/70 hover:text-accent transition-colors duration-300 focus:outline-none focus:text-accent"

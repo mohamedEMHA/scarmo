@@ -33,20 +33,19 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   const { login, signup } = useAuth();
 
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [signupForm, setSignupForm] = useState({ 
-    name: '', 
-    email: '', 
-    password: '', 
-    confirmPassword: '' 
+  const [signupForm, setSignupForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    dateOfBirth: undefined as Date | undefined,
   });
-  const [dateOfBirth, setDateOfBirth] = useState<Date>();
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (isOpen) {
       setLoginForm({ email: '', password: '' });
-      setSignupForm({ name: '', email: '', password: '', confirmPassword: '' });
-      setDateOfBirth(undefined);
+      setSignupForm({ name: '', email: '', password: '', confirmPassword: '', dateOfBirth: undefined });
       setErrors({});
       setActiveTab(initialTab);
       // Lock body scroll
@@ -95,9 +94,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
       if (signupForm.password !== signupForm.confirmPassword) {
         newErrors.confirmPassword = 'Passwords must match';
       }
-      if (!dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
+      if (!signupForm.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
       else {
-        const age = new Date().getFullYear() - dateOfBirth.getFullYear();
+        const age = new Date().getFullYear() - signupForm.dateOfBirth.getFullYear();
         if (age < 18) newErrors.dateOfBirth = 'You must be at least 18 years old';
       }
     }
@@ -131,7 +130,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
     setIsLoading(true);
     try {
-      const success = await signup(signupForm.name, signupForm.email, signupForm.password, dateOfBirth);
+      const success = await signup(signupForm.name, signupForm.email, signupForm.password, signupForm.dateOfBirth);
       if (success) {
         onClose();
       } else {
@@ -402,20 +401,20 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                         variant="outline"
                         className={cn(
                           "w-full justify-start text-left font-normal pl-10",
-                          !dateOfBirth && "text-muted-foreground"
+                          !signupForm.dateOfBirth && "text-muted-foreground"
                         )}
                         aria-invalid={!!errors.dateOfBirth}
                         aria-describedby={errors.dateOfBirth ? "signup-dob-error" : undefined}
                       >
                         <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4" />
-                        {dateOfBirth ? format(dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
+                        {signupForm.dateOfBirth ? format(signupForm.dateOfBirth, "PPP") : <span>Pick your date of birth</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={dateOfBirth}
-                        onSelect={setDateOfBirth}
+                        selected={signupForm.dateOfBirth}
+                        onSelect={(date) => setSignupForm(prev => ({ ...prev, dateOfBirth: date }))}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
