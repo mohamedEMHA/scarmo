@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
+import { apiService } from '@/services/api';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CartDrawer = () => {
   const { state, dispatch } = useCart();
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateQuantity = (id: string, quantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
@@ -17,6 +22,22 @@ const CartDrawer = () => {
 
   const closeCart = () => {
     dispatch({ type: 'CLOSE_CART' });
+  };
+
+  const handleCheckout = async () => {
+    setIsLoading(true);
+    try {
+      const { sessionId } = await apiService.createCheckoutSession(state.items);
+      const stripe = await stripePromise;
+      if (stripe) {
+        await stripe.redirectToCheckout({ sessionId });
+      }
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      // You can show a toast notification here
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -183,8 +204,12 @@ const CartDrawer = () => {
                     <span>Total:</span>
                     <span className="text-accent">${state.total.toFixed(2)}</span>
                   </div>
-                  <Button className="w-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70">
-                    Proceed to Checkout
+                  <Button
+                    className="w-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70"
+                    onClick={handleCheckout}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Processing...' : 'Proceed to Checkout'}
                   </Button>
                 </div>
               )}
