@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Minus, Trash2, ShoppingBag, CreditCard, Loader2 } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePrintfulCart } from '@/contexts/PrintfulCartContext';
-import { apiService } from '@/services/api';
-import { toast } from 'sonner';
 
 const PrintfulCartDrawer: React.FC = () => {
   const { state, dispatch } = usePrintfulCart();
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const updateQuantity = (productId: number, variantId: number, quantity: number) => {
     dispatch({ 
@@ -26,32 +23,6 @@ const PrintfulCartDrawer: React.FC = () => {
 
   const closeCart = () => {
     dispatch({ type: 'CLOSE_CART' });
-  };
-
-  const handleCheckout = async () => {
-    if (state.items.length === 0) {
-      toast.error('Your cart is empty');
-      return;
-    }
-
-    try {
-      setIsCheckingOut(true);
-      
-      // Create checkout session
-      const response = await apiService.createCheckoutSession(state.items);
-      
-      if (response.success && response.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = response.url;
-      } else {
-        throw new Error('Failed to create checkout session');
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      toast.error('Failed to start checkout. Please try again.');
-    } finally {
-      setIsCheckingOut(false);
-    }
   };
 
   return (
@@ -196,28 +167,6 @@ const PrintfulCartDrawer: React.FC = () => {
                     <span>Total:</span>
                     <span className="text-black">${state.total.toFixed(2)}</span>
                   </div>
-                  
-                  <Button 
-                    onClick={handleCheckout}
-                    disabled={isCheckingOut}
-                    className="w-full bg-black text-white hover:bg-gray-800 transition-colors h-12"
-                  >
-                    {isCheckingOut ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <CreditCard className="w-4 h-4 mr-2" />
-                        Checkout with Stripe
-                      </>
-                    )}
-                  </Button>
-                  
-                  <p className="text-xs text-gray-500 text-center">
-                    Secure checkout powered by Stripe
-                  </p>
                 </div>
               )}
             </div>

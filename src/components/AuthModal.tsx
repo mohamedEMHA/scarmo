@@ -149,20 +149,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
   return (
     <FocusTrap>
-      <div className="fixed inset-0 z-50">
-        {/* Backdrop */}
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        onClick={onClose}
+      >
         <motion.div
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-        />
-
-      {/* Modal */}
-      <motion.div
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[400px] mx-4 bg-background border border-border rounded-2xl shadow-luxury max-h-[80vh] overflow-y-auto"
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="bg-white rounded-xl max-w-md w-full overflow-hidden"
+          onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ duration: 0.2 }}
@@ -450,8 +444,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
-    </div>
+        </motion.div>
+      </div>
     </FocusTrap>
   );
 };

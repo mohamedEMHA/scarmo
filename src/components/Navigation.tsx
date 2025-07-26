@@ -87,6 +87,11 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     }
   }, [logoRef]);
 
+  // Close auth modal on route change
+  useEffect(() => {
+    setAuthModal({ isOpen: false, tab: 'login' });
+  }, [location]);
+
 
   // Don't render auth-dependent UI until auth is loaded
   if (isLoading) {
@@ -216,46 +221,15 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 {isCollectionOpen && (
                   <motion.div
                     ref={dropdownRef}
-                    className="absolute top-full left-1/2 transform -translate-x-1/2"
+                    className="absolute top-full"
+                    style={{ left: logoWidth }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
-                      {collectionItems.filter(item => ['tshirts', 'sweaters', 'belts', 'neckties'].includes(item.id)).map((item) => (
-                        <li key={item.id} className="flex-shrink-0">
-                          <button
-                            onClick={() => {
-                              scrollToSection(item.id);
-                              setIsCollectionOpen(false);
-                            }}
-                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                              currentSection === item.id
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-foreground'
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        </li>
-                      ))}
-                      <li key="longSleeves" className="flex-shrink-0 font-bold">
-                        <button
-                          onClick={() => {
-                            scrollToSection('longSleeves');
-                            setIsCollectionOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                            currentSection === 'longSleeves'
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-foreground'
-                          }`}
-                        >
-                          {t('nav.longSleeves')}
-                        </button>
-                      </li>
-                      {collectionItems.filter(item => ['shoes', 'backpacks', 'underwear'].includes(item.id)).map((item) => (
+                      {collectionItems.map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
                             onClick={() => {
@@ -446,7 +420,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
 
             <FocusTrap active={isMobileMenuOpen}>
               <motion.div
-                className="fixed top-0 right-0 h-auto w-[25vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl"
+                className="fixed top-0 right-0 h-screen w-[25vw] max-w-md bg-[#F3F4F6] shadow-lg z-50 lg:hidden flex flex-col rounded-l-xl overflow-y-auto"
                 initial={{ opacity: 0, x: '100%' }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: '100%' }}
@@ -563,13 +537,13 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
 
                   {/* Auth Section */}
                   {!isAuthenticated ? (
-                    <div className="pt-4 border-t border-border/80 space-y-8">
+                    <div className="pt-2 border-t-2 border-border/20 space-y-2">
                       <button
                         onClick={() => {
                           setAuthModal({ isOpen: true, tab: 'login' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
+                        className="w-full text-left px-6 py-3 text-lg font-medium transition-colors duration-300 focus-luxury text-foreground hover:bg-muted/50"
                       >
                         {t('auth.login')}
                       </button>
@@ -578,7 +552,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                           setAuthModal({ isOpen: true, tab: 'signup' });
                           closeMobileMenu();
                         }}
-                        className="w-full text-left px-6 py-4 text-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
+                        className="w-full text-left px-6 py-3 text-lg font-medium transition-colors duration-300 focus-luxury bg-accent text-accent-foreground hover:bg-accent/90"
                       >
                         {t('auth.signup')}
                       </button>
