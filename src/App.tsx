@@ -18,6 +18,12 @@ import TermsOfService from "./pages/TermsOfService";
 import ViewAll from "./pages/ViewAll";
 import Careers from "./pages/Careers";
 import Press from "./pages/Press";
+import Sustainability from "./pages/Sustainability";
+import TrackOrder from "./pages/TrackOrder";
+import ContactUs from "./pages/ContactUs";
+import SizeGuide from "./pages/SizeGuide";
+import ShippingInfo from "./pages/ShippingInfo";
+import Returns from "./pages/Returns";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -44,6 +50,12 @@ const App = () => (
                 <Route path="/collection/view-all" element={<ViewAll />} />
                 <Route path="/careers" element={<Careers />} />
                 <Route path="/press" element={<Press />} />
+                <Route path="/sustainability" element={<Sustainability />} />
+                <Route path="/track-order" element={<TrackOrder />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/size-guide" element={<SizeGuide />} />
+                <Route path="/shipping-info" element={<ShippingInfo />} />
+                <Route path="/returns" element={<Returns />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
