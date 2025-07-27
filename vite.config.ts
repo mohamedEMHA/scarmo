@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "127.0.0.1",
     port: 8080,
+    watch: {
+      ignored: ['**/node_modules/**'],
+    },
   },
   plugins: [
     react(),
@@ -14,6 +17,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      '@stripe/stripe-js': path.resolve(__dirname, 'node_modules/@stripe/stripe-js/dist/esm'),
     },
   },
   optimizeDeps: {
