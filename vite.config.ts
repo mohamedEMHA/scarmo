@@ -17,10 +17,12 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      '@stripe/stripe-js': path.resolve(__dirname, 'node_modules/@stripe/stripe-js/dist/esm'),
     },
   },
   optimizeDeps: {
     include: ['@stripe/stripe-js'],
+  },
+  ssr: {
+    noExternal: ['@stripe/stripe-js'],
   },
 }));
