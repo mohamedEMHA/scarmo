@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BACKEND_URL = import.meta.env.REACT_APP_BACKEND_URL;
 
 export interface PrintfulProduct {
   id: number;
@@ -40,7 +41,7 @@ export interface Customer {
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
+    const url = endpoint.startsWith('http') ? endpoint : `${BACKEND_URL}${endpoint}`;
     
     const config: RequestInit = {
       headers: {
