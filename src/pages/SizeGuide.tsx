@@ -82,6 +82,6 @@ const SizeGuide = () => {
       <ChatWidget />
     </div>
   );
-}
+};
 
 export default SizeGuide;
