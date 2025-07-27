@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePrintfulCart } from '@/contexts/PrintfulCartContext';
+import { apiService } from '@/services/api';
+import { redirectToCheckout } from '@/services/stripe';
+import { toast } from 'sonner';
 
 const PrintfulCartDrawer: React.FC = () => {
   const { state, dispatch } = usePrintfulCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const updateQuantity = (productId: number, variantId: number, quantity: number) => {
     dispatch({ 
@@ -23,6 +27,25 @@ const PrintfulCartDrawer: React.FC = () => {
 
   const closeCart = () => {
     dispatch({ type: 'CLOSE_CART' });
+  };
+
+  const handleCheckout = async () => {
+    try {
+      setIsCheckingOut(true);
+      
+      const response = await apiService.createCheckoutSession(state.items);
+      
+      if (response.success && response.sessionId) {
+        await redirectToCheckout(response.sessionId);
+      } else {
+        throw new Error('Failed to create checkout session');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      toast.error('Failed to start checkout. Please try again.');
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   return (
@@ -167,6 +190,23 @@ const PrintfulCartDrawer: React.FC = () => {
                     <span>Total:</span>
                     <span className="text-black">${state.total.toFixed(2)}</span>
                   </div>
+                  <Button
+                    onClick={handleCheckout}
+                    disabled={isCheckingOut}
+                    className="w-full bg-black hover:bg-gray-800 text-white py-3 text-base font-medium"
+                  >
+                    {isCheckingOut ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        <span>Processing...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <CreditCard className="h-4 w-4" />
+                        <span>Checkout</span>
+                      </div>
+                    )}
+                  </Button>
                 </div>
               )}
             </div>

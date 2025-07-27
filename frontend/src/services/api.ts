@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
 export interface PrintfulProduct {
   id: number;
@@ -40,7 +41,7 @@ export interface Customer {
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
+    const url = endpoint.startsWith('http') ? endpoint : `${BACKEND_URL}${endpoint}`;
     
     const config: RequestInit = {
       headers: {
@@ -65,22 +66,14 @@ class ApiService {
     }
   }
 
-    // Get all products from Printful
+    // Get all products from Printful via backend
     async getProducts(): Promise<{ result: PrintfulProduct[] }> {
-        return this.request<{ result: PrintfulProduct[] }>(`${API_BASE_URL}/store/products`, {
-            headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
-            },
-        });
+        return this.request<{ result: PrintfulProduct[] }>('/api/printful/products');
     }
 
-  // Get specific product details
+  // Get specific product details via backend
   async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
-    return this.request<{ result: PrintfulProduct }>(`${API_BASE_URL}/store/products/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
-        },
-    });
+    return this.request<{ result: PrintfulProduct }>(`/api/printful/products/${id}`);
   }
 
   // Calculate shipping rates
