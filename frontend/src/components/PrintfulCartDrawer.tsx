@@ -190,6 +190,23 @@ const PrintfulCartDrawer: React.FC = () => {
                     <span>Total:</span>
                     <span className="text-black">${state.total.toFixed(2)}</span>
                   </div>
+                  <Button
+                    onClick={handleCheckout}
+                    disabled={isCheckingOut}
+                    className="w-full bg-black hover:bg-gray-800 text-white py-3 text-base font-medium"
+                  >
+                    {isCheckingOut ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        <span>Processing...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <CreditCard className="h-4 w-4" />
+                        <span>Checkout</span>
+                      </div>
+                    )}
+                  </Button>
                 </div>
               )}
             </div>
