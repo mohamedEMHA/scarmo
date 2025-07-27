@@ -65,7 +65,6 @@ class ApiService {
     }
   }
 
-
     // Get all products from Printful
     async getProducts(): Promise<{ result: PrintfulProduct[] }> {
         return this.request<{ result: PrintfulProduct[] }>('/api/printful/store/products', {
@@ -74,22 +73,6 @@ class ApiService {
             },
         });
     }
-
-  // Get all products from Printful
-  async getProducts(): Promise<{ result: PrintfulProduct[] }> {
-    const url = `https://api.printful.com/store/products`;
-    const options = {
-      headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_KEY}`,
-      },
-    };
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    return await response.json();
-  }
-
 
   // Get specific product details
   async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
