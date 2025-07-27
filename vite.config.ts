@@ -37,6 +37,7 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN || ''),
+      'process.env': JSON.stringify(env),
     },
   };
 });
