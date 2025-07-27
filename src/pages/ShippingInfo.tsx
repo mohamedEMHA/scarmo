@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
@@ -29,7 +28,7 @@ const shippingFaqs = [
   },
   {
     question: "What if my order is lost or damaged?",
-    answer: "If your order is lost or damaged in transit, please contact our customer service team for assistance. We will work with you to resolve the issue as quickly as possible. We offer standard, expedited, and overnight shipping options. You can select your preferred method at checkout."
+    answer: "If your order is lost or damaged in transit, please contact our customer service team for assistance. We will work with you to resolve the issue as quickly as possible."
   },
   {
     question: "How much does shipping cost?",
