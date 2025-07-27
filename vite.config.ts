@@ -1,12 +1,11 @@
-import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
+export default ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
 
-  return {
+  return defineConfig({
     server: {
       host: "127.0.0.1",
       port: 8080,
@@ -39,5 +38,5 @@ export default defineConfig(({ mode }) => {
       __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN),
       'process.env': JSON.stringify(env),
     },
-  };
-});
+  });
+};
