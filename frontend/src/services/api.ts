@@ -66,22 +66,14 @@ class ApiService {
     }
   }
 
-    // Get all products from Printful
+    // Get all products from Printful via backend
     async getProducts(): Promise<{ result: PrintfulProduct[] }> {
-        return this.request<{ result: PrintfulProduct[] }>(`${API_BASE_URL}/store/products`, {
-            headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
-            },
-        });
+        return this.request<{ result: PrintfulProduct[] }>('/api/printful/products');
     }
 
-  // Get specific product details
+  // Get specific product details via backend
   async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
-    return this.request<{ result: PrintfulProduct }>(`${API_BASE_URL}/store/products/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
-        },
-    });
+    return this.request<{ result: PrintfulProduct }>(`/api/printful/products/${id}`);
   }
 
   // Calculate shipping rates
