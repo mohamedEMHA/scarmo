@@ -150,11 +150,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   return (
     <FocusTrap>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
         onClick={onClose}
       >
         <motion.div
-          className="bg-white rounded-lg p-6 w-full max-w-sm"
+          className="bg-white rounded-lg w-full max-w-md mx-auto"
           onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
