@@ -10,6 +10,13 @@ export default defineConfig(({ mode }) => ({
     watch: {
       ignored: ['**/node_modules/**'],
     },
+    proxy: {
+      '/api/printful': {
+        target: 'https://api.printful.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/printful/, ''),
+      },
+    },
   },
   plugins: [
     react(),

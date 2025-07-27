@@ -40,7 +40,7 @@ export interface Customer {
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = `${API_BASE_URL}${endpoint}`;
+    const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
     
     const config: RequestInit = {
       headers: {
@@ -65,6 +65,16 @@ class ApiService {
     }
   }
 
+
+    // Get all products from Printful
+    async getProducts(): Promise<{ result: PrintfulProduct[] }> {
+        return this.request<{ result: PrintfulProduct[] }>('/api/printful/store/products', {
+            headers: {
+                'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_KEY}`,
+            },
+        });
+    }
+
   // Get all products from Printful
   async getProducts(): Promise<{ result: PrintfulProduct[] }> {
     const url = `https://api.printful.com/store/products`;
@@ -80,9 +90,14 @@ class ApiService {
     return await response.json();
   }
 
+
   // Get specific product details
-  async getProduct(id: number): Promise<{ success: boolean; product: PrintfulProduct }> {
-    return this.request<{ success: boolean; product: PrintfulProduct }>(`/api/products/${id}`);
+  async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
+    return this.request<{ result: PrintfulProduct }>(`/api/printful/store/products/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_KEY}`,
+        },
+    });
   }
 
   // Calculate shipping rates
