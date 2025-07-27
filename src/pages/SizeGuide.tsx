@@ -81,8 +81,6 @@ const SizeGuide = () => {
       <Footer />
       <ChatWidget />
     </div>
-
-    </div>
   );
 }
 
