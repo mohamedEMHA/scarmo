@@ -29,9 +29,7 @@ const shippingFaqs = [
   },
   {
     question: "What if my order is lost or damaged?",
-    answer: "If your order is lost or damaged in transit, please contact our customer service team for assistance. We will work with you to resolve the issue as quickly as possible."
-
-    answer: "We offer standard, expedited, and overnight shipping options. You can select your preferred method at checkout."
+    answer: "If your order is lost or damaged in transit, please contact our customer service team for assistance. We will work with you to resolve the issue as quickly as possible. We offer standard, expedited, and overnight shipping options. You can select your preferred method at checkout."
   },
   {
     question: "How much does shipping cost?",
@@ -44,7 +42,6 @@ const shippingFaqs = [
   {
     question: "How long will it take to receive my order?",
     answer: "Delivery times depend on your location and the shipping method selected. Standard shipping typically takes 5-7 business days, while expedited shipping takes 2-3 business days."
-
   }
 ];
 
@@ -85,20 +82,6 @@ const ShippingInfo = () => {
       <Footer />
       <ChatWidget />
     </div>
-
-  return (
-    <InfoPage title="Shipping Info">
-      <Accordion type="single" collapsible className="w-full">
-        {shippingFaqs.map((faq, index) => (
-          <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger>{faq.question}</AccordionTrigger>
-            <AccordionContent>
-              {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </InfoPage>
   );
 };
 
