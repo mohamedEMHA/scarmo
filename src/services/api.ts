@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export interface PrintfulProduct {
   id: number;
@@ -67,7 +67,7 @@ class ApiService {
 
     // Get all products from Printful
     async getProducts(): Promise<{ result: PrintfulProduct[] }> {
-        return this.request<{ result: PrintfulProduct[] }>('/api/printful/store/products', {
+        return this.request<{ result: PrintfulProduct[] }>(`${API_BASE_URL}/store/products`, {
             headers: {
                 'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
             },
@@ -76,7 +76,7 @@ class ApiService {
 
   // Get specific product details
   async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
-    return this.request<{ result: PrintfulProduct }>(`/api/printful/store/products/${id}`, {
+    return this.request<{ result: PrintfulProduct }>(`${API_BASE_URL}/store/products/${id}`, {
         headers: {
             'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
         },
