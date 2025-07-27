@@ -146,24 +146,32 @@ async def get_printful_products():
         logging.error(f"Error fetching Printful products: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.get("/printful/products/{product_id}")
-async def get_printful_product(product_id: int):
+@api_router.post("/shipping-rates")
+async def get_shipping_rates(request: ShippingRatesRequest):
     try:
-        headers = {
-            'Authorization': f'Bearer {os.environ.get("PRINTFUL_API_TOKEN", "")}',
-            'Content-Type': 'application/json'
+        # Mock shipping rates for now - in production you'd calculate real rates
+        rates = [
+            {
+                "id": "standard",
+                "name": "Standard Shipping",
+                "rate": "5.99",
+                "currency": "USD"
+            },
+            {
+                "id": "express",
+                "name": "Express Shipping",
+                "rate": "12.99",
+                "currency": "USD"
+            }
+        ]
+        
+        return {
+            "success": True,
+            "rates": rates
         }
-        
-        response = requests.get(f'https://api.printful.com/store/products/{product_id}', headers=headers)
-        
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail="Failed to fetch product from Printful")
-            
     except Exception as e:
-        logging.error(f"Error fetching Printful product: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"Error getting shipping rates: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 # Include the router in the main app
 app.include_router(api_router)
