@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Backend URL from environment
-BACKEND_URL = "https://14b92af9-950e-48b4-b5b1-395e2a81fc29.preview.emergentagent.com"
+BACKEND_URL = "https://5221f6ca-aa14-4850-87bc-dd74264144a3.preview.emergentagent.com"
 API_BASE_URL = f"{BACKEND_URL}/api"
 
 class BackendTester:
@@ -21,7 +21,7 @@ class BackendTester:
         # Set headers for CORS testing
         self.session.headers.update({
             'Content-Type': 'application/json',
-            'Origin': 'https://14b92af9-950e-48b4-b5b1-395e2a81fc29.preview.emergentagent.com'
+            'Origin': 'https://5221f6ca-aa14-4850-87bc-dd74264144a3.preview.emergentagent.com'
         })
     
     def log_result(self, test_name, success, message, response_data=None):

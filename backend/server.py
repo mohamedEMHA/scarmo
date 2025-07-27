@@ -113,8 +113,8 @@ async def create_checkout_session(request: CheckoutSessionRequest):
             payment_method_types=['card'],
             line_items=line_items,
             mode='payment',
-            success_url='https://14b92af9-950e-48b4-b5b1-395e2a81fc29.preview.emergentagent.com/success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='https://14b92af9-950e-48b4-b5b1-395e2a81fc29.preview.emergentagent.com/',
+            success_url='https://5221f6ca-aa14-4850-87bc-dd74264144a3.preview.emergentagent.com/success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url='https://5221f6ca-aa14-4850-87bc-dd74264144a3.preview.emergentagent.com/',
             customer_email=request.customer.email if request.customer and request.customer.email else None,
         )
         
