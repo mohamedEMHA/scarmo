@@ -127,32 +127,43 @@ async def create_checkout_session(request: CheckoutSessionRequest):
         logging.error(f"Error creating checkout session: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
-@api_router.post("/shipping-rates")
-async def get_shipping_rates(request: ShippingRatesRequest):
+@api_router.get("/printful/products")
+async def get_printful_products():
     try:
-        # Mock shipping rates for now - in production you'd calculate real rates
-        rates = [
-            {
-                "id": "standard",
-                "name": "Standard Shipping",
-                "rate": "5.99",
-                "currency": "USD"
-            },
-            {
-                "id": "express",
-                "name": "Express Shipping",
-                "rate": "12.99",
-                "currency": "USD"
-            }
-        ]
-        
-        return {
-            "success": True,
-            "rates": rates
+        headers = {
+            'Authorization': f'Bearer {os.environ.get("PRINTFUL_API_TOKEN", "")}',
+            'Content-Type': 'application/json'
         }
+        
+        response = requests.get('https://api.printful.com/store/products', headers=headers)
+        
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise HTTPException(status_code=response.status_code, detail="Failed to fetch products from Printful")
+            
     except Exception as e:
-        logging.error(f"Error getting shipping rates: {str(e)}")
-        raise HTTPException(status_code=400, detail=str(e))
+        logging.error(f"Error fetching Printful products: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/printful/products/{product_id}")
+async def get_printful_product(product_id: int):
+    try:
+        headers = {
+            'Authorization': f'Bearer {os.environ.get("PRINTFUL_API_TOKEN", "")}',
+            'Content-Type': 'application/json'
+        }
+        
+        response = requests.get(f'https://api.printful.com/store/products/{product_id}', headers=headers)
+        
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise HTTPException(status_code=response.status_code, detail="Failed to fetch product from Printful")
+            
+    except Exception as e:
+        logging.error(f"Error fetching Printful product: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Include the router in the main app
 app.include_router(api_router)
