@@ -69,7 +69,7 @@ class ApiService {
     async getProducts(): Promise<{ result: PrintfulProduct[] }> {
         return this.request<{ result: PrintfulProduct[] }>('/api/printful/store/products', {
             headers: {
-                'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_KEY}`,
+                'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
             },
         });
     }
@@ -78,7 +78,7 @@ class ApiService {
   async getProduct(id: number): Promise<{ result: PrintfulProduct }> {
     return this.request<{ result: PrintfulProduct }>(`/api/printful/store/products/${id}`, {
         headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_KEY}`,
+            'Authorization': `Bearer ${import.meta.env.VITE_PRINTFUL_API_TOKEN}`,
         },
     });
   }
