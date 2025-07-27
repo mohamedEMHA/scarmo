@@ -29,9 +29,8 @@ const returnsFaqs = [
   },
   {
     question: "Can I exchange an item?",
-    answer: "Yes, we offer exchanges for items of the same value. Please visit our returns portal to start an exchange."
-
-    answer: "We offer a 30-day return policy for unworn items with tags attached. Items must be in their original condition."
+    answer: "Yes, we offer exchanges for items of the same value. Please visit our returns portal to start an exchange.",
+    returnPolicy: "We offer a 30-day return policy for unworn items with tags attached. Items must be in their original condition."
   },
   {
     question: "How do I start a return?",
