@@ -1,36 +1,27 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 
-export default ({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+export default defineConfig({
+  build: {
+    outDir: 'build'
+  },
 
-  return defineConfig({
-    build: {
-      outDir: 'build'
+  // Server configuration
+  server: {
+    port: 3000,
+    host: '0.0.0.0', // Explicitly bind to all interfaces
+    allowedHosts: true
+  },
+  plugins: [
+    react(),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
-
-    // Server configuration
-    server: {
-      port: 3000,
-      host: '0.0.0.0', // Explicitly bind to all interfaces
-      allowedHosts: true
-    },
-    plugins: [
-      react(),
-    ],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
-    },
-    optimizeDeps: {
-      include: ['@stripe/stripe-js'],
-    },
-    define: {
-      'process.env.VITE_PRINTFUL_API_TOKEN': JSON.stringify(env.VITE_PRINTFUL_API_TOKEN),
-      'process.env.VITE_STRIPE_PUBLISHABLE_KEY': JSON.stringify(env.VITE_STRIPE_PUBLISHABLE_KEY),
-      'process.env.VITE_API_BASE_URL': JSON.stringify(env.VITE_API_BASE_URL),
-    },
-  });
-};
+  },
+  optimizeDeps: {
+    include: ['@stripe/stripe-js'],
+  },
+});
