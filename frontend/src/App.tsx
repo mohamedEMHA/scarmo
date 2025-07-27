@@ -47,15 +47,6 @@ const App = () => (
                   <Route path="/faq" element={<FAQ />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="/collection/view-all" element={<ViewAll />} />
-                <Route path="/careers" element={<Careers />} />
-                <Route path="/press" element={<Press />} />
-                <Route path="/sustainability" element={<Sustainability />} />
-                <Route path="/track-order" element={<TrackOrder />} />
-                <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/size-guide" element={<SizeGuide />} />
-                <Route path="/shipping-info" element={<ShippingInfo />} />
-                <Route path="/returns" element={<Returns />} />
                   <Route path="/collection/view-all" element={<ViewAll />} />
                   <Route path="/careers" element={<Careers />} />
                   <Route path="/press" element={<Press />} />
