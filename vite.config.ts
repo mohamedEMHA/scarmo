@@ -32,4 +32,7 @@ export default defineConfig(({ mode }) => ({
   ssr: {
     noExternal: ['@stripe/stripe-js'],
   },
+  define: {
+    __WS_TOKEN__: JSON.stringify(process.env.VITE_WS_TOKEN || ''),
+  },
 }));
