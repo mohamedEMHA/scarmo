@@ -4,7 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  const env = loadEnv(mode, process.cwd());
 
   return {
     server: {
@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       noExternal: ['@stripe/stripe-js'],
     },
     define: {
-      __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN || ''),
+      __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN),
       'process.env': JSON.stringify(env),
     },
   };
