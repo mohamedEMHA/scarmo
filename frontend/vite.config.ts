@@ -27,13 +27,10 @@ export default ({ mode }) => {
     optimizeDeps: {
       include: ['@stripe/stripe-js'],
     },
-    ssr: {
-      noExternal: ['@stripe/stripe-js'],
-    },
     define: {
-      __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN),
       'process.env.VITE_PRINTFUL_API_TOKEN': JSON.stringify(env.VITE_PRINTFUL_API_TOKEN),
       'process.env.VITE_STRIPE_PUBLISHABLE_KEY': JSON.stringify(env.VITE_STRIPE_PUBLISHABLE_KEY),
+      'process.env.VITE_API_BASE_URL': JSON.stringify(env.VITE_API_BASE_URL),
     },
   });
 };
