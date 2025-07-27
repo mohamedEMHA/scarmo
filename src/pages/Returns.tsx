@@ -84,20 +84,6 @@ const Returns = () => {
       <Footer />
       <ChatWidget />
     </div>
-
-  return (
-    <InfoPage title="Returns">
-      <Accordion type="single" collapsible className="w-full">
-        {returnsFaqs.map((faq, index) => (
-          <AccordionItem value={`item-${index}`} key={index}>
-            <AccordionTrigger>{faq.question}</AccordionTrigger>
-            <AccordionContent>
-              {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </InfoPage>
   );
 };
 
