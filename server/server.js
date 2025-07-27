@@ -14,7 +14,7 @@ const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
   credentials: true
 }));
 
@@ -25,7 +25,7 @@ app.use(express.json());
 // Printful API configuration
 const PRINTFUL_API_BASE = 'https://api.printful.com';
 const printfulHeaders = {
-  'Authorization': `Bearer ${process.env.PRINTFUL_API_TOKEN}`,
+  'Authorization': `Bearer ${process.env.VITE_PRINTFUL_API_KEY}`,
   'Content-Type': 'application/json'
 };
 
