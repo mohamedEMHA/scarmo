@@ -12,6 +12,9 @@ export default ({ mode }) => {
       watch: {
         ignored: ['**/node_modules/**'],
       },
+      hmr: {
+        overlay: false,
+      },
       proxy: {
         '/api/printful': {
           target: 'https://api.printful.com',
@@ -36,7 +39,6 @@ export default ({ mode }) => {
     },
     define: {
       __WS_TOKEN__: JSON.stringify(env.VITE_WS_TOKEN),
-      'process.env': JSON.stringify(env),
     },
   });
 };
