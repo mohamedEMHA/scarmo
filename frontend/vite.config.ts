@@ -6,22 +6,15 @@ export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return defineConfig({
+    build: {
+      outDir: 'build'
+    },
+
+    // Server configuration
     server: {
-      host: "127.0.0.1",
-      port: 8080,
-      watch: {
-        ignored: ['**/node_modules/**'],
-      },
-      hmr: {
-        overlay: false,
-      },
-      proxy: {
-        '/api/printful': {
-          target: 'https://api.printful.com',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/printful/, ''),
-        },
-      },
+      port: 3000,
+      host: '0.0.0.0', // Explicitly bind to all interfaces
+      allowedHosts: true
     },
     plugins: [
       react(),
