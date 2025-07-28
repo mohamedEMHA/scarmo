@@ -217,9 +217,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="text-background/70 text-center md:text-left">
             <p>&copy; 2024 Scarmo. All rights reserved.</p>
-            <p className="text-sm mt-1">
-              Designed with ❤️ for the modern gentleman
-            </p>
+            {/* The line below has been removed as per the user's request. */}
           </div>
 
           {/* Social Links */}
