@@ -39,7 +39,12 @@ export interface Customer {
 }
 
 class ApiService {
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {},
+    retries = 3,
+    backoff = 300
+  ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
     const config: RequestInit = {
@@ -54,12 +59,24 @@ class ApiService {
       const response = await fetch(url, config);
       
       if (!response.ok) {
+        // For 5xx errors, we can retry
+        if (response.status >= 500 && retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, backoff));
+          return this.request(endpoint, options, retries - 1, backoff * 2);
+        }
+
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
       }
 
       return await response.json();
     } catch (error) {
+      // Retry on network errors
+      if (error instanceof TypeError && error.message === 'Failed to fetch' && retries > 0) {
+        await new Promise(resolve => setTimeout(resolve, backoff));
+        return this.request(endpoint, options, retries - 1, backoff * 2);
+      }
+
       console.error(`API Error (${endpoint}):`, error);
       throw error;
     }
