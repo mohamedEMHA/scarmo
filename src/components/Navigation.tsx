@@ -243,7 +243,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                               scrollToSection(item.id);
                               setIsCollectionOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
                               currentSection === item.id
                                 ? 'bg-accent text-accent-foreground'
                                 : 'text-foreground'
@@ -259,7 +259,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                             scrollToSection(centerItem.id);
                             setIsCollectionOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                          className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
                             currentSection === centerItem.id
                               ? 'bg-accent text-accent-foreground'
                               : 'text-foreground'
@@ -276,7 +276,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                               scrollToSection(item.id);
                               setIsCollectionOpen(false);
                             }}
-                            className={`w-full text-left px-4 py-2 rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
                               currentSection === item.id
                                 ? 'bg-accent text-accent-foreground'
                                 : 'text-foreground'
