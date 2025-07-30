@@ -49,11 +49,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
     { id: 'underwear', label: t('nav.underwear') },
   ];
 
-  const centerIndex = collectionItems.findIndex(item => item.id === 'longSleeves');
-  const leftItems = collectionItems.slice(0, centerIndex);
-  const centerItem = collectionItems[centerIndex];
-  const rightItems = collectionItems.slice(centerIndex + 1);
-
   // All hooks must be called before any conditional returns
   useEffect(() => {
     if (forceSolidBg) return;
@@ -221,75 +216,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                   <ChevronDown className="w-4 h-4" />
                 </motion.div>
               </button>
-              <AnimatePresence>
-                {isCollectionOpen && (
-                  <motion.div
-                    ref={dropdownRef}
-                    className="absolute top-full"
-                    style={{ left: `calc(${logoWidth}px - 50% + 2rem)` }}
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    onMouseEnter={() => setIsCollectionOpen(true)}
-                    onMouseLeave={() => setIsCollectionOpen(false)}
-                  >
-                    <div className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center items-center space-x-4 w-[max-content] px-6">
-                      <div className="flex items-center space-x-4">
-                        {leftItems.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              scrollToSection(item.id);
-                              setIsCollectionOpen(false);
-                            }}
-                            className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                              currentSection === item.id
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-foreground'
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        ))}
-                      </div>
-                      <div className="flex-shrink-0">
-                        <button
-                          onClick={() => {
-                            scrollToSection(centerItem.id);
-                            setIsCollectionOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                            currentSection === centerItem.id
-                              ? 'bg-accent text-accent-foreground'
-                              : 'text-foreground'
-                          }`}
-                        >
-                          {centerItem.label}
-                        </button>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        {rightItems.map((item) => (
-                          <button
-                            key={item.id}
-                            onClick={() => {
-                              scrollToSection(item.id);
-                              setIsCollectionOpen(false);
-                            }}
-                            className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                              currentSection === item.id
-                                ? 'bg-accent text-accent-foreground'
-                                : 'text-foreground'
-                            }`}
-                          >
-                            {item.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
 
             {/* About and Contact */}
@@ -430,6 +356,42 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
             </button>
           </div>
         </div>
+
+        <AnimatePresence>
+          {isCollectionOpen && (
+            <motion.div
+              ref={dropdownRef}
+              className="absolute top-full"
+              style={{ left: logoWidth }}
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              onMouseEnter={() => setIsCollectionOpen(true)}
+              onMouseLeave={() => setIsCollectionOpen(false)}
+            >
+              <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
+                {collectionItems.map((item) => (
+                  <li key={item.id} className="flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        scrollToSection(item.id);
+                        setIsCollectionOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                        currentSection === item.id
+                          ? 'bg-accent text-accent-foreground'
+                          : 'text-foreground'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
 
         {/* Auth Modal */}
