@@ -46,14 +46,14 @@ const PrintfulProductGrid: React.FC = () => {
     const cartItem: CartItem = {
       productId: product.id,
       variantId: variant.id,
-      name: `${product.name} - ${variant.name}`,
+      name: `${product.title} - ${variant.name}`,
       price: variant.price,
       quantity: 1,
-      image: product.thumbnail_url,
+      image: product.image,
     };
 
     dispatch({ type: 'ADD_ITEM', payload: cartItem });
-    toast.success(`Added ${product.name} to cart`);
+    toast.success(`Added ${product.title} to cart`);
   };
 
   if (loading) {
@@ -130,8 +130,8 @@ const PrintfulProductGrid: React.FC = () => {
                 {/* Product Image */}
                 <div className="relative aspect-square overflow-hidden bg-gray-100">
                   <img
-                    src={product.thumbnail_url}
-                    alt={product.name}
+                    src={product.image}
+                    alt={product.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                     onError={(e) => {
@@ -173,8 +173,9 @@ const PrintfulProductGrid: React.FC = () => {
                 {/* Product Info */}
                 <div className="p-4">
                   <h3 className="font-semibold text-lg mb-2 text-gray-900 group-hover:text-black transition-colors">
-                    {product.name}
+                    {product.title}
                   </h3>
+                  <p className="text-sm text-gray-500 mb-4 truncate">{product.description}</p>
 
                   {/* Price Range */}
                   {product.variants.length > 0 && (
