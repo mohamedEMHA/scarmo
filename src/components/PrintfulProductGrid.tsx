@@ -21,8 +21,12 @@ const PrintfulProductGrid: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const products = await apiService.getProducts();
-      setProducts(products);
+      const response = await apiService.getProducts();
+      if (response.code === 200) {
+        setProducts(response.result);
+      } else {
+        throw new Error(response.error?.message || 'Failed to load products');
+      }
     } catch (err) {
       console.error('Error loading products:', err);
       setError(err instanceof Error ? err.message : 'Failed to load products');
