@@ -1,6 +1,17 @@
 const API_BASE_URL = 'https://api.printful.com';
 const API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
 
+// Interfaces for Printful API
+export interface PrintfulResponse<T> {
+  code: number;
+  result: T;
+  extra?: any;
+  error?: {
+    reason: string;
+    message: string;
+  };
+}
+
 export interface PrintfulProduct {
   id: number;
   name: string;
@@ -17,26 +28,21 @@ export interface PrintfulVariant {
   files?: any[];
 }
 
+export interface PrintfulCategory {
+  id: number;
+  parent_id: number;
+  image_url: string;
+  title: string;
+}
+
+// Interfaces for the application
 export interface CartItem {
   productId: number;
   variantId: number;
-  name:string;
+  name: string;
   price: string;
   quantity: number;
   image?: string;
-}
-
-export interface ShippingRate {
-  id: string;
-  name: string;
-  rate: string;
-  currency: string;
-}
-
-export interface Customer {
-  email?: string;
-  phone?: string;
-  name?: string;
 }
 
 class ApiService {
@@ -45,7 +51,7 @@ class ApiService {
     options: RequestInit = {},
     retries = 3,
     backoff = 300
-  ): Promise<T> {
+  ): Promise<PrintfulResponse<T>> {
     const url = `${API_BASE_URL}${endpoint}`;
     
     if (!API_TOKEN) {
@@ -63,23 +69,18 @@ class ApiService {
 
     try {
       const response = await fetch(url, config);
-      
-      if (!response.ok) {
-        // For 5xx errors, we can retry
+      const data: PrintfulResponse<T> = await response.json();
+
+      if (response.status >= 400) {
         if (response.status >= 500 && retries > 0) {
           await new Promise(resolve => setTimeout(resolve, backoff));
           return this.request(endpoint, options, retries - 1, backoff * 2);
         }
-
-        const errorData = await response.json().catch(() => ({ message: 'An unknown error occurred' }));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(data.error?.message || 'An unknown API error occurred.');
       }
 
-      // The Printful API wraps its responses in a result object
-      const data = await response.json();
-      return data.result;
+      return data;
     } catch (error) {
-      // Retry on network errors
       if (error instanceof TypeError && error.message === 'Failed to fetch' && retries > 0) {
         await new Promise(resolve => setTimeout(resolve, backoff));
         return this.request(endpoint, options, retries - 1, backoff * 2);
@@ -90,9 +91,16 @@ class ApiService {
     }
   }
 
-  // Get all products from Printful
-  async getProducts(): Promise<PrintfulProduct[]> {
-    return this.request<PrintfulProduct[]>('/store/products');
+  async getProducts(): Promise<PrintfulResponse<PrintfulProduct[]>> {
+    return this.request<PrintfulProduct[]>('/products');
+  }
+
+  async getProduct(id: number): Promise<PrintfulResponse<PrintfulProduct>> {
+    return this.request<PrintfulProduct>(`/products/${id}`);
+  }
+
+  async getCategories(): Promise<PrintfulResponse<PrintfulCategory[]>> {
+    return this.request<PrintfulCategory[]>('/categories');
   }
 }
 
