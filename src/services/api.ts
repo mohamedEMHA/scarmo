@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = 'https://api.printful.com';
+const API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
 
 export interface PrintfulProduct {
   id: number;
@@ -19,7 +20,7 @@ export interface PrintfulVariant {
 export interface CartItem {
   productId: number;
   variantId: number;
-  name: string;
+  name:string;
   price: string;
   quantity: number;
   image?: string;
@@ -47,12 +48,17 @@ class ApiService {
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
+    if (!API_TOKEN) {
+      throw new Error('Printful API token is not configured. Please set VITE_PRINTFUL_API_TOKEN in your .env file.');
+    }
+
     const config: RequestInit = {
+      ...options,
       headers: {
+        'Authorization': `Bearer ${API_TOKEN}`,
         'Content-Type': 'application/json',
         ...options.headers,
       },
-      ...options,
     };
 
     try {
@@ -65,11 +71,13 @@ class ApiService {
           return this.request(endpoint, options, retries - 1, backoff * 2);
         }
 
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+        const errorData = await response.json().catch(() => ({ message: 'An unknown error occurred' }));
+        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
       }
 
-      return await response.json();
+      // The Printful API wraps its responses in a result object
+      const data = await response.json();
+      return data.result;
     } catch (error) {
       // Retry on network errors
       if (error instanceof TypeError && error.message === 'Failed to fetch' && retries > 0) {
@@ -83,36 +91,8 @@ class ApiService {
   }
 
   // Get all products from Printful
-  async getProducts(): Promise<{ success: boolean; products: PrintfulProduct[] }> {
-    return this.request<{ success: boolean; products: PrintfulProduct[] }>('/api/products');
-  }
-
-  // Get specific product details
-  async getProduct(id: number): Promise<{ success: boolean; product: PrintfulProduct }> {
-    return this.request<{ success: boolean; product: PrintfulProduct }>(`/api/products/${id}`);
-  }
-
-  // Calculate shipping rates
-  async getShippingRates(
-    recipient: any,
-    items: CartItem[]
-  ): Promise<{ success: boolean; rates: ShippingRate[] }> {
-    return this.request<{ success: boolean; rates: ShippingRate[] }>('/api/shipping-rates', {
-      method: 'POST',
-      body: JSON.stringify({ recipient, items }),
-    });
-  }
-
-  // Create Stripe checkout session
-  async createCheckoutSession(
-    items: CartItem[],
-    customer?: Customer,
-    shipping?: ShippingRate
-  ): Promise<{ success: boolean; sessionId: string; url: string }> {
-    return this.request<{ success: boolean; sessionId: string; url: string }>('/api/create-checkout-session', {
-      method: 'POST',
-      body: JSON.stringify({ items, customer, shipping }),
-    });
+  async getProducts(): Promise<PrintfulProduct[]> {
+    return this.request<PrintfulProduct[]>('/store/products');
   }
 }
 
