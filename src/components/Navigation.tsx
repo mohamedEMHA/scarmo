@@ -147,7 +147,7 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16 lg:h-20 relative">
           {/* Logo */}
           <motion.div
             ref={logoRef}
@@ -189,8 +189,8 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
             </button>
 
             {/* Collection Dropdown */}
-            <div 
-              className="relative group"
+            <div
+              className="relative"
               onMouseEnter={() => setIsCollectionOpen(true)}
               onMouseLeave={() => setIsCollectionOpen(false)}
             >
@@ -216,17 +216,18 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                   <ChevronDown className="w-4 h-4" />
                 </motion.div>
               </button>
-
               <AnimatePresence>
                 {isCollectionOpen && (
                   <motion.div
                     ref={dropdownRef}
                     className="absolute top-full"
-                    style={{ left: `-${collectionLinkRef.current?.offsetLeft ? collectionLinkRef.current.offsetLeft - logoWidth : 0}px` }}
+                    style={{ left: logoWidth }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
+                    onMouseEnter={() => setIsCollectionOpen(true)}
+                    onMouseLeave={() => setIsCollectionOpen(false)}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
                       {collectionItems.map((item) => (
