@@ -14,8 +14,9 @@ export interface PrintfulResponse<T> {
 
 export interface PrintfulProduct {
   id: number;
-  name: string;
-  thumbnail_url: string;
+  title: string;
+  image: string;
+  description: string;
   variants: PrintfulVariant[];
 }
 
