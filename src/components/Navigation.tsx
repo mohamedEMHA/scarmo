@@ -227,7 +227,44 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                     transition={{ duration: 0.2 }}
                   >
                     <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
-                      {collectionItems.map((item) => (
+                      {/* Left side items: T-Shirts, Sweaters, Belts, Neckties */}
+                      {collectionItems.slice(0, 4).map((item) => (
+                        <li key={item.id} className="flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              scrollToSection(item.id);
+                              setIsCollectionOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-xs rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                              currentSection === item.id
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground'
+                            }`}
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                      
+                      {/* Center item: Long-Sleeves */}
+                      <li key={collectionItems[4].id} className="flex-shrink-0">
+                        <button
+                          onClick={() => {
+                            scrollToSection(collectionItems[4].id);
+                            setIsCollectionOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 text-xs rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                            currentSection === collectionItems[4].id
+                              ? 'bg-accent text-accent-foreground'
+                              : 'text-foreground'
+                          }`}
+                        >
+                          {collectionItems[4].label}
+                        </button>
+                      </li>
+                      
+                      {/* Right side items: Shoes, Backpacks, Underwear */}
+                      {collectionItems.slice(5).map((item) => (
                         <li key={item.id} className="flex-shrink-0">
                           <button
                             onClick={() => {
