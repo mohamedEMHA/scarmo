@@ -274,11 +274,13 @@ const ViewAll = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
+    isLoading,
+    isError,
+  } = useInfiniteQuery<any>({
     queryKey: ['products', filters],
     queryFn: fetchProducts,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage: any) => lastPage.nextPage,
+    initialPageParam: 0,
   });
 
   useEffect(() => {
@@ -355,9 +357,9 @@ const ViewAll = () => {
             <Filters setFilters={setFilters} isSidebar={true} />
           </aside>
           <div className="w-full lg:w-3/4">
-            {status === 'loading' ? (
+            {isLoading ? (
               <p>Loading...</p>
-            ) : status === 'error' ? (
+            ) : isError ? (
               <p>Error: {error.message}</p>
             ) : (
               <>

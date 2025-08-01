@@ -126,6 +126,13 @@ class ApiService {
   async getCategories(): Promise<PrintfulResponse<PrintfulCategory[]>> {
     return this.request<PrintfulCategory[]>('/categories');
   }
+
+  async createCheckoutSession(items: CartItem[]): Promise<{ sessionId: string }> {
+    // In a real app, this would make a request to our backend to create a Stripe Checkout session.
+    // For now, we'll simulate a successful response.
+    console.log('Creating checkout session for items:', items);
+    return Promise.resolve({ sessionId: `sess_${Math.random().toString(36).substr(2, 9)}` });
+  }
 }
 
 export const apiService = new ApiService();
