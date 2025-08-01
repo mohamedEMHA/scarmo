@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
 import Breadcrumb from '@/components/Breadcrumb';
 import QuickViewModal from '@/components/QuickViewModal';
+import { apiService } from '@/services/api';
 
 // Enhanced mock product data with more variety
 const mockProducts = [
@@ -254,7 +255,24 @@ const Products = () => {
   const [showQuickView, setShowQuickView] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [displayedProducts, setDisplayedProducts] = useState(8);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      const response = await apiService.getProducts();
+      if (response.error?.message === 'Supabase or Printful API token configuration is missing') {
+        setProducts(mockProducts);
+      } else if (response.result) {
+        // Assuming the API result matches the Product interface
+        // You might need to transform the data if it doesn't
+        setProducts(response.result as unknown as Product[]);
+      }
+      setIsLoading(false);
+    };
+    fetchProducts();
+  }, []);
 
   // Debounce search query
   useEffect(() => {
@@ -272,13 +290,13 @@ const Products = () => {
   const loadMoreProducts = useCallback(() => {
     setIsLoading(true);
     setTimeout(() => {
-      setDisplayedProducts(prev => Math.min(prev + 8, mockProducts.length));
+      setDisplayedProducts(prev => Math.min(prev + 8, products.length));
       setIsLoading(false);
     }, 500);
-  }, []);
+  }, [products.length]);
 
   const filteredProducts = useMemo(() => {
-    let filtered = [...mockProducts];
+    let filtered = [...products];
 
     // Filter by search query
     if (debouncedSearchQuery) {
@@ -332,7 +350,7 @@ const Products = () => {
     }
 
     return filtered;
-  }, [selectedCategory, selectedColors, selectedSizes, priceRange, sortBy, debouncedSearchQuery]);
+  }, [products, selectedCategory, selectedColors, selectedSizes, priceRange, sortBy, debouncedSearchQuery]);
 
   const clearFilters = useCallback(() => {
     setSelectedCategory('All');

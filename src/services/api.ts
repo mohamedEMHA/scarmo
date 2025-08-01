@@ -81,7 +81,14 @@ class ApiService {
         },
       };
     } else {
-      throw new Error('Supabase or Printful API token configuration is missing');
+      return {
+        code: 400,
+        result: null as T,
+        error: {
+          reason: 'Configuration Error',
+          message: 'Supabase or Printful API token configuration is missing',
+        },
+      };
     }
 
     try {
