@@ -7,16 +7,17 @@ import ChatWidget from '@/components/ChatWidget';
 interface InfoPageProps {
   title: string;
   children: ReactNode;
+  currentSection?: string;
 }
 
-const InfoPage = ({ title, children }: InfoPageProps) => {
+const InfoPage = ({ title, children, currentSection = 'info' }: InfoPageProps) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Navigation forceSolidBg={true} />
+      <Navigation forceSolidBg={true} currentSection={currentSection} />
       <main className="py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
