@@ -299,7 +299,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.15 }}
               >
-                <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="signup-name" className="text-sm font-medium">
                       {t('auth.name')}
@@ -349,7 +350,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                       </span>
                     )}
                   </div>
+                  </div>
 
+                  <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="signup-password" className="text-sm font-medium">
                       {t('auth.password')}
@@ -399,9 +402,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                       </span>
                     )}
                   </div>
-                </div>
+                  </div>
 
-                <div className="space-y-2 col-span-2">
+                  <div className="space-y-2">
                   <Label htmlFor="signup-dob" className="text-sm font-medium">
                     {t('auth.dateOfBirth')}
                   </Label>
@@ -443,6 +446,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                       {errors.dateOfBirth}
                     </span>
                   )}
+                  </div>
                 </div>
 
                 <Button
