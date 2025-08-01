@@ -10,7 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import FocusTrap from 'focus-trap-react';
+
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -31,6 +31,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const { login, signup } = useAuth();
+  const modalRef = React.useRef<HTMLDivElement>(null);
 
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({
@@ -63,9 +64,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
     }
   }, [isOpen, initialTab]);
 
-  // Focus trap - basic implementation
+  // Focus management
   useEffect(() => {
     if (isOpen) {
+      // Focus the modal when it opens
+      if (modalRef.current) {
+        modalRef.current.focus();
+      }
+      
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           onClose();
@@ -149,26 +155,27 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
-    <FocusTrap active={isOpen}>
-      <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-      >
-        <motion.div
-          className="bg-white rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md mx-auto"
-          onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="auth-modal-title"
-        >
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+                 <motion.div
+           ref={modalRef}
+           className="bg-white rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md mx-auto"
+           onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+           initial={{ opacity: 0, scale: 0.95, y: 10 }}
+           animate={{ opacity: 1, scale: 1, y: 0 }}
+           exit={{ opacity: 0, scale: 0.95, y: 10 }}
+           transition={{ duration: 0.2, ease: "easeOut" }}
+           role="dialog"
+           aria-modal="true"
+           aria-labelledby="auth-modal-title"
+           tabIndex={-1}
+         >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 id="auth-modal-title" className="text-lg font-semibold">
@@ -448,11 +455,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
               </motion.form>
             )}
           </AnimatePresence>
-        </div>
-        </motion.div>
-      </div>
-    </FocusTrap>
-  );
+                 </div>
+         </motion.div>
+       </div>
+   );
 };
 
 export default AuthModal;
