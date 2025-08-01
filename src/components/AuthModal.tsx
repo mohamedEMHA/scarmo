@@ -149,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
   if (!isOpen) return null;
 
   return (
-    <FocusTrap>
+    <FocusTrap active={isOpen}>
       <motion.div
         className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
