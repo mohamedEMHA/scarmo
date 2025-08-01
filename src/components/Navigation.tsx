@@ -220,13 +220,17 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                 {isCollectionOpen && (
                   <motion.div
                     ref={dropdownRef}
-                    className="absolute top-full left-1/2 -translate-x-1/2"
+                    className="absolute top-full"
+                    style={{
+                      left: `${logoWidth + 32}px`, // Position after SCARMO + some padding
+                      transform: 'translateX(-50%)' // Center the dropdown at this position
+                    }}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
+                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex space-x-4 w-[max-content] px-6" style={{ justifyContent: 'center' }}>
                       {/* Left side items: T-Shirts, Sweaters, Belts, Neckties */}
                       {collectionItems.slice(0, 4).map((item) => (
                         <li key={item.id} className="flex-shrink-0">
