@@ -1,6 +1,3 @@
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
 // Interfaces for Printful API
 export interface PrintfulResponse<T> {
   code: number;
@@ -55,41 +52,26 @@ class ApiService {
     retries = 3,
     backoff = 300
   ): Promise<PrintfulResponse<T>> {
-    let url: string;
-    let config: RequestInit;
-
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      // Use Supabase as a proxy
-      url = `${SUPABASE_URL}/functions/v1/printful-api?endpoint=${encodeURIComponent(endpoint)}`;
-      config = {
-        ...options,
-        headers: {
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
-      };
-    } else if (VITE_PRINTFUL_API_TOKEN) {
-      // Use Printful API directly
-      url = `https://api.printful.com${endpoint}`;
-      config = {
-        ...options,
-        headers: {
-          'Authorization': `Bearer ${VITE_PRINTFUL_API_TOKEN}`,
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
-      };
-    } else {
+    if (!VITE_PRINTFUL_API_TOKEN) {
       return {
         code: 400,
         result: null as T,
         error: {
           reason: 'Configuration Error',
-          message: 'Supabase or Printful API token configuration is missing',
+          message: 'Printful API token configuration is missing',
         },
       };
     }
+
+    const url = `https://api.printful.com${endpoint}`;
+    const config: RequestInit = {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${VITE_PRINTFUL_API_TOKEN}`,
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    };
 
     try {
       const response = await fetch(url, config);

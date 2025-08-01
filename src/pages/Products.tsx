@@ -261,15 +261,33 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
-      const response = await apiService.getProducts();
-      if (response.error?.message === 'Supabase or Printful API token configuration is missing') {
+      try {
+        const response = await apiService.getProducts();
+        if (response.result) {
+          // Transform Printful products to match our Product interface
+          const transformedProducts: Product[] = response.result.map((printfulProduct: any) => ({
+            id: printfulProduct.id.toString(),
+            name: printfulProduct.title,
+            price: parseFloat(printfulProduct.variants?.[0]?.price || '0'),
+            image: printfulProduct.image,
+            category: 'Printful',
+            colors: ['Default'],
+            sizes: ['Default'],
+            description: printfulProduct.description,
+            rating: 4.5,
+            reviews: Math.floor(Math.random() * 100) + 10,
+          }));
+          setProducts(transformedProducts);
+        } else {
+          // Fallback to mock products if API fails
+          setProducts(mockProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
         setProducts(mockProducts);
-      } else if (response.result) {
-        // Assuming the API result matches the Product interface
-        // You might need to transform the data if it doesn't
-        setProducts(response.result as unknown as Product[]);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     fetchProducts();
   }, []);
