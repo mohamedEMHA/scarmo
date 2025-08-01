@@ -5,7 +5,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export interface PrintfulResponse<T> {
   code: number;
   result: T;
-  extra?: any;
+  extra?: unknown;
   error?: {
     reason: string;
     message: string;
@@ -26,7 +26,7 @@ export interface PrintfulVariant {
   price: string;
   currency: string;
   in_stock: boolean;
-  files?: any[];
+  files?: unknown[];
 }
 
 export interface PrintfulCategory {
@@ -46,6 +46,8 @@ export interface CartItem {
   image?: string;
 }
 
+const VITE_PRINTFUL_API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
+
 class ApiService {
   private async request<T>(
     endpoint: string,
@@ -53,20 +55,34 @@ class ApiService {
     retries = 3,
     backoff = 300
   ): Promise<PrintfulResponse<T>> {
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-      throw new Error('Supabase configuration is missing');
+    let url: string;
+    let config: RequestInit;
+
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      // Use Supabase as a proxy
+      url = `${SUPABASE_URL}/functions/v1/printful-api?endpoint=${encodeURIComponent(endpoint)}`;
+      config = {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+      };
+    } else if (VITE_PRINTFUL_API_TOKEN) {
+      // Use Printful API directly
+      url = `https://api.printful.com${endpoint}`;
+      config = {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${VITE_PRINTFUL_API_TOKEN}`,
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+      };
+    } else {
+      throw new Error('Supabase or Printful API token configuration is missing');
     }
-
-    const url = `${SUPABASE_URL}/functions/v1/printful-api?endpoint=${encodeURIComponent(endpoint)}`;
-
-    const config: RequestInit = {
-      ...options,
-      headers: {
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-    };
 
     try {
       const response = await fetch(url, config);
