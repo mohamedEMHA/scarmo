@@ -47,13 +47,15 @@ const VITE_PRINTFUL_API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
 const PRINTFUL_API_TOKEN = import.meta.env.PRINTFUL_API_TOKEN;
 
 // Use VITE_ prefixed version first, fallback to non-prefixed version
-const API_TOKEN = VITE_PRINTFUL_API_TOKEN || PRINTFUL_API_TOKEN;
+// For development in web containers, also include a direct fallback
+const API_TOKEN = VITE_PRINTFUL_API_TOKEN || PRINTFUL_API_TOKEN || '4lZwhbHrZcbVBtM7OS2UY3RyBqBRGUEA0Teix3mP';
 
 // Debug logging (remove this in production)
 console.log('Environment variables check:', {
   VITE_PRINTFUL_API_TOKEN: VITE_PRINTFUL_API_TOKEN ? 'Set' : 'Not set',
   PRINTFUL_API_TOKEN: PRINTFUL_API_TOKEN ? 'Set' : 'Not set',
-  API_TOKEN: API_TOKEN ? 'Set' : 'Not set'
+  API_TOKEN: API_TOKEN ? 'Set' : 'Not set',
+  import_meta_env: Object.keys(import.meta.env).filter(key => key.includes('PRINTFUL'))
 });
 
 class ApiService {
