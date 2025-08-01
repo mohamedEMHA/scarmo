@@ -44,6 +44,17 @@ export interface CartItem {
 }
 
 const VITE_PRINTFUL_API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
+const PRINTFUL_API_TOKEN = import.meta.env.PRINTFUL_API_TOKEN;
+
+// Use VITE_ prefixed version first, fallback to non-prefixed version
+const API_TOKEN = VITE_PRINTFUL_API_TOKEN || PRINTFUL_API_TOKEN;
+
+// Debug logging (remove this in production)
+console.log('Environment variables check:', {
+  VITE_PRINTFUL_API_TOKEN: VITE_PRINTFUL_API_TOKEN ? 'Set' : 'Not set',
+  PRINTFUL_API_TOKEN: PRINTFUL_API_TOKEN ? 'Set' : 'Not set',
+  API_TOKEN: API_TOKEN ? 'Set' : 'Not set'
+});
 
 class ApiService {
   private async request<T>(
@@ -52,13 +63,13 @@ class ApiService {
     retries = 3,
     backoff = 300
   ): Promise<PrintfulResponse<T>> {
-    if (!VITE_PRINTFUL_API_TOKEN) {
+    if (!API_TOKEN) {
       return {
         code: 400,
         result: null as T,
         error: {
           reason: 'Configuration Error',
-          message: 'Printful API token configuration is missing',
+          message: 'Printful API token configuration is missing. Please set VITE_PRINTFUL_API_TOKEN or PRINTFUL_API_TOKEN environment variable.',
         },
       };
     }
@@ -67,7 +78,7 @@ class ApiService {
     const config: RequestInit = {
       ...options,
       headers: {
-        'Authorization': `Bearer ${VITE_PRINTFUL_API_TOKEN}`,
+        'Authorization': `Bearer ${API_TOKEN}`,
         'Content-Type': 'application/json',
         ...options.headers,
       },
