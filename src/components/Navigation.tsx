@@ -216,6 +216,38 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
                   <ChevronDown className="w-4 h-4" />
                 </motion.div>
               </button>
+              <AnimatePresence>
+                {isCollectionOpen && (
+                  <motion.div
+                    ref={dropdownRef}
+                    className="absolute top-full left-1/2 -translate-x-1/2"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
+                      {collectionItems.map((item) => (
+                        <li key={item.id} className="flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              scrollToSection(item.id);
+                              setIsCollectionOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
+                              currentSection === item.id
+                                ? 'bg-accent text-accent-foreground'
+                                : 'text-foreground'
+                            }`}
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* About and Contact */}
@@ -356,43 +388,6 @@ const Navigation = ({ currentSection, forceSolidBg = false }: NavigationProps) =
             </button>
           </div>
         </div>
-
-        <AnimatePresence>
-          {isCollectionOpen && (
-            <motion.div
-              ref={dropdownRef}
-              className="absolute top-full"
-              style={{ left: logoWidth }}
-              initial={{ opacity: 0, y: -10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              onMouseEnter={() => setIsCollectionOpen(true)}
-              onMouseLeave={() => setIsCollectionOpen(false)}
-            >
-              <ul className="list-none bg-white rounded-lg shadow-lg p-2 z-50 flex justify-center space-x-4 w-[max-content] px-6">
-                {collectionItems.map((item) => (
-                  <li key={item.id} className="flex-shrink-0">
-                    <button
-                      onClick={() => {
-                        scrollToSection(item.id);
-                        setIsCollectionOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors duration-200 focus-luxury hover:bg-gray-100 ${
-                        currentSection === item.id
-                          ? 'bg-accent text-accent-foreground'
-                          : 'text-foreground'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
 
         {/* Auth Modal */}
         <AnimatePresence>
