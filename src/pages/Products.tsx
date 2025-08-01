@@ -224,6 +224,23 @@ const sortOptions = [
   { value: 'bestsellers', label: 'Best Sellers' },
 ];
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  images?: string[];
+  category: string;
+  colors: string[];
+  sizes: string[];
+  isNew?: boolean;
+  isSale?: boolean;
+  description?: string;
+  rating?: number;
+  reviews?: number;
+}
+
 const Products = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -235,7 +252,7 @@ const Products = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
-  const [quickViewProduct, setQuickViewProduct] = useState<any>(null);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [displayedProducts, setDisplayedProducts] = useState(8);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -247,7 +264,7 @@ const Products = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleQuickView = useCallback((product: any) => {
+  const handleQuickView = useCallback((product: Product) => {
     setQuickViewProduct(product);
     setShowQuickView(true);
   }, []);

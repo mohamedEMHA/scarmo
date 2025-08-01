@@ -37,21 +37,23 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
   const [isFavorited, setIsFavorited] = useState(false);
   const { dispatch } = useCart();
 
+  // Initialize selected color when product changes
+  React.useEffect(() => {
+    if (product) {
+      if (product.colors.length > 0) {
+        setSelectedColor(product.colors[0]);
+      }
+      if (product.sizes.length > 0) {
+        setSelectedSize(product.sizes[0]);
+      }
+      setCurrentImageIndex(0);
+      setQuantity(1);
+    }
+  }, [product]);
+
   if (!product) return null;
 
   const productImages = product.images || [product.image];
-  
-  // Initialize selected color when product changes
-  React.useEffect(() => {
-    if (product.colors.length > 0) {
-      setSelectedColor(product.colors[0]);
-    }
-    if (product.sizes.length > 0) {
-      setSelectedSize(product.sizes[0]);
-    }
-    setCurrentImageIndex(0);
-    setQuantity(1);
-  }, [product]);
 
   const handleAddToCart = () => {
     dispatch({
