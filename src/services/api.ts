@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://api.printful.com';
-const API_TOKEN = import.meta.env.VITE_PRINTFUL_API_TOKEN;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Interfaces for Printful API
 export interface PrintfulResponse<T> {
@@ -53,16 +53,16 @@ class ApiService {
     retries = 3,
     backoff = 300
   ): Promise<PrintfulResponse<T>> {
-    const url = `${API_BASE_URL}${endpoint}`;
-    
-    if (!API_TOKEN) {
-      throw new Error('Printful API token is not configured. Please set VITE_PRINTFUL_API_TOKEN in your .env file.');
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      throw new Error('Supabase configuration is missing');
     }
+
+    const url = `${SUPABASE_URL}/functions/v1/printful-api?endpoint=${encodeURIComponent(endpoint)}`;
 
     const config: RequestInit = {
       ...options,
       headers: {
-        'Authorization': `Bearer ${API_TOKEN}`,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json',
         ...options.headers,
       },
