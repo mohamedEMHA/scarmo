@@ -50,16 +50,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
       setDateOfBirth(undefined);
       setErrors({});
       setActiveTab(initialTab);
-      // Lock body scroll
+      
+      // Lock body scroll more robustly
+      const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
-    } else {
-      // Unlock body scroll
-      document.body.style.overflow = 'unset';
+      document.body.style.paddingRight = '0px'; // Prevent layout shift
+      
+      return () => {
+        document.body.style.overflow = originalStyle;
+        document.body.style.paddingRight = '';
+      };
     }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen, initialTab]);
 
   // Focus trap - basic implementation
@@ -149,31 +150,35 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
 
   return (
     <FocusTrap>
-      <div
-        className="fixed inset-0 z-50 bg-black/50"
+      <motion.div
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
       >
         <motion.div
-          className="bg-white rounded-lg p-6 w-full max-w-md transform fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="bg-white rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md mx-auto"
           onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-        transition={{ duration: 0.2 }}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="auth-modal-title"
-      >
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="auth-modal-title"
+        >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 id="auth-modal-title" className="text-xl font-semibold">
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h2 id="auth-modal-title" className="text-lg font-semibold">
             {activeTab === 'login' ? t('auth.login') : t('auth.signup')}
           </h2>
           <Button
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="h-8 w-8 p-0"
+            className="h-8 w-8 p-0 hover:bg-gray-100"
             aria-label="Close dialog"
           >
             <X className="h-4 w-4" />
@@ -183,7 +188,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
         {/* Tab Navigation */}
         <div className="flex border-b border-border">
           <button
-            className={`flex-1 py-3 px-4 text-sm font-medium transition-colors focus-luxury ${
+            className={`flex-1 py-3 px-3 text-sm font-medium transition-colors focus-luxury ${
               activeTab === 'login'
                 ? 'bg-accent text-accent-foreground border-b-2 border-accent'
                 : 'text-muted-foreground hover:text-foreground'
@@ -194,7 +199,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
             {t('auth.login')}
           </button>
           <button
-            className={`flex-1 py-3 px-4 text-sm font-medium transition-colors focus-luxury ${
+            className={`flex-1 py-3 px-3 text-sm font-medium transition-colors focus-luxury ${
               activeTab === 'signup'
                 ? 'bg-accent text-accent-foreground border-b-2 border-accent'
                 : 'text-muted-foreground hover:text-foreground'
@@ -207,17 +212,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4">
           <AnimatePresence mode="wait">
             {activeTab === 'login' ? (
               <motion.form
                 key="login"
                 onSubmit={handleLogin}
                 className="space-y-4"
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="space-y-2">
                   <Label htmlFor="login-email" className="text-sm font-medium">
@@ -282,10 +287,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialTab = 'lo
                 key="signup"
                 onSubmit={handleSignup}
                 className="space-y-4"
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
